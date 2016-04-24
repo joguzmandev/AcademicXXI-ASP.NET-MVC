@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcademicXXI.Services", "Aca
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcademicXXI.ViewWeb", "AcademicXXI.ViewWeb\AcademicXXI.ViewWeb.csproj", "{24F3241A-8632-4F0F-97F4-5E2799B6EBD6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcademicXXI.Repository", "AcademicXXI.Repository\AcademicXXI.Repository.csproj", "{B9E059F3-DABE-4B66-B10C-9ABC5F48CC9E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcademicXXI.Helpers", "AcademicXXI.Helpers\AcademicXXI.Helpers.csproj", "{B8B70A73-4598-453B-8182-E2FE7CFFB8A8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{24F3241A-8632-4F0F-97F4-5E2799B6EBD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24F3241A-8632-4F0F-97F4-5E2799B6EBD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24F3241A-8632-4F0F-97F4-5E2799B6EBD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9E059F3-DABE-4B66-B10C-9ABC5F48CC9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9E059F3-DABE-4B66-B10C-9ABC5F48CC9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9E059F3-DABE-4B66-B10C-9ABC5F48CC9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9E059F3-DABE-4B66-B10C-9ABC5F48CC9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8B70A73-4598-453B-8182-E2FE7CFFB8A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8B70A73-4598-453B-8182-E2FE7CFFB8A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8B70A73-4598-453B-8182-E2FE7CFFB8A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8B70A73-4598-453B-8182-E2FE7CFFB8A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
