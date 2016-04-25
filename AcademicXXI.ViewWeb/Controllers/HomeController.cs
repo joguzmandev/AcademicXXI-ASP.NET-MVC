@@ -1,8 +1,11 @@
-﻿using System;
+﻿using AcademicXXI.Services.StudentService;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
+using AcademicXXI.ViewModel.ViewModel;
 
 namespace AcademicXXI.ViewWeb.Controllers
 {
@@ -10,7 +13,10 @@ namespace AcademicXXI.ViewWeb.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            var result = _studentService.Find(st => st.Id == 2);
+            var maptoView = Mapper.Map<StudentViewModel>(result);
+
+            return View(maptoView);
         }
 
         public ActionResult About()
@@ -30,6 +36,18 @@ namespace AcademicXXI.ViewWeb.Controllers
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
+            _studentService.Dispose();
+
         }
+
+        public HomeController(IStudentService studentService)
+        {
+            this._studentService = studentService;
+        }
+
+        private readonly IStudentService _studentService;
+
+
+
     }
 }

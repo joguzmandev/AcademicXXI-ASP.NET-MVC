@@ -1,0 +1,6 @@
+﻿
+
+namespace AcademicXXI.NinjectImpl
+{
+    
+}

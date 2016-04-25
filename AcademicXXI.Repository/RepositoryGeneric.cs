@@ -1,6 +1,7 @@
 ﻿using AcademicXXI.Data;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -8,59 +9,66 @@ using System.Threading.Tasks;
 
 namespace AcademicXXI.Repository
 {
-    public class RepositoryGeneric<TEntity> : IRepository<TEntity> where TEntity : class
+    public abstract class  RepositoryGeneric<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        protected AcademicXXIDataContext _dbContext;
+        private AcademicXXIDataContext _dbContext;
+        protected DbSet<TEntity> DbSet { get;private set; }
 
         public RepositoryGeneric(AcademicXXIDataContext dbContext)
         {
             this._dbContext = dbContext;
-        }
-        
-        public void Add(TEntity entity)
-        {
-            using (_dbContext)
-            {
-                _dbContext.Set<TEntity>().Add(entity);
-                this.Save();
-            }
+            this.DbSet = _dbContext.Set<TEntity>();
         }
 
-        public void Delete(int? idEntity)
+        public abstract void Delete(int? idEntity);
+
+        public void Add(TEntity entity)
         {
-            //Valorar este metodo debido a que no se van a elimianar
-            //Datos de la DB sino cambiar el estado de registro
+            
+                DbSet.Add(entity);
+            Save();
         }
+
+        
+        
 
         public TEntity Find(Expression<Func<TEntity, bool>> predicate)
         {
-            using (_dbContext)
-            {
-                return _dbContext.Set<TEntity>().Where(predicate).FirstOrDefault();
-            }
+            
+                return DbSet.Where(predicate).FirstOrDefault();
+            
         }
 
         public IEnumerable<TEntity> GetAll()
         {
-            using (_dbContext)
-            {
-                return _dbContext.Set<TEntity>().ToList<TEntity>();
-            }
+            
+                return DbSet.ToList<TEntity>();
+           
         }
+        private bool disposed = false;
 
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposed)
+            {
+                if (disposing)
+                {
+                    _dbContext.Dispose();
+                }
+            }
+            this.disposed = true;
+        }
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        /// <summary>
+        /// Metodo encargado de guardar los cambios en el contexto EF
+        /// </summary>
         public void Save()
         {
             _dbContext.SaveChanges();
-        }
-
-        public void Dispose()
-        {
-            
-            if(this._dbContext != null)
-            {
-                this._dbContext.Dispose();
-                
-            }
         }
     }
 }
