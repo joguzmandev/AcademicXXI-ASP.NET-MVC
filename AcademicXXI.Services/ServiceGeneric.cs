@@ -30,9 +30,9 @@ namespace AcademicXXI.Services
             return this._repo.Find(predicate);
         }
 
-        public IEnumerable<TEntity> GetAll()
+        public async Task<List<TEntity>> GetAllAsync()
         {
-            return this._repo.GetAll();
+            return await this._repo.GetAllAsync();
         }
 
         public void Dispose()

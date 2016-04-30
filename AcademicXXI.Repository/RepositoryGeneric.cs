@@ -39,10 +39,10 @@ namespace AcademicXXI.Repository
             
         }
 
-        public IEnumerable<TEntity> GetAll()
+        public async Task<List<TEntity>> GetAllAsync()
         {
             
-                return DbSet.ToList<TEntity>();
+                return await DbSet.ToListAsync<TEntity>();
            
         }
         private bool disposed = false;

@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcademicXXI.Helpers", "Acad
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcademicXXI.ViewModel", "AcademicXXI.ViewModel\AcademicXXI.ViewModel.csproj", "{5A8CD486-B220-47FB-9636-B20B995D591E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Academic.Web", "Academic.Web\Academic.Web.csproj", "{608AAD59-8955-4059-8C8B-177CBF749F4B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcademicXXI.Web", "AcademicXXI.Web\AcademicXXI.Web.csproj", "{608AAD59-8955-4059-8C8B-177CBF749F4B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
