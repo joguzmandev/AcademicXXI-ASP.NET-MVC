@@ -1,2 +1,55 @@
-﻿@model AcademicXXI.ViewModel.ViewModel.StudentViewModel
+﻿@model IEnumerable<AcademicXXI.ViewModel.ViewModel.StudentViewModel>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DocumentID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RegisterNumber)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DocumentID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RegisterNumber)
+                    </td>
+
+                    <td>
+                        @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Detalles", "Details", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="4">
+                    No hay registro a mostrar.
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+
 

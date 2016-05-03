@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using AcademicXXI.ViewModel.MapExtensionMethod;
 using AcademicXXI.Helpers;
 using Academic.Web.Helpers.Alerts;
+using AcademicXXI.Domain;
 
 namespace Academic.Web.Controllers
 {
@@ -72,7 +73,15 @@ namespace Academic.Web.Controllers
             }
         }
 
-
+        public ActionResult Filter(String search)
+        {
+            //TODO crear un metodo Find que retorne una lista de estudiantes
+            //Que pueda buscar por Matricula,cedula,nombre,apellido,etc.
+            var studentEntity = _studentService.Find(x => x.FirstName.Contains(search));
+            List<Student> listOfStudent = new List<Student>();
+            listOfStudent.Add(studentEntity);
+            return PartialView("_DisplayAllStudentList",listOfStudent.MapToStudentViewModelToStudentList() );
+        }
 
 
         public StudentController(IStudentService service)
