@@ -1,0 +1,12 @@
+﻿@model AcademicXXI.ViewModel.ErrorViewModel.ErrorViewModel
+@{
+    ViewBag.Title = Model.HttpStatusCode.ToString();
+}
+
+
+<div class="alert text-center">
+    @Html.Raw(@Model.Title)
+
+    @Html.ActionLink("Ir al Inicio","Index","Home")
+</div>
+

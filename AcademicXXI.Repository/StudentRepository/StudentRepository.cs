@@ -23,5 +23,16 @@ namespace AcademicXXI.Repository.StudentRepository
             Save();
 
         }
+
+        public bool ValidateDocumentID(string documentId)
+        {
+            
+            return DbSet.Any(x => x.DocumentID == documentId);
+        }
+
+        public bool ValidateRegisterNumber(string registerNumber)
+        {
+            return DbSet.Any(x => x.RegisterNumber == registerNumber          );
+        }
     }
 }

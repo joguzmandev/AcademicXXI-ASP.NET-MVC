@@ -9,6 +9,7 @@ namespace AcademicXXI.Repository.StudentRepository
 {
     public interface IStudentRepository : IRepository<Student>
     {
-
+        bool ValidateDocumentID(string documentId);
+        bool ValidateRegisterNumber(string registerNumber);
     }
 }

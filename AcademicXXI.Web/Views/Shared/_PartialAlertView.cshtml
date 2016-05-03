@@ -1,0 +1,13 @@
+﻿@using Academic.Web.Helpers.Alerts
+@if (TempData.GetAlerts().Any())
+{
+    <div class="container" style="padding-top:80px">
+        @foreach(Alert alert in TempData.GetAlerts())
+        {
+            <div class="alert @alert.AlertClass alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            @Html.Raw(alert.Message)
+            </div>
+        }
+    </div>
+}

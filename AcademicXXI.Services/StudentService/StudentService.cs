@@ -1,17 +1,53 @@
-﻿using AcademicXXI.Domain;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
+using AcademicXXI.Domain;
 using AcademicXXI.Repository.StudentRepository;
 
 namespace AcademicXXI.Services.StudentService
 {
-    public class StudentService : ServiceGeneric<Student>, IStudentService
+    public class StudentService : IStudentService
     {
-        public StudentService(IStudentRepository repo):base(repo)
+        private IStudentRepository _repo;
+        public StudentService(IStudentRepository repo)
         {
-
+            this._repo = repo;
         }
-        public override void Delete(int? idEntity)
+
+        public void Add(Student entity)
+        {
+            this._repo.Add(entity);
+        }
+
+        public void Delete(int? idEntity)
         {
             this._repo.Delete(idEntity);
+        }
+
+        public Student Find(Expression<Func<Student, bool>> predicate)
+        {
+            return this._repo.Find(predicate);
+        }
+
+        public Task<List<Student>> GetAllAsync()
+        {
+            return this._repo.GetAllAsync();
+        }
+
+        public bool ValidateDocumentID(string documentId)
+        {
+            return this._repo.ValidateDocumentID(documentId);
+        }
+
+        public bool ValidateRegisterNumber(string registerNumber)
+        {
+            return this._repo.ValidateRegisterNumber(registerNumber);
+        }
+
+        public void Dispose()
+        {
+            _repo.Dispose();
         }
     }
 }

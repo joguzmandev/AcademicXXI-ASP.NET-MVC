@@ -19,5 +19,6 @@ namespace Academic.Web
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AutoMapperConfig.RegisterMapper();
         }
+        
     }
 }
