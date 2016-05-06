@@ -25,6 +25,11 @@ namespace AcademicXXI.Services.StudentService
             this._repo.Delete(idEntity);
         }
 
+        public List<Student> FindAll(Expression<Func<Student, bool>> predicate)
+        {
+            return this._repo.FindAll(predicate);
+        }
+
         public Student Find(Expression<Func<Student, bool>> predicate)
         {
             return this._repo.Find(predicate);
@@ -49,5 +54,7 @@ namespace AcademicXXI.Services.StudentService
         {
             _repo.Dispose();
         }
+
+        
     }
 }

@@ -35,52 +35,88 @@ namespace Academic.Web.Controllers
             {
                 return View(student).WithError("Hubo un error en el modelo");
             }
-            try
+            if (_studentService.ValidateDocumentID(student.DocumentID))
             {
-                if (_studentService.ValidateDocumentID(student.DocumentID))
-                {
-                    return View(student).WithError("Número de Cedula ingresado ya existe");
-                }
-                if (_studentService.ValidateRegisterNumber(student.RegisterNumber))
-                {
-                    return View(student).WithError("Matrícula ingresada ya existe");
-                }
+                return View(student).WithError("Número de Cedula ingresado ya existe");
+            }
+            if (_studentService.ValidateRegisterNumber(student.RegisterNumber))
+            {
+                return View(student).WithError("Matrícula ingresada ya existe");
+            }
 
-                var studentEntity = student.MapToStudent();
-                studentEntity.Status = Status.Active;
-                studentEntity.Created = DateTime.Now;
-                _studentService.Add(studentEntity);
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction("Create").WithError($"hubo un error al procesar su petición, vuelva a intentarlo nuevamente");
-            }
+            var studentEntity = student.MapToStudent();
+            studentEntity.Status = Status.Active;
+            studentEntity.Created = DateTime.Now;
+            _studentService.Add(studentEntity);
+
+
             return RedirectToAction("Create").WithSuccess($"{student.FullName}, fue creado satisfactoriamente");
         }
 
         public async Task<ActionResult> Maintenance()
         {
-            try
-            {
-                var students = await _studentService.GetAllAsync();
-                var studentViewModelList = students.MapToStudentViewModelToStudentList();
-                return View(studentViewModelList);
-            }
-            catch (Exception ex)
-            {
+            var students = await _studentService.GetAllAsync();
+            var studentViewModelList = students.MapToStudentViewModelToStudentList();
 
-                throw;
-            }
+            List<SelectListItem> options = new List<SelectListItem>() {
+                new SelectListItem()
+                {
+                    Text = "Nombre",
+                    Value = "FirstName"
+
+                },
+                new SelectListItem()
+                {
+                    Text = "Apellido",
+                    Value = "LastName"
+                },
+                new SelectListItem()
+                {
+                    Text = "Cedula",
+                    Value = "DocumentID"
+                },
+                new SelectListItem()
+                {
+                    Text = "Matrícula",
+                    Value = "RegisterNumber"
+                }
+            };
+            ViewBag.listOfItem = options;
+            return View(studentViewModelList);
         }
 
-        public ActionResult Filter(String search)
+        public async Task<ActionResult> Filter(String search,String filterItem,String DisplayAll="None")
         {
-            //TODO crear un metodo Find que retorne una lista de estudiantes
-            //Que pueda buscar por Matricula,cedula,nombre,apellido,etc.
-            var studentEntity = _studentService.Find(x => x.FirstName.Contains(search));
-            List<Student> listOfStudent = new List<Student>();
-            listOfStudent.Add(studentEntity);
-            return PartialView("_DisplayAllStudentList",listOfStudent.MapToStudentViewModelToStudentList() );
+            List<Student> listOfStudents = new List<Student>();
+
+            if (DisplayAll.Equals("DisplayAll"))
+            {
+                listOfStudents = await _studentService.GetAllAsync();
+                
+            }else
+            {
+                switch (filterItem)
+                {
+                    case "FirstName":
+                        listOfStudents = _studentService.FindAll(s => s.FirstName.Contains(search));
+                        break;
+                    case "LastName":
+                        listOfStudents = _studentService.FindAll(s => s.LastName.Contains(search));
+                        break;
+                    case "DocumentID":
+                        listOfStudents = _studentService.FindAll(s => s.DocumentID.Contains(search));
+                        break;
+                    case "RegisterNumber":
+                        listOfStudents = _studentService.FindAll(s => s.RegisterNumber.Contains(search));
+                        break;
+                }
+                ViewData["IsFilter"] = true;
+            }
+
+            
+           
+           
+            return PartialView("_DisplayAllStudentList", listOfStudents.MapToStudentViewModelToStudentList());
         }
 
 

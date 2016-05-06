@@ -3,7 +3,13 @@
 @{
     ViewBag.Title = "Estudiantes";
 }
-
+@section css{
+    <style type="text/css">
+        .borderError{
+            border-color:red;
+        }
+    </style>    
+}
 
 <h2>Listado de estudiantes</h2>
 <p>
@@ -17,18 +23,25 @@
                                             HttpMethod="POST",
                                             UpdateTargetId = "DisplayData",
                                             InsertionMode = InsertionMode.Replace}, new {@id="frmFilter" })){ 
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="input-group">
                     <div class="input-group-addon">
                         <span class="glyphicon glyphicon-search"></span>
                     </div>
-                    <input type="search" class="form-control" id="search" name="search" placeholder="Buscar estudiante">
+                    <input type="search" class="form-control" id="search" name="search" placeholder="Buscar...">
+                    
                 </div>
             </div>
-            <div class="col-md-9">
-                <input type="submit" value="Buscar" class="btn btn-success" />
+            <div class="col-md-2">
+                @Html.DropDownList("filterItem",(List<SelectListItem>)ViewBag.listOfItem, "Elegir criterio", new { @class = "form-control" })
             </div>
+            
             }
+            <div class="col-md-6">
+                <button class="btn btn-success" id="btnSearch">Buscar</button>
+                
+                
+            </div>
         </div>
     </div>
     <div id="DisplayData" class="table-responsive">
@@ -38,6 +51,30 @@
 
     </div>
 </div>
+
 @section scripts{
 <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script type="text/javascript">
+    $("#btnSearch").click(function (e) {
+        var $selectResult = $("#filterItem");
+        var $textboxSearch = $("#search");
+
+        $textboxSearch.removeClass("borderError");
+        $selectResult.removeClass("borderError");
+
+        if ($textboxSearch.val().trim().length == 0) {
+            $textboxSearch.addClass("borderError");
+            alert("Campo buscar esta vacio ");
+            return false;
+        }
+        
+        if (!$selectResult.val()) {
+            $selectResult.addClass("borderError");
+            alert("Debe elegir un criterio");
+            return false;
+        }
+        
+        $("#frmFilter").trigger("submit");
+    });
+</script>
 }

@@ -29,8 +29,11 @@ namespace AcademicXXI.Repository
             Save();
         }
 
-        
-        
+        public List<TEntity> FindAll(Expression<Func<TEntity, bool>> predicate)
+        {
+            return DbSet.Where(predicate).ToList<TEntity>();
+        }
+
 
         public TEntity Find(Expression<Func<TEntity, bool>> predicate)
         {

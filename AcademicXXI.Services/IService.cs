@@ -11,6 +11,7 @@ namespace AcademicXXI.Services
     {
         void Add(TEntity entity);
         TEntity Find(Expression<Func<TEntity, bool>> predicate);
+        List<TEntity> FindAll(Expression<Func<TEntity, bool>> predicate);
         Task<List<TEntity>> GetAllAsync();
         void Delete(Int32? idEntity);
     }
