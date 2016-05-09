@@ -8,6 +8,12 @@
         .borderError{
             border-color:red;
         }
+        .displayBtn{
+            display:normal;
+        }
+        .hiddenBtn{
+            display:none;
+        }
     </style>    
 }
 
@@ -39,6 +45,11 @@
             }
             <div class="col-md-6">
                 <button class="btn btn-success" id="btnSearch">Buscar</button>
+                @Ajax.ActionLink("Mostrar todos", "Filter", "Student", new { DisplayAll = "DisplayAll" },
+                new AjaxOptions {
+                    HttpMethod = "POST",
+                    UpdateTargetId = "DisplayData",
+                    InsertionMode = InsertionMode.Replace}, new { @id = "DisplayAll",@class= "btn btn-info hiddenBtn" })
                 
                 
             </div>
@@ -75,6 +86,18 @@
         }
         
         $("#frmFilter").trigger("submit");
+        var $DisplayAll = $("#DisplayAll");
+        $DisplayAll.removeClass("hiddenBtn");
+        $DisplayAll.addClass("displayBtn");
+    });
+    $("#DisplayAll").click(function () {      
+        $("#frmFilter").trigger("submit");
+        $("#frmFilter").trigger('reset');
+        var $DisplayAll = $("#DisplayAll");
+        $DisplayAll.removeClass("displayBtn")
+        $DisplayAll.addClass("hiddenBtn")
+        
+       
     });
 </script>
 }

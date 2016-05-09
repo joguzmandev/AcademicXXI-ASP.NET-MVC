@@ -1,13 +1,13 @@
 ﻿using AcademicXXI.Helpers;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-
+using System;
 
 namespace AcademicXXI.ViewModel.ViewModel
 {
     public class StudentViewModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public Status Status { get; set; }
         [Required]

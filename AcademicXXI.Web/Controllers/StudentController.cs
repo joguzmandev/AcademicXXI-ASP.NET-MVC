@@ -45,12 +45,49 @@ namespace Academic.Web.Controllers
             }
 
             var studentEntity = student.MapToStudent();
+            studentEntity.Id = Guid.NewGuid();
             studentEntity.Status = Status.Active;
             studentEntity.Created = DateTime.Now;
             _studentService.Add(studentEntity);
 
 
             return RedirectToAction("Create").WithSuccess($"{student.FullName}, fue creado satisfactoriamente");
+        }
+
+        public ActionResult Edit(String Id)
+        {
+            Guid idStuViewM;
+            try
+            {
+                idStuViewM = Guid.Parse(Id);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Maintenance");
+            }
+
+            var entity = _studentService.Find(s => s.Id == idStuViewM);
+
+            if (entity == null)
+            {
+                return RedirectToAction("Maintenance");
+            }
+
+            StudentViewModel studentViewM = entity.MapToStudentViewModel();
+
+            return View(studentViewM);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit (StudentViewModel student)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(student).WithError("Hubo un error en el modelo");
+            }
+            //TODO perform to update action
+            return RedirectToAction("Maintenance");
         }
 
         public async Task<ActionResult> Maintenance()
@@ -118,7 +155,6 @@ namespace Academic.Web.Controllers
            
             return PartialView("_DisplayAllStudentList", listOfStudents.MapToStudentViewModelToStudentList());
         }
-
 
         public StudentController(IStudentService service)
         {

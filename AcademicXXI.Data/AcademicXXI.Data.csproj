@@ -54,6 +54,14 @@
     <Compile Include="Migrations\201605011704111_First.Designer.cs">
       <DependentUpon>201605011704111_First.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605070130173_AddIDGuid.cs" />
+    <Compile Include="Migrations\201605070130173_AddIDGuid.Designer.cs">
+      <DependentUpon>201605070130173_AddIDGuid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605090322592_TestMig.cs" />
+    <Compile Include="Migrations\201605090322592_TestMig.Designer.cs">
+      <DependentUpon>201605090322592_TestMig.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -72,6 +80,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201605011704111_First.resx">
       <DependentUpon>201605011704111_First.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605070130173_AddIDGuid.resx">
+      <DependentUpon>201605070130173_AddIDGuid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605090322592_TestMig.resx">
+      <DependentUpon>201605090322592_TestMig.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

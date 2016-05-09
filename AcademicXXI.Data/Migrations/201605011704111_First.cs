@@ -11,7 +11,7 @@ namespace AcademicXXI.Data.Migrations
                 "dbo.Students",
                 c => new
                     {
-                        Id = c.Int(nullable: false, identity: true),
+                        Id = c.Guid(nullable: false, identity: true),
                         FirstName = c.String(nullable: false, maxLength: 30),
                         LastName = c.String(nullable: false, maxLength: 30),
                         DocumentID = c.String(nullable: false, maxLength: 11),

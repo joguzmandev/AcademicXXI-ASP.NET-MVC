@@ -25,5 +25,17 @@ namespace AcademicXXI.ViewModel.MapExtensionMethod
         {
             return Mapper.Map<Student>(viewModel);
         }
+
+        /// <summary>
+        /// Map a StudentViewModel from Student
+        /// </summary>
+        /// <param name="viewModel"></param>
+        /// <returns>StudentViewModel</returns>
+        public static StudentViewModel MapToStudentViewModel(this Student viewModel)
+        {
+            return Mapper.Map<StudentViewModel>(viewModel);
+        }
+
+
     }
 }
