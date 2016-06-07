@@ -9,28 +9,33 @@ namespace AcademicXXI.Helpers
     public enum Status
     {
         /// <summary>
-        /// Estado Activo
-        /// </summary>
-        Active,
-        /// <summary>
         /// Estado Inactivo
         /// </summary>
-        Inactive,
+        Inactive = 0,
+
         /// <summary>
         /// Estado Eliminado
         /// </summary>
-        Delete,
+        Delete = -1,
+        
+        /// <summary>
+        /// Estado Activo
+        /// </summary>
+        Active = 1,
+        
         /// <summary>
         /// Estado Nuevo
         /// </summary>
-        New,
+        New = 2,
+        
         /// <summary>
         /// Estado Actualizado
         /// </summary>
-        Update,
+        Update = 3,
+        
         /// <summary>
         /// Estado Pendiente
         /// </summary>
-        Pedding,
+        Pedding = 4,
     }
 }

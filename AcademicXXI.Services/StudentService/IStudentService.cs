@@ -6,5 +6,6 @@ namespace AcademicXXI.Services.StudentService
     {
         bool ValidateDocumentID(string documentId);
         bool ValidateRegisterNumber(string registerNumber);
+        
     }
 }

@@ -73,5 +73,12 @@ namespace AcademicXXI.Repository
         {
             _dbContext.SaveChanges();
         }
+
+        protected System.Data.Entity.Infrastructure.DbEntityEntry<TEntity> GetEntityEntry(TEntity entity)
+        {
+
+            return _dbContext.Entry<TEntity>(entity);
+        }
+
     }
 }

@@ -21,7 +21,7 @@
     <tbody>
         @if (Model.Any())
             {
-                foreach (var item in Model)
+                foreach (var item in Model.OrderBy(o=>o.FirstName))
                 {
                 <tr>
                     <td width="30%">

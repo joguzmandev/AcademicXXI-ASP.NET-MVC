@@ -169,32 +169,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\metisMenu.css" />
-    <Content Include="Content\metisMenu.js" />
-    <Content Include="Content\metisMenu.min.css" />
-    <Content Include="Content\metisMenu.min.js" />
-    <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\bootstrap.min.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\bootstrap-theme.min.css.map" />
-    <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Resources\edit.png" />
+    <Content Include="Scripts\angular-mocks.js" />
+    <Content Include="Scripts\angular.js" />
+    <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <None Include="Scripts\jquery-1.10.2-vsdoc.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Scripts\angular.min.js.map" />
     <None Include="Scripts\jquery-2.2.3-vsdoc.js" />
     <Content Include="Scripts\jquery-2.2.3.js" />
     <Content Include="Scripts\jquery-2.2.3.min.js" />
@@ -218,7 +207,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\SubjectController.cs" />
-    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -230,15 +218,14 @@
   <ItemGroup>
     <Content Include="Views\web.config" />
     <Content Include="packages.config" />
-    <Content Include="Scripts\jquery-2.2.3.min.map" />
     <Content Include="Views\Student\Maintenance.cshtml" />
     <Content Include="Views\Student\Create.cshtml" />
-    <Content Include="Views\Student\View.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Views\Shared\_PartialAlertView.cshtml" />
     <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\Shared\_DisplayAllStudentList.cshtml" />
     <Content Include="Views\Student\Edit.cshtml" />
+    <Content Include="Scripts\jquery-2.2.3.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -250,7 +237,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Subject\" />
-    <Folder Include="Views\Test\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AcademicXXI.Data\AcademicXXI.Data.csproj">

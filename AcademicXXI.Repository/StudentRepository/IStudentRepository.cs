@@ -11,5 +11,6 @@ namespace AcademicXXI.Repository.StudentRepository
     {
         bool ValidateDocumentID(string documentId);
         bool ValidateRegisterNumber(string registerNumber);
+        void Update(Student student);
     }
 }

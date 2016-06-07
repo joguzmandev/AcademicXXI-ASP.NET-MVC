@@ -86,7 +86,7 @@ namespace Academic.Web.Controllers
             {
                 return View(student).WithError("Hubo un error en el modelo");
             }
-            //TODO perform to update action
+            _studentService.Update(student.MapToStudent());
             return RedirectToAction("Maintenance");
         }
 

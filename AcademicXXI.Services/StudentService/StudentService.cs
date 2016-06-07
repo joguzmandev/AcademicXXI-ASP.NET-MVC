@@ -55,6 +55,9 @@ namespace AcademicXXI.Services.StudentService
             _repo.Dispose();
         }
 
-        
+        public void Update(Student tEntity)
+        {
+            _repo.Update(tEntity);
+        }
     }
 }

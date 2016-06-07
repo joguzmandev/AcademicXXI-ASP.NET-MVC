@@ -25,6 +25,15 @@ namespace AcademicXXI.Repository.StudentRepository
 
         }
 
+        public void Update(Student student)
+        {
+            var studenttemp = Find(s => s.Id == student.Id);
+            studenttemp.FirstName = student.FirstName;
+            studenttemp.LastName = student.LastName;
+            Save();
+
+        }
+        
         public bool ValidateDocumentID(string documentId)
         {
             
@@ -33,7 +42,7 @@ namespace AcademicXXI.Repository.StudentRepository
 
         public bool ValidateRegisterNumber(string registerNumber)
         {
-            return DbSet.Any(x => x.RegisterNumber == registerNumber          );
+            return DbSet.Any(x => x.RegisterNumber == registerNumber);
         }
 
         

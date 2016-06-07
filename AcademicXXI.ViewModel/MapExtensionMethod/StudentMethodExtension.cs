@@ -23,6 +23,9 @@ namespace AcademicXXI.ViewModel.MapExtensionMethod
         /// <returns>Student</returns>
         public static Student MapToStudent(this StudentViewModel viewModel)
         {
+            viewModel.FirstName = viewModel.FirstName.ToUpper();
+            viewModel.LastName = viewModel.LastName.ToUpper();
+
             return Mapper.Map<Student>(viewModel);
         }
 

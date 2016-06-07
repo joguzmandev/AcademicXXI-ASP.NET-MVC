@@ -16,6 +16,7 @@ namespace AcademicXXI.Repository
         void Delete(Int32? idEntity);
         void Save();
        
+       
         
 
     }

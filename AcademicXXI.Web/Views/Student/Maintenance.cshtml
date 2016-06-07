@@ -5,99 +5,102 @@
 }
 @section css{
     <style type="text/css">
-        .borderError{
-            border-color:red;
+        .borderError {
+            border-color: red;
         }
-        .displayBtn{
-            display:normal;
+
+        .displayBtn {
+            display: normal;
         }
-        .hiddenBtn{
-            display:none;
+
+        .hiddenBtn {
+            display: none;
         }
-    </style>    
+    </style>
 }
 
 <h2>Listado de estudiantes</h2>
-<p>
-    @Html.ActionLink("Crear Nuevo", "Create")
-</p>
-
+<small class="label label-success">Registros encontrados: @Model.Count()</small>
+<hr />
 <div class="panel panel-default">
     <div class="panel-heading">
         <div class="row">
-            @using(Ajax.BeginForm("Filter","Student",new AjaxOptions {
-                                            HttpMethod="POST",
-                                            UpdateTargetId = "DisplayData",
-                                            InsertionMode = InsertionMode.Replace}, new {@id="frmFilter" })){ 
-            <div class="col-md-4">
-                <div class="input-group">
-                    <div class="input-group-addon">
-                        <span class="glyphicon glyphicon-search"></span>
+            @using (Ajax.BeginForm("Filter", "Student", new AjaxOptions
+            {
+                HttpMethod = "POST",
+                UpdateTargetId = "DisplayData",
+                InsertionMode = InsertionMode.Replace
+            }, new { @id = "frmFilter" }))
+            {
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </div>
+                        <input type="search" class="form-control" id="search" name="search" placeholder="Buscar...">
+
                     </div>
-                    <input type="search" class="form-control" id="search" name="search" placeholder="Buscar...">
-                    
                 </div>
-            </div>
-            <div class="col-md-2">
-                @Html.DropDownList("filterItem",(List<SelectListItem>)ViewBag.listOfItem, "Elegir criterio", new { @class = "form-control" })
-            </div>
-            
+                <div class="col-md-2">
+                    @Html.DropDownList("filterItem", (List<SelectListItem>)ViewBag.listOfItem, "Elegir criterio", new { @class = "form-control" })
+                </div>
+
             }
             <div class="col-md-6">
                 <button class="btn btn-success" id="btnSearch">Buscar</button>
                 @Ajax.ActionLink("Mostrar todos", "Filter", "Student", new { DisplayAll = "DisplayAll" },
-                new AjaxOptions {
+                new AjaxOptions
+                {
                     HttpMethod = "POST",
                     UpdateTargetId = "DisplayData",
-                    InsertionMode = InsertionMode.Replace}, new { @id = "DisplayAll",@class= "btn btn-info hiddenBtn" })
-                
-                
+                    InsertionMode = InsertionMode.Replace
+                }, new { @id = "DisplayAll", @class = "btn btn-info hiddenBtn" })
+
+
             </div>
         </div>
     </div>
     <div id="DisplayData" class="table-responsive">
-       
-            @Html.Partial("_DisplayAllStudentList",Model)
-       
+        @Html.Partial("_DisplayAllStudentList")
 
     </div>
 </div>
 
 @section scripts{
-<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
-<script type="text/javascript">
-    $("#btnSearch").click(function (e) {
-        var $selectResult = $("#filterItem");
-        var $textboxSearch = $("#search");
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script type="text/javascript">
+        $("#btnSearch").click(function (e) {
+            var $selectResult = $("#filterItem");
+            var $textboxSearch = $("#search");
 
-        $textboxSearch.removeClass("borderError");
-        $selectResult.removeClass("borderError");
+            $textboxSearch.removeClass("borderError");
+            $selectResult.removeClass("borderError");
 
-        if ($textboxSearch.val().trim().length == 0) {
-            $textboxSearch.addClass("borderError");
-            alert("Campo buscar esta vacio ");
-            return false;
-        }
-        
-        if (!$selectResult.val()) {
-            $selectResult.addClass("borderError");
-            alert("Debe elegir un criterio");
-            return false;
-        }
-        
-        $("#frmFilter").trigger("submit");
-        var $DisplayAll = $("#DisplayAll");
-        $DisplayAll.removeClass("hiddenBtn");
-        $DisplayAll.addClass("displayBtn");
-    });
-    $("#DisplayAll").click(function () {      
-        $("#frmFilter").trigger("submit");
-        $("#frmFilter").trigger('reset');
-        var $DisplayAll = $("#DisplayAll");
-        $DisplayAll.removeClass("displayBtn")
-        $DisplayAll.addClass("hiddenBtn")
-        
-       
-    });
-</script>
+            if ($textboxSearch.val().trim().length == 0) {
+                $textboxSearch.addClass("borderError");
+                alert("Campo buscar esta vacio ");
+                return false;
+            }
+
+            if (!$selectResult.val()) {
+                $selectResult.addClass("borderError");
+                alert("Debe elegir un criterio");
+                return false;
+            }
+
+            $("#frmFilter").trigger("submit");
+            var $DisplayAll = $("#DisplayAll");
+            $DisplayAll.removeClass("hiddenBtn");
+            $DisplayAll.addClass("displayBtn");
+        });
+        $("#DisplayAll").click(function () {
+            $("#frmFilter").trigger("submit");
+            $("#frmFilter").trigger('reset');
+            var $DisplayAll = $("#DisplayAll");
+            $DisplayAll.removeClass("displayBtn")
+            $DisplayAll.addClass("hiddenBtn")
+
+
+        });
+    </script>
 }
