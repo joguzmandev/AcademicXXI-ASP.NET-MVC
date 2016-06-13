@@ -20,7 +20,7 @@
 }
 
 <h2>Listado de estudiantes</h2>
-<small class="label label-success">Registros encontrados: @Model.Count()</small>
+<small id="outputcount" class="label label-success">Registros encontrados: @Model.Count()</small>
 <hr />
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -60,7 +60,7 @@
             </div>
         </div>
     </div>
-    <div id="DisplayData" class="table-responsive">
+    <div id="DisplayData" class="table-responsive table-hover">
         @Html.Partial("_DisplayAllStudentList")
 
     </div>

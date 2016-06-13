@@ -1,5 +1,6 @@
 namespace AcademicXXI.Data.Migrations
 {
+    using Domain;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -26,6 +27,32 @@ namespace AcademicXXI.Data.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
+            var student1 = new Student()
+            {
+                Id = Guid.NewGuid(),
+                FirstName = "Jorge Luis",
+                LastName = "Guzman S.",
+                DocumentID = "00118632728",
+                RegisterNumber = "2014-3825",
+                Created = DateTime.Now,
+                Status = Helpers.Status.Active,
+
+            };
+            var student2 = new Student()
+            {
+                Id = Guid.NewGuid(),
+                FirstName = "Jean Carlos",
+                LastName = "Guzman V.",
+                DocumentID = "014785293",
+                RegisterNumber = "2022-3825",
+                Created = DateTime.Now,
+                Status = Helpers.Status.Active,
+
+            };
+
+            context.Students.Add(student1);
+            context.Students.Add(student2);
+
         }
     }
 }

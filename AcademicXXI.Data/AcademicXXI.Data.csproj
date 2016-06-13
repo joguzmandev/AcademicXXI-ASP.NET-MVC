@@ -76,6 +76,10 @@
       <Project>{10c37028-0d33-4555-ab4c-50b6a89a44dc}</Project>
       <Name>AcademicXXI.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AcademicXXI.Helpers\AcademicXXI.Helpers.csproj">
+      <Project>{b8b70a73-4598-453b-8182-e2fe7cffb8a8}</Project>
+      <Name>AcademicXXI.Helpers</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201605011704111_First.resx">
