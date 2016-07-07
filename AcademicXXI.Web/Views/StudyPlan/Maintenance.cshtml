@@ -1,0 +1,57 @@
+﻿@model IEnumerable<AcademicXXI.ViewModel.ViewModel.StudyPlanViewModel>
+@{
+    ViewBag.Title = "Planes de Estudios";
+}
+
+<h2>Mantenimiento de Planes de Estudios</h2>
+
+<hr />
+
+<table class="table table-bordered table-condensed table-hover table-responsive table-striped">
+    <thead>
+        <tr>
+            <th>
+                <h3>@Html.DisplayNameFor(x => x.Name)</h3>
+            </th>
+            <th>
+                <h3>@Html.DisplayNameFor(x => x.Code)</h3>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Any())
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <p style="color:black"><b>@item.Name</b></p>
+                    </td>
+                    <td>
+                        <p style="color:black">
+                            <b>@item.Code</b>
+                            
+                        </p>
+
+                    </td>
+                    <td>
+                        <a href="@Url.Action("SubjectRelation","Subject",new {splancode=item.Code,splanid=item.Id })" class="btn btn-link">
+                            <span>Relación de Asignatuas</span>
+                        </a>
+                    </td>
+
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td>Registro no encontrado.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+   

@@ -6,11 +6,12 @@
     <title>@ViewBag.Title | Academic XXI</title>
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
     <script src="~/Scripts/modernizr-2.8.3.js"></script>
+    @RenderSection("css",false)
         @*
             @Styles.Render("~/Content/css")
             @Scripts.Render("~/bundles/modernizr")
         *@
-    @RenderSection("css", false)
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -43,8 +44,6 @@
                         <ul class="dropdown-menu">
                             <li>@Html.ActionLink("Nuevo", "Create", "Student")</li>
                             <li>@Html.ActionLink("Mantenimiento", "Maintenance", "Student")</li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">Historial</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -52,9 +51,11 @@
                             Gestión Académica <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("Mantenimiento de Asignatura", "Maintenance", "Subject")</li>
-                            <li role="separator" class="divider"></li>
-                            <li>@Html.ActionLink("Plan de Estudio", "Maintenance", "StudenPlan")</li>
+                            <li>@Html.ActionLink("Plan de Estudio", "Maintenance", "StudyPlan")</li>
+                            
+                            
+                            
+                            
                         </ul>
                     </li>
                 </ul>
@@ -68,7 +69,7 @@
 
 
 
-    <div class="container" style="margin-top:50px">
+    <div class="container" style="margin-top:30px">
         @Html.Partial("_PartialAlertView")
 
         @RenderBody()

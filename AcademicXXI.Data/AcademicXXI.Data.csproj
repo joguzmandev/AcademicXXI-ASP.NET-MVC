@@ -62,6 +62,18 @@
     <Compile Include="Migrations\201605090322592_TestMig.Designer.cs">
       <DependentUpon>201605090322592_TestMig.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606261251097_AddCodeFieldToStudyPlanClass.cs" />
+    <Compile Include="Migrations\201606261251097_AddCodeFieldToStudyPlanClass.Designer.cs">
+      <DependentUpon>201606261251097_AddCodeFieldToStudyPlanClass.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606261348234_AddUniqueFieldToCodeColumInSubjectDomain.cs" />
+    <Compile Include="Migrations\201606261348234_AddUniqueFieldToCodeColumInSubjectDomain.Designer.cs">
+      <DependentUpon>201606261348234_AddUniqueFieldToCodeColumInSubjectDomain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606262050042_RemoveIsRequiredPrerequisiteCodeFieldIntoSubjectClass.cs" />
+    <Compile Include="Migrations\201606262050042_RemoveIsRequiredPrerequisiteCodeFieldIntoSubjectClass.Designer.cs">
+      <DependentUpon>201606262050042_RemoveIsRequiredPrerequisiteCodeFieldIntoSubjectClass.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -90,6 +102,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605090322592_TestMig.resx">
       <DependentUpon>201605090322592_TestMig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606261251097_AddCodeFieldToStudyPlanClass.resx">
+      <DependentUpon>201606261251097_AddCodeFieldToStudyPlanClass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606261348234_AddUniqueFieldToCodeColumInSubjectDomain.resx">
+      <DependentUpon>201606261348234_AddUniqueFieldToCodeColumInSubjectDomain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606262050042_RemoveIsRequiredPrerequisiteCodeFieldIntoSubjectClass.resx">
+      <DependentUpon>201606262050042_RemoveIsRequiredPrerequisiteCodeFieldIntoSubjectClass.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -35,9 +35,9 @@ namespace AcademicXXI.Services.StudentService
             return this._repo.Find(predicate);
         }
 
-        public Task<List<Student>> GetAllAsync()
+        public async Task<List<Student>> GetAllAsync()
         {
-            return this._repo.GetAllAsync();
+            return await this._repo.GetAllAsync();
         }
 
         public bool ValidateDocumentID(string documentId)

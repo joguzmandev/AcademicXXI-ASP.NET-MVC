@@ -66,6 +66,7 @@ namespace AcademicXXI.Data
         {
             HasKey(s => s.Id);
             Property(s => s.Name).HasMaxLength(30).IsRequired();
+            Property(c => c.Code).HasMaxLength(10).IsRequired();
         }
     }
     
@@ -76,8 +77,9 @@ namespace AcademicXXI.Data
             HasKey(x => x.Id);
             Property(x => x.Name).HasMaxLength(30).IsRequired();
             Property(x => x.Credit).IsRequired();
-            Property(x => x.Code).HasColumnType("nvarchar").HasMaxLength(7).IsRequired();
-            Property(x => x.PrerequisiteCode).HasColumnType("nvarchar").HasMaxLength(7).IsRequired();
+            Property(x => x.Code).HasColumnType("nvarchar").HasMaxLength(7).IsRequired().HasColumnAnnotation(
+                IndexAnnotation.AnnotationName,new IndexAnnotation(new IndexAttribute() { IsUnique = true }));
+            Property(x => x.PrerequisiteCode).HasColumnType("nvarchar").HasMaxLength(7);
             HasOptional(x => x.StudyPlan).WithMany(x => x.Subjects).HasForeignKey(x => x.StudyPID);
 
 

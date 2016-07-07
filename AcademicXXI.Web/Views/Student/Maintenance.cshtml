@@ -20,7 +20,6 @@
 }
 
 <h2>Listado de estudiantes</h2>
-<small id="outputcount" class="label label-success">Registros encontrados: @Model.Count()</small>
 <hr />
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -93,6 +92,9 @@
             $DisplayAll.removeClass("hiddenBtn");
             $DisplayAll.addClass("displayBtn");
         });
+
+
+
         $("#DisplayAll").click(function () {
             $("#frmFilter").trigger("submit");
             $("#frmFilter").trigger('reset');

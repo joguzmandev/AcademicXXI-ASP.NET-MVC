@@ -35,10 +35,14 @@
                     </td>
 
                     <td width="20%">
-                        <a href="@Url.Action("Edit","Student",new { id = item.Id })" title="Editar a @item.FullName">
-                            <img src="@Url.Content("~/Resources/edit.png")" />
-                        </a>
                         
+
+                        <a href="@Url.Action("Edit","Student",new { id = item.Id })" title="Editar @item.FullName" class="btn btn-info">
+                           <small>Editar</small>
+                        </a>
+                        <a href="#" class="btn btn-danger" onclick="alert('Contactar al administrador de sistema.')">
+                            <small>Eliminar</small>
+                        </a>
                     </td>
                 </tr>
             }

@@ -1,0 +1,219 @@
+﻿@model IEnumerable<AcademicXXI.ViewModel.ViewModel.SubjectViewModel>
+
+@{
+    var title = ViewBag.StudyPlanViewModelObj;
+
+    ViewBag.Title = title;
+}
+
+<h2>Relación de asignaturas</h2>
+<small>Plan de estudio: <b>@ViewBag.StudyPlanViewModelObj</b></small>
+<hr />
+
+<button class="btn btn-primary" id="OpenNewSubjectModal">Crear Asignatura</button>
+<br />       
+<br />
+
+
+
+
+@if (Model.Any()) { 
+<table class="table table-bordered table-responsive table-striped" id="tblSubjectRelation">
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Asignatura</th>
+            <th>Creditos</th>
+            <th>Prerrequisito</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Code</td>
+                <td>@item.Name</td>
+                <td>@item.Credit</td>
+                <td>@item.PrerequisiteCode</td>
+                
+                
+            </tr>
+        }
+    </tbody>
+
+</table>
+}else
+{
+    <div class="row">
+        <div class="alert alert-warning">
+            <p>Registro no encontrado.</p>
+        </div>
+    </div>
+}
+
+<div id="frmUI" title="Crear asignatura">
+    <div class="row" id="displayResultDiv">
+
+    </div>  
+    <form id="frmNewSubject">
+        
+        <div class="form-group">
+           <span>Plan de Estudio:</span> @ViewBag.StudyPlanViewModelObj
+        </div>
+        <div class="form-group" id="form-group-code">
+            <input type="text" name="Code" placeholder="Código Asignatura" class="form-control" maxlength="7"/>
+        </div>
+        <div class="form-group">
+            <input type="text" name="Name" placeholder="Asignatura" class="form-control" maxlength="30" />
+        </div>
+        <div class="form-group">
+            <input type="number" name="Credit" placeholder="Creditos" class="form-control" min="1"/>
+        </div>
+        <div class="form-group" id="form-group-prerequisite-code">
+            
+            @Html.DropDownList("PrerequisiteCode", new SelectList(Model, "Code", "FullSubjectName"), "Prerrequisito", new { @class= "form-control" })
+            <input type="hidden" id="StudyPIDStr" name="StudyPIDStr" value="@ViewBag.StudyPlanViewModelObj.Id"/>
+            <input type="hidden" id="StudyPCodeStr" name="StudyPCodeStr" value="@ViewBag.StudyPlanViewModelObj.Code" />
+        </div>
+    <hr />
+        <div class="form-group">
+            <input type="submit" name="btnRegister" class="btn btn-primary" value="Guardar"/>
+            <input type="button" id="btnClose" name="btnClose" class="btn btn-danger" value="Cancelar" />
+        </div></form>
+  
+</div>
+
+@section css{
+    <link href="~/Content/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.theme.min.css" rel="stylesheet" />
+    <style type="text/css">
+        label.error{
+            color:red;
+        }
+
+    </style>
+}
+@section scripts{
+    
+<script src="~/Scripts/jquery-ui.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script>
+    $(function () {
+        //JQuery UI
+        var dialog= $("#frmUI").dialog({
+            autoOpen: false,
+            height: 400,
+            width: 350,
+            modal: true,
+            beforeClose: function () {
+                ResetFormAndProperties();
+            }
+        });
+        $("#OpenNewSubjectModal").click(function () {
+            dialog.dialog("open");
+        });
+        $("#btnClose").click(function () {
+            dialog.dialog("close");
+        });
+
+        //JQuery Validate
+        $("#frmNewSubject").validate({
+            rules: {
+                Code: { required: true, maxlength: 7 },
+                Name: { required: true, maxlength: 30 },
+                Credit: { required: true },
+            },
+            messages: {
+                Code: { required: "Campo obligatorio", maxlength: "Código solo debe contener 7 caracteres" },
+                Name: { required: "Campo obligatorio", maxlength: "Nombre solo debe contener máximo 30 caracteres" },
+                Credit: { required: "Campo obligatorio" },
+            },
+            submitHandler: function (form) {
+                $.ajax({
+                    url: "@Url.Action("Create","Subject")",
+                    method: "post",
+                    data: $("#frmNewSubject").serialize(),
+                    success: function (SubjectsList, status, jqXHR) {
+
+                        SetDisplayResultUp("alert alert-dismissible alert-success",
+                            "Asignatura agregada.", true)
+                        $("#tblSubjectRelation tbody").empty();
+                        $("#PrerequisiteCode").empty();
+                        $("#PrerequisiteCode").append("<option value=''>Prerrequisito</option>");
+                        $.each(SubjectsList, function (index, subject) {
+
+                            //Create Subject's table
+                            var tdCode = "<td>" + subject.Code + "</td>";
+                            var tdName = "<td>" + subject.Name + "</td>";
+                            var tdCredit = "<td>" + subject.Credit + "</td>";
+                            var tdPrerequisiteCode = "<td>" + (subject.PrerequisiteCode == null ? '' : subject.PrerequisiteCode) + "</td>";
+
+                            $("<tr/>", {
+                                html: tdCode + tdName + tdCredit + tdPrerequisiteCode
+
+                            }).appendTo("#tblSubjectRelation tbody");
+
+                            //Create html select subject
+                            //var option = ;
+                            var option = "<option value=" + subject.Code + ">" + subject.Code + "-" + subject.Name + "</option>";
+                            $("#PrerequisiteCode").append(option);
+
+                        });
+                        
+                        
+                    },
+                    error: function (jqXHR, status, error) {
+
+                        switch (error) {
+                            case "FullError":
+                                alert("Error...");
+                                break;
+                            case "CodeExit":
+                                //Show error
+                                SetDisplayResultUp("alert alert-dismissible alert-danger",
+                                    "El código ingresado ya existe en el sistema", false);
+                                $("#form-group-code").addClass("has-error");
+                                break;
+                            default:
+                                alert(error);
+                                break;
+
+
+                        }
+                    }
+
+                })
+                
+            },
+        });
+    });
+    //
+    function SetDisplayResultUp(classes, text, resetCodeClass) {
+
+        if (resetCodeClass) {
+            $("#form-group-code").removeClass("has-error");
+        }
+       
+        $("<div id='displayResult'></div>").appendTo("#displayResultDiv");
+        $("#displayResult").empty();
+        $("#displayResult")
+            .removeAttr('class').attr('class', '')
+            .addClass(classes)
+            .text(text)
+            .prepend("<button type='button' class='close' data-dismiss='alert'>&times;</button>");
+
+    }
+    function ResetFormAndProperties(){
+        $("#frmNewSubject")[0].reset();
+        $("#frmNewSubject input[type='text']").removeClass('error');
+        $("#frmNewSubject input[type='number']").removeClass('error');
+        $("#frmNewSubject label.error").remove();
+        $("#displayResult").empty().removeAttr('class').attr('class', '');
+        $("#form-group-code").removeClass("has-error");
+    }
+
+</script>
+}
+
+
+

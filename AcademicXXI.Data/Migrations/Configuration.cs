@@ -27,6 +27,7 @@ namespace AcademicXXI.Data.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
+
             var student1 = new Student()
             {
                 Id = Guid.NewGuid(),
@@ -50,8 +51,23 @@ namespace AcademicXXI.Data.Migrations
 
             };
 
-            context.Students.Add(student1);
-            context.Students.Add(student2);
+            /*context.Students.Add(student1);
+            context.Students.Add(student2);*/
+
+
+            //Set up StudyPlay
+            var studyPlan = new StudyPlan()
+            {
+                Id = Guid.NewGuid(),
+                Name = "Cocurriculares",
+                Created = DateTime.Now,
+                Status = Helpers.Status.Active,
+
+            };
+            //context.StudyPlans.Add(studyPlan);
+
+          
+            
 
         }
     }

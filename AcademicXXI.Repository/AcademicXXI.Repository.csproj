@@ -54,6 +54,10 @@
     <Compile Include="RepositoryGeneric.cs" />
     <Compile Include="StudentRepository\IStudentRepository.cs" />
     <Compile Include="StudentRepository\StudentRepository.cs" />
+    <Compile Include="StudyPlanRepository\IStudyPlanRepository.cs" />
+    <Compile Include="StudyPlanRepository\StudyPlanRepository.cs" />
+    <Compile Include="SubjectRepository\ISubjectRepository.cs" />
+    <Compile Include="SubjectRepository\SubjectRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AcademicXXI.Data\AcademicXXI.Data.csproj">
