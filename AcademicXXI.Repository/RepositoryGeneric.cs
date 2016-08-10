@@ -21,6 +21,7 @@ namespace AcademicXXI.Repository
         }
 
         public abstract void Delete(int? idEntity);
+        public abstract void Update(TEntity entity);
 
         public void Add(TEntity entity)
         {

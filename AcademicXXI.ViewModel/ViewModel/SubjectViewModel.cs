@@ -8,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace AcademicXXI.ViewModel.ViewModel
 {
-    public class SubjectViewModel
+    public class SubjectViewModel : BaseDomain
     {
-        public Guid Id { get; set; }
 
         [Required]
         [StringLength(30)]

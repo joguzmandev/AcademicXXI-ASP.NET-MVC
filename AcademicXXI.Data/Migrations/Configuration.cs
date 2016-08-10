@@ -28,46 +28,45 @@ namespace AcademicXXI.Data.Migrations
             //    );
             //
 
-            var student1 = new Student()
+            #region Set Up Semesters
+            /*
+            var _201501 = new Semester()
             {
                 Id = Guid.NewGuid(),
-                FirstName = "Jorge Luis",
-                LastName = "Guzman S.",
-                DocumentID = "00118632728",
-                RegisterNumber = "2014-3825",
                 Created = DateTime.Now,
                 Status = Helpers.Status.Active,
-
+                SemesterCode = "2015-1",
+                Description = "Enero/Abril 2015"
             };
-            var student2 = new Student()
+
+            var _201502 = new Semester()
             {
                 Id = Guid.NewGuid(),
-                FirstName = "Jean Carlos",
-                LastName = "Guzman V.",
-                DocumentID = "014785293",
-                RegisterNumber = "2022-3825",
                 Created = DateTime.Now,
                 Status = Helpers.Status.Active,
-
+                SemesterCode = "2015-2",
+                Description = "Mayo/Agosto 2015"
             };
 
-            /*context.Students.Add(student1);
-            context.Students.Add(student2);*/
-
-
-            //Set up StudyPlay
-            var studyPlan = new StudyPlan()
+            var _201503 = new Semester()
             {
                 Id = Guid.NewGuid(),
-                Name = "Cocurriculares",
                 Created = DateTime.Now,
                 Status = Helpers.Status.Active,
-
+                SemesterCode = "2015-3",
+                Description = "Septiembre/Diciembre 2015"
             };
-            //context.StudyPlans.Add(studyPlan);
 
-          
-            
+            context.Semesters.Add(_201501);
+            context.Semesters.Add(_201502);
+            context.Semesters.Add(_201503);  */
+            #endregion
+
+
+
+
+
+
 
         }
     }

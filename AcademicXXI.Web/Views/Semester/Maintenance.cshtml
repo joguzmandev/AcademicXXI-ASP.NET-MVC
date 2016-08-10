@@ -1,26 +1,31 @@
-﻿@model IEnumerable<AcademicXXI.ViewModel.ViewModel.StudentViewModel>
+﻿@model IEnumerable<AcademicXXI.ViewModel.ViewModel.SemesterViewModel>
 
 @{
-    ViewBag.Title = "Estudiantes";
+    ViewBag.Title = "Semestres Académico";
 }
 @section css{
-<link href="~/Content/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/dataTables.bootstrap.min.css" rel="stylesheet" />
+    
 }
-
-<h2>Listado de estudiantes</h2>
+<h2>Semestres Académico</h2>
 <hr />
 
-    <div id="DisplayData">
-        @Html.Partial("_DisplayAllStudentList")
 
-    </div>
+<div id="DisplayData">
+    @Html.Partial("_DisplayAllSemestres",Model)
+
+</div>
+
+
+
+
 @section scripts{
-<script src="~/Scripts/jquery.dataTables.min.js"></script>
-<script src="~/Scripts/dataTables.bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/dataTables.bootstrap.min.js"></script>
     <script type="text/javascript">
 
     $(document).on("ready", function () {
-        $("#tblStudents").dataTable({
+        $("#tblSemesters").dataTable({
             language: {
                 search: "Buscar",
                 paginate: {
@@ -38,6 +43,6 @@
             }
         });
     });
-</script>
+    </script>
 
 }

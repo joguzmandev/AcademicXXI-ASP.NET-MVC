@@ -1,0 +1,47 @@
+﻿@model IEnumerable<AcademicXXI.ViewModel.ViewModel.SemesterViewModel>
+
+<table id="tblSemesters" class="table table-bordered table-hover table-striped table-responsive">
+    <thead>
+        <tr>
+            <th width="20%">
+                @Html.DisplayNameFor(model => model.SemesterCode)
+            </th>
+            <th width="60%">
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th width="20%">
+                
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Any())
+            {
+                foreach (var item in Model.OrderBy(o=>o.SemesterCode))
+                {
+                <tr>
+                    <td width="20%">
+                        @Html.DisplayFor(modelItem => item.SemesterCode)
+                    </td>
+                    <td width="60%">
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td width="20%">
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="4">
+                    No hay registro a mostrar.
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+

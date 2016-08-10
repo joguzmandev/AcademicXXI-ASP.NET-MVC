@@ -50,7 +50,7 @@ namespace AcademicXXI.Services.StudyPlanService
 
         public void Update(StudyPlan tEntity)
         {
-            throw new NotImplementedException();
+            this._repo.Update(tEntity);
         }
     }
 }

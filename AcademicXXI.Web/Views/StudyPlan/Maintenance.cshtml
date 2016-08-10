@@ -7,7 +7,7 @@
 
 <hr />
 
-<table class="table table-bordered table-condensed table-hover table-responsive table-striped">
+<table id="displayStudyPlan" class="table table-striped table-bordered" cellspacing="0" width="100%">
     <thead>
         <tr>
             <th>
@@ -47,11 +47,43 @@
         else
         {
             <tr>
-                <td>Registro no encontrado.</td>
+                <td colspan="3" align="center"><p class="text-danger">Registro no encontrado.</p></td>
             </tr>
         }
     </tbody>
 </table>
 
+@section css{
 
+<!--<link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />-->
+<link href="~/Content/dataTables.bootstrap.min.css" rel="stylesheet" />
+}
+
+@section scripts{
+<script src="~/Scripts/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript">
+    $(document).on("ready", function () {
+        $("#displayStudyPlan").dataTable({
+            language: {
+                search: "Buscar",
+                paginate: {
+                    first: "Primer",
+                    previous: "Anterior",
+                    next: "Siguiente",
+                    last: "Ultimo"
+                },
+                info: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+                infoFiltered: "(filtrado de un total de _MAX_ registros)",
+                lengthMenu: "Mostrar _MENU_ registros",
+                zeroRecords: "No se encontraron resultados",
+                EmptyTable: "Ningún dato disponible en esta tabla",
+
+               
+            }
+        });
+    });
+</script>
+}
    

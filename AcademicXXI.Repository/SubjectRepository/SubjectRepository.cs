@@ -36,5 +36,10 @@ namespace AcademicXXI.Repository.SubjectRepository
                 .ToListAsync();
            
         }
+
+        public override void Update(Subject entity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

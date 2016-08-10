@@ -11,6 +11,7 @@ using AcademicXXI.ViewModel.MapExtensionMethod;
 using AcademicXXI.Helpers;
 using Academic.Web.Helpers.Alerts;
 using AcademicXXI.Domain;
+using AcademicXXI.Services.StudyPlanService;
 
 namespace Academic.Web.Controllers
 {
@@ -22,8 +23,10 @@ namespace Academic.Web.Controllers
             return RedirectToAction("Maintenance");
         }
 
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
+            var result = await this._studyPlanService.GetAllAsync();
+            ViewBag.ListOfStudyPlans = result.MapToStudyPlanViewModelFromStudyPlanList();
             return View();
         }
 
@@ -43,6 +46,24 @@ namespace Academic.Web.Controllers
             {
                 return View(student).WithError("Matrícula ingresada ya existe");
             }
+            if (!String.IsNullOrEmpty(student.StudyPlanIDStr))
+            {
+                try
+                {
+                    Guid studyPlanTemp = Guid.Parse(student.StudyPlanIDStr);
+                    student.StudyPlanId = studyPlanTemp;
+                }
+                catch (ArgumentException)
+                {
+
+                    return View(student).WithError("Seleccione un plan de estudio correcto");
+                }
+                catch(FormatException)
+                {
+                    return View(student).WithError("Seleccione un plan de estudio correcto");
+                }
+
+            }
 
             var studentEntity = student.MapToStudent();
             studentEntity.Id = Guid.NewGuid();
@@ -54,7 +75,7 @@ namespace Academic.Web.Controllers
             return RedirectToAction("Create").WithSuccess($"{student.FullName}, fue creado satisfactoriamente");
         }
 
-        public ActionResult Edit(String Id)
+        public async Task<ActionResult> Edit(String Id)
         {
             Guid idStuViewM;
             try
@@ -74,6 +95,12 @@ namespace Academic.Web.Controllers
             }
 
             StudentViewModel studentViewM = entity.MapToStudentViewModel();
+            if (studentViewM.StudyPlanId.HasValue)
+            {
+                studentViewM.StudyPlanIDStr = studentViewM.StudyPlanId.Value.ToString();
+            }
+            var result = await this._studyPlanService.GetAllAsync();
+            ViewBag.ListOfStudyPlans = result.MapToStudyPlanViewModelFromStudyPlanList();
 
             return View(studentViewM);
         }
@@ -86,7 +113,30 @@ namespace Academic.Web.Controllers
             {
                 return View(student).WithError("Hubo un error en el modelo");
             }
+
+            if (!String.IsNullOrEmpty(student.StudyPlanIDStr))
+            {
+                try
+                {
+                    Guid studyPlanTemp = Guid.Parse(student.StudyPlanIDStr);
+                    student.StudyPlanId = studyPlanTemp;
+                }
+                catch (ArgumentException)
+                {
+
+                    return View(student).WithError("Seleccione un plan de estudio correcto");
+                }
+                catch (FormatException)
+                {
+                    return View(student).WithError("Seleccione un plan de estudio correcto");
+                }
+
+            }
+
             _studentService.Update(student.MapToStudent());
+
+
+
             return RedirectToAction("Maintenance");
         }
 
@@ -95,77 +145,22 @@ namespace Academic.Web.Controllers
             var students = await _studentService.GetAllAsync();
             var studentViewModelList = students.MapToStudentViewModelToStudentList();
 
-            List<SelectListItem> options = new List<SelectListItem>() {
-                new SelectListItem()
-                {
-                    Text = "Nombre",
-                    Value = "FirstName"
-
-                },
-                new SelectListItem()
-                {
-                    Text = "Apellido",
-                    Value = "LastName"
-                },
-                new SelectListItem()
-                {
-                    Text = "Cedula",
-                    Value = "DocumentID"
-                },
-                new SelectListItem()
-                {
-                    Text = "Matrícula",
-                    Value = "RegisterNumber"
-                }
-            };
-            ViewBag.listOfItem = options;
             return View(studentViewModelList);
         }
 
-        public async Task<ActionResult> Filter(String search,String filterItem,String DisplayAll="None")
-        {
-            List<Student> listOfStudents = new List<Student>();
-
-            if (DisplayAll.Equals("DisplayAll"))
-            {
-                listOfStudents = await _studentService.GetAllAsync();
-                
-            }else
-            {
-                switch (filterItem)
-                {
-                    case "FirstName":
-                        listOfStudents = _studentService.FindAll(s => s.FirstName.Contains(search));
-                        break;
-                    case "LastName":
-                        listOfStudents = _studentService.FindAll(s => s.LastName.Contains(search));
-                        break;
-                    case "DocumentID":
-                        listOfStudents = _studentService.FindAll(s => s.DocumentID.Contains(search));
-                        break;
-                    case "RegisterNumber":
-                        listOfStudents = _studentService.FindAll(s => s.RegisterNumber.Contains(search));
-                        break;
-                }
-                ViewData["IsFilter"] = true;
-            }
-
-            
-           
-           
-            return PartialView("_DisplayAllStudentList", listOfStudents.MapToStudentViewModelToStudentList());
-        }
-
-        public StudentController(IStudentService service)
+        public StudentController(IStudentService service, IStudyPlanService studyPlanService)
         {
             this._studentService = service;
+            this._studyPlanService = studyPlanService;
         }
 
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
             this._studentService.Dispose();
+            this._studyPlanService.Dispose();
         }
+        private readonly IStudyPlanService _studyPlanService;
         private readonly IStudentService _studentService;
 
 

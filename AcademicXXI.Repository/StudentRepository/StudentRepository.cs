@@ -25,15 +25,17 @@ namespace AcademicXXI.Repository.StudentRepository
 
         }
 
-        public void Update(Student student)
+        public override void Update(Student entity)
         {
-            var studenttemp = Find(s => s.Id == student.Id);
-            studenttemp.FirstName = student.FirstName;
-            studenttemp.LastName = student.LastName;
+            
+            var tempStudent = DbSet.FirstOrDefault(x => x.Id == entity.Id);
+            tempStudent.FirstName = entity.FirstName;
+            tempStudent.LastName = entity.LastName;
+            tempStudent.StudyPlanId = entity.StudyPlanId;
             Save();
 
         }
-        
+
         public bool ValidateDocumentID(string documentId)
         {
             

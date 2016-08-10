@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace AcademicXXI.ViewModel.ViewModel
 {
-    public class StudyPlanViewModel
+    public class StudyPlanViewModel : BaseDomain
     {
-        public Guid Id { get; set; }
 
         [Required]
         [StringLength(30)]

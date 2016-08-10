@@ -6,7 +6,7 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace AcademicXXI.Data
 {
-    public sealed class AcademicXXIDataContext : DbContext
+    public class AcademicXXIDataContext : DbContext
     {
         public AcademicXXIDataContext() : base("AcademicXXIDataContext") {
             //Disable LazyLoading
@@ -17,12 +17,14 @@ namespace AcademicXXI.Data
         public DbSet<Student> Students { get; set; }
         public DbSet<StudyPlan> StudyPlans { get; set; }
         public DbSet<Subject> Subjects { get; set; }
+        public DbSet<Semester> Semesters { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            
-            
+
+
             #region Entity Configuration
+            modelBuilder.Configurations.Add(new SemesterMap());
             modelBuilder.Configurations.Add(new StudentMap());
             modelBuilder.Configurations.Add(new StudyPlanMap());
             modelBuilder.Configurations.Add(new SubjectMap());
@@ -30,6 +32,24 @@ namespace AcademicXXI.Data
             base.OnModelCreating(modelBuilder);
 
 
+        }
+    }
+
+    public sealed class SemesterMap : EntityTypeConfiguration<Semester>
+    {
+        public SemesterMap()
+        {
+            HasKey(s => s.Id);
+            Property(s => s.SemesterCode).IsRequired().HasMaxLength(7)
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(
+
+                    new IndexAttribute("SemesterCode_Unique")
+                    {
+                        IsUnique = true
+                    }));
+            Property(s => s.Description).IsRequired().HasMaxLength(100);
+            Property(x => x.Created).HasColumnType("datetime2");
+            
         }
     }
 
@@ -56,6 +76,8 @@ namespace AcademicXXI.Data
                             IsUnique = true
                         }));
            HasOptional(x => x.StudyPlan).WithMany(x => x.Students).HasForeignKey(x => x.StudyPlanId);
+            Property(x => x.Created).HasColumnType("datetime2");
+
 
         }
     }
@@ -67,6 +89,7 @@ namespace AcademicXXI.Data
             HasKey(s => s.Id);
             Property(s => s.Name).HasMaxLength(30).IsRequired();
             Property(c => c.Code).HasMaxLength(10).IsRequired();
+            Property(x => x.Created).HasColumnType("datetime2");
         }
     }
     
@@ -81,7 +104,7 @@ namespace AcademicXXI.Data
                 IndexAnnotation.AnnotationName,new IndexAnnotation(new IndexAttribute() { IsUnique = true }));
             Property(x => x.PrerequisiteCode).HasColumnType("nvarchar").HasMaxLength(7);
             HasOptional(x => x.StudyPlan).WithMany(x => x.Subjects).HasForeignKey(x => x.StudyPID);
-
+            Property(x => x.Created).HasColumnType("datetime2");
 
         }
     }

@@ -55,10 +55,13 @@
   <ItemGroup>
     <Compile Include="AutoMapperConfig.cs" />
     <Compile Include="ErrorViewModel\ErrorViewModel.cs" />
+    <Compile Include="MapExtensionMethod\SemesterMethodExtension.cs" />
     <Compile Include="MapExtensionMethod\StudyPlanMethodExtension.cs" />
     <Compile Include="MapExtensionMethod\SubjectMethodExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MapExtensionMethod\StudentMethodExtension.cs" />
+    <Compile Include="ViewModel\BaseDomain.cs" />
+    <Compile Include="ViewModel\SemesterViewModel.cs" />
     <Compile Include="ViewModel\StudyPlanViewModel.cs" />
     <Compile Include="ViewModel\StudentViewModel.cs" />
     <Compile Include="ViewModel\SubjectViewModel.cs" />

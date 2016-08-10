@@ -60,7 +60,7 @@ namespace AcademicXXI.Services.SubjectService
 
         public void Update(Subject tEntity)
         {
-            throw new NotImplementedException();
+            this._repo.Update(tEntity);
         }
     }
 }

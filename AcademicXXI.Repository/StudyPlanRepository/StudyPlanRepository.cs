@@ -20,5 +20,10 @@ namespace AcademicXXI.Repository.StudyPlanRepository
             temp.Status = Status.Delete;
             Save();
         }
+
+        public override void Update(StudyPlan entity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

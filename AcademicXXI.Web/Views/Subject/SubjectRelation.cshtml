@@ -86,18 +86,44 @@
 @section css{
     <link href="~/Content/jquery-ui.min.css" rel="stylesheet" />
     <link href="~/Content/jquery-ui.theme.min.css" rel="stylesheet" />
+<link href="~/Content/dataTables.bootstrap.min.css" rel="stylesheet" />
     <style type="text/css">
         label.error{
             color:red;
         }
-
+        #frmUI{
+            display:none
+        }
     </style>
 }
 @section scripts{
     
 <script src="~/Scripts/jquery-ui.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/dataTables.bootstrap.min.js"></script>
 <script>
+    $(document).on("ready", function () {
+        $("#tblSubjectRelation").dataTable({
+            language: {
+                search: "Buscar",
+                paginate: {
+                    first: "Primer",
+                    previous: "Anterior",
+                    next: "Siguiente",
+                    last: "Ultimo"
+                },
+                info: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+                infoFiltered: "(filtrado de un total de _MAX_ registros)",
+                lengthMenu: "Mostrar _MENU_ registros",
+                zeroRecords: "No se encontraron resultados",
+                EmptyTable: "Ningún dato disponible en esta tabla",
+
+
+            }
+        });
+    });
     $(function () {
         //JQuery UI
         var dialog= $("#frmUI").dialog({

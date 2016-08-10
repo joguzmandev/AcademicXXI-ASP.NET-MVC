@@ -26,7 +26,11 @@ namespace AcademicXXI.ViewModel
             //Map Subject to SubjectViewModel
             Mapper.CreateMap<domain.Subject,ViewModel.SubjectViewModel>();
 
+            //Map SemesterViewModel to Semester
+            Mapper.CreateMap<ViewModel.SemesterViewModel, domain.Semester>();
 
+            //Map Semester to SemesterViewModel
+            Mapper.CreateMap<domain.Semester, ViewModel.SemesterViewModel>();
 
         }
     }

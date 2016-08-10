@@ -74,6 +74,14 @@
     <Compile Include="Migrations\201606262050042_RemoveIsRequiredPrerequisiteCodeFieldIntoSubjectClass.Designer.cs">
       <DependentUpon>201606262050042_RemoveIsRequiredPrerequisiteCodeFieldIntoSubjectClass.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607241928311_adddatetime2.cs" />
+    <Compile Include="Migrations\201607241928311_adddatetime2.Designer.cs">
+      <DependentUpon>201607241928311_adddatetime2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607242123059_AddSemesterClass.cs" />
+    <Compile Include="Migrations\201607242123059_AddSemesterClass.Designer.cs">
+      <DependentUpon>201607242123059_AddSemesterClass.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -111,6 +119,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606262050042_RemoveIsRequiredPrerequisiteCodeFieldIntoSubjectClass.resx">
       <DependentUpon>201606262050042_RemoveIsRequiredPrerequisiteCodeFieldIntoSubjectClass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607241928311_adddatetime2.resx">
+      <DependentUpon>201607241928311_adddatetime2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607242123059_AddSemesterClass.resx">
+      <DependentUpon>201607242123059_AddSemesterClass.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
