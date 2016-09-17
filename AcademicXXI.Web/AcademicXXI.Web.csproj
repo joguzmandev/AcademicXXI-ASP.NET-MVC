@@ -201,6 +201,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Properties\PublishProfiles\Desploy WebApp Local IIS.pubxml" />
+    <None Include="Properties\PublishProfiles\jorgeguzman.pubxml" />
     <None Include="Scripts\jquery-2.2.3-vsdoc.js" />
     <Content Include="Scripts\jquery-2.2.3.js" />
     <Content Include="Scripts\jquery-2.2.3.min.js" />
