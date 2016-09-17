@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title | Academic XXI</title>
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/style.css" rel="stylesheet" />
     <script src="~/Scripts/modernizr-2.8.3.js"></script>
     @RenderSection("css",false)
         @*
@@ -80,7 +81,9 @@
 
     <div class="container" style="margin-top:30px">
         @Html.Partial("_PartialAlertView")
-
+        <div id="loader">
+            <img src="~/Content/images/loading.gif" alt="Loader" />
+        </div>
         @RenderBody()
 
         <footer>
@@ -93,6 +96,11 @@
 
     <!-- Scripts-->
     <script src="~/Scripts/jquery-2.2.3.js"></script>
+    <script>
+        $(window).load(function () {
+            $("#loader").fadeOut("slow");
+        });
+    </script>
     <script src="~/Scripts/bootstrap.js"></script>
     @*
         @Scripts.Render("~/bundles/jquery")

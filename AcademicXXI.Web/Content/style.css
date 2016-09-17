@@ -1,0 +1,12 @@
+#loader{
+    margin:0;
+    padding:0;
+    width:6%;
+    float: left;
+    z-index:1000000;
+    
+}
+#loader img{
+    width: 100%;
+
+}
