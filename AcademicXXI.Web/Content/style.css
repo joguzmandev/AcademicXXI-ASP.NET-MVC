@@ -1,12 +1,19 @@
-#loader{
-    margin:0;
-    padding:0;
-    width:6%;
-    float: left;
-    z-index:1000000;
-    
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #044789;
+    z-index: 99999;
+    height: 100%;
 }
-#loader img{
-    width: 100%;
-
+#status {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 64px;
+    height: 64px;
+    margin: -32px 0 0 -32px;
+    padding: 0;
 }
