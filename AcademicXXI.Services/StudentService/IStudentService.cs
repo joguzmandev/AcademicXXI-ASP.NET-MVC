@@ -1,4 +1,6 @@
 ﻿using AcademicXXI.Domain;
+using System;
+using System.Linq.Expressions;
 
 namespace AcademicXXI.Services.StudentService
 {
@@ -6,6 +8,6 @@ namespace AcademicXXI.Services.StudentService
     {
         bool ValidateDocumentID(string documentId);
         bool ValidateRegisterNumber(string registerNumber);
-        
+        Student FindStudentWithStudyPlan(Expression<Func<Student, bool>> expression);
     }
 }

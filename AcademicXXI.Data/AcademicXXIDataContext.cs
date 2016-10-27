@@ -75,8 +75,7 @@ namespace AcademicXXI.Data
                         {
                             IsUnique = true
                         }));
-           HasOptional(x => x.StudyPlan).WithMany(x => x.Students).HasForeignKey(x => x.StudyPlanId);
-            Property(x => x.Created).HasColumnType("datetime2");
+           Property(x => x.Created).HasColumnType("datetime2");
 
 
         }

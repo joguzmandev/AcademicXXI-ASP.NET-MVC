@@ -3,9 +3,31 @@
     ViewBag.Title = "Planes de Estudios";
 }
 
-<h2>Mantenimiento de Planes de Estudios</h2>
+@section css{
 
-<hr />
+    <!--<link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />-->
+    <link href="~/Content/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.theme.min.css" rel="stylesheet" />
+    <style>
+        #frmNewStudyPlanUI{
+            display: none;
+        }
+        label.error{
+            color:red;
+        }
+    </style>
+}
+
+
+<div class="row">
+    <div class="col-md-6">
+        <h2>Mantenimiento de Planes de Estudios</h2>
+    </div>
+    <div class="col-md-6">
+        <button id="NewStudyPlan" class="btn btn-primary">Nuevo Plan de Estudio</button>
+    </div>
+</div>
 
 <table id="displayStudyPlan" class="table table-striped table-bordered" cellspacing="0" width="100%">
     <thead>
@@ -24,66 +46,122 @@
         {
             foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        <p style="color:black"><b>@item.Name</b></p>
-                    </td>
-                    <td>
-                        <p style="color:black">
-                            <b>@item.Code</b>
-                            
-                        </p>
+        <tr>
+            <td>
+                <p style="color:black"><b>@item.Name</b></p>
+            </td>
+            <td>
+                <p style="color:black">
+                    <b>@item.Code</b>
 
-                    </td>
-                    <td>
-                        <a href="@Url.Action("SubjectRelation","Subject",new {splancode=item.Code,splanid=item.Id })" class="btn btn-link">
-                            <span>Relación de Asignatuas</span>
-                        </a>
-                    </td>
+                </p>
 
-                </tr>
+            </td>
+            <td>
+                <a href="@Url.Action("SubjectRelation","Subject",new {splancode=item.Code,splanid=item.Id })" class="btn btn-link">
+                    <span>Relación de Asignatuas</span>
+                </a>
+            </td>
+
+        </tr>
             }
         }
         else
         {
-            <tr>
-                <td colspan="3" align="center"><p class="text-danger">Registro no encontrado.</p></td>
-            </tr>
+        <tr>
+            <td colspan="3" align="center"><p class="text-danger">Registro no encontrado.</p></td>
+        </tr>
         }
     </tbody>
 </table>
 
-@section css{
+<div id="frmNewStudyPlanUI" title="Nuevo Plan de Estudio">
 
-<!--<link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />-->
-<link href="~/Content/dataTables.bootstrap.min.css" rel="stylesheet" />
-}
+    @using (Html.BeginForm("Create", "StudyPlan", FormMethod.Post, new { @id = "FrmCreateStudyPlan" }))
+    {
+        <div class="form-group">
+            @Html.Label("Código",new {@for="Code" })
+            @Html.TextBox("Code",null,new {@class= "form-control",@placeholder="COD-123", @mixlength = "5", @maxlength = "10" })
+        </div>
+        <div class="form-group">
+            @Html.Label("Nombre", new { @for = "Name" })
+            @Html.TextBox("Name", null, new { @class = "form-control", @mixlength = "5", @maxlength = "30" })
+        </div>
+        <div class="form-group text-right">
+            <input type="submit" value="Registrar" id="BtnRegister" class="btn btn-success" />
+        </div>
+    }
+</div>
 
 @section scripts{
-<script src="~/Scripts/jquery.dataTables.min.js"></script>
-<script src="~/Scripts/dataTables.bootstrap.min.js"></script>
-<script type="text/javascript">
-    $(document).on("ready", function () {
-        $("#displayStudyPlan").dataTable({
-            language: {
-                search: "Buscar",
-                paginate: {
-                    first: "Primer",
-                    previous: "Anterior",
-                    next: "Siguiente",
-                    last: "Ultimo"
-                },
-                info: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
-                infoFiltered: "(filtrado de un total de _MAX_ registros)",
-                lengthMenu: "Mostrar _MENU_ registros",
-                zeroRecords: "No se encontraron resultados",
-                EmptyTable: "Ningún dato disponible en esta tabla",
+    <script src="~/Scripts/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/dataTables.bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-ui.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script type="text/javascript">
+        $(document).on("ready", function () {
+            var dialog = null;
+            var $FrmCreateStudyPlan = $("#FrmCreateStudyPlan");
 
-               
-            }
+            $("#displayStudyPlan").dataTable({
+                language: {
+                    search: "Buscar",
+                    paginate: {
+                        first: "Primer",
+                        previous: "Anterior",
+                        next: "Siguiente",
+                        last: "Ultimo"
+                    },
+                    info: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    infoFiltered: "(filtrado de un total de _MAX_ registros)",
+                    lengthMenu: "Mostrar _MENU_ registros",
+                    zeroRecords: "No se encontraron resultados",
+                    EmptyTable: "Ningún dato disponible en esta tabla",
+                }
+            });
+
+            dialog = $("#frmNewStudyPlanUI").dialog({
+                    autoOpen: false,
+                    height: 350,
+                    width: 350,
+                    modal: true,
+                    beforeClose: function () {
+                        $FrmCreateStudyPlan.trigger("reset");
+                    }
+                });
+
+            $("#NewStudyPlan").click(function () {
+                dialog.dialog("open");
+            });
+
+            $FrmCreateStudyPlan.validate({
+                rules: {
+                    Code: { required: true, maxlength: 10 },
+                    Name: { required: true, maxlength: 30 },
+                },messages: {
+                Code: { required: "Campo obligatorio", maxlength: "Código solo debe contener 10 caracteres" },
+                Name: { required: "Campo obligatorio", maxlength: "Nombre solo debe contener máximo 30 caracteres" },
+                }, submitHandler: function (form) {
+                    console.log($FrmCreateStudyPlan.serialize());
+                    //Ajax Request
+                    $.ajax({
+                        url: $FrmCreateStudyPlan.attr("action"),
+                        method: $FrmCreateStudyPlan.attr("method"),
+                        data: $FrmCreateStudyPlan.serialize(),
+                        dataType: "json",
+                        success: function (data, status, jqXHR) {
+                            console.log(data);
+                        },
+                        error: function (error, status, jqXHR) {
+                            console.log(status);
+                        }
+                    })
+                }
+
+            });
+
         });
-    });
-</script>
+    </script>
 }
-   
+

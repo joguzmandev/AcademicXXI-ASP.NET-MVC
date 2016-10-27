@@ -50,37 +50,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AcademicXXIDataContext.cs" />
-    <Compile Include="Migrations\201605011704111_First.cs" />
-    <Compile Include="Migrations\201605011704111_First.Designer.cs">
-      <DependentUpon>201605011704111_First.cs</DependentUpon>
+    <Compile Include="Migrations\201610211807539_All.cs" />
+    <Compile Include="Migrations\201610211807539_All.Designer.cs">
+      <DependentUpon>201610211807539_All.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201605070130173_AddIDGuid.cs" />
-    <Compile Include="Migrations\201605070130173_AddIDGuid.Designer.cs">
-      <DependentUpon>201605070130173_AddIDGuid.cs</DependentUpon>
+    <Compile Include="Migrations\201610241643362_ChangeStudyPlanToStudyPlanListInStudentEntity.cs" />
+    <Compile Include="Migrations\201610241643362_ChangeStudyPlanToStudyPlanListInStudentEntity.Designer.cs">
+      <DependentUpon>201610241643362_ChangeStudyPlanToStudyPlanListInStudentEntity.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201605090322592_TestMig.cs" />
-    <Compile Include="Migrations\201605090322592_TestMig.Designer.cs">
-      <DependentUpon>201605090322592_TestMig.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201606261251097_AddCodeFieldToStudyPlanClass.cs" />
-    <Compile Include="Migrations\201606261251097_AddCodeFieldToStudyPlanClass.Designer.cs">
-      <DependentUpon>201606261251097_AddCodeFieldToStudyPlanClass.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201606261348234_AddUniqueFieldToCodeColumInSubjectDomain.cs" />
-    <Compile Include="Migrations\201606261348234_AddUniqueFieldToCodeColumInSubjectDomain.Designer.cs">
-      <DependentUpon>201606261348234_AddUniqueFieldToCodeColumInSubjectDomain.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201606262050042_RemoveIsRequiredPrerequisiteCodeFieldIntoSubjectClass.cs" />
-    <Compile Include="Migrations\201606262050042_RemoveIsRequiredPrerequisiteCodeFieldIntoSubjectClass.Designer.cs">
-      <DependentUpon>201606262050042_RemoveIsRequiredPrerequisiteCodeFieldIntoSubjectClass.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201607241928311_adddatetime2.cs" />
-    <Compile Include="Migrations\201607241928311_adddatetime2.Designer.cs">
-      <DependentUpon>201607241928311_adddatetime2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201607242123059_AddSemesterClass.cs" />
-    <Compile Include="Migrations\201607242123059_AddSemesterClass.Designer.cs">
-      <DependentUpon>201607242123059_AddSemesterClass.cs</DependentUpon>
+    <Compile Include="Migrations\201610251443214_AddManyToManyRelationshipStudentAndStudyPlan.cs" />
+    <Compile Include="Migrations\201610251443214_AddManyToManyRelationshipStudentAndStudyPlan.Designer.cs">
+      <DependentUpon>201610251443214_AddManyToManyRelationshipStudentAndStudyPlan.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -102,29 +82,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201605011704111_First.resx">
-      <DependentUpon>201605011704111_First.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201610211807539_All.resx">
+      <DependentUpon>201610211807539_All.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605070130173_AddIDGuid.resx">
-      <DependentUpon>201605070130173_AddIDGuid.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201610241643362_ChangeStudyPlanToStudyPlanListInStudentEntity.resx">
+      <DependentUpon>201610241643362_ChangeStudyPlanToStudyPlanListInStudentEntity.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605090322592_TestMig.resx">
-      <DependentUpon>201605090322592_TestMig.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606261251097_AddCodeFieldToStudyPlanClass.resx">
-      <DependentUpon>201606261251097_AddCodeFieldToStudyPlanClass.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606261348234_AddUniqueFieldToCodeColumInSubjectDomain.resx">
-      <DependentUpon>201606261348234_AddUniqueFieldToCodeColumInSubjectDomain.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606262050042_RemoveIsRequiredPrerequisiteCodeFieldIntoSubjectClass.resx">
-      <DependentUpon>201606262050042_RemoveIsRequiredPrerequisiteCodeFieldIntoSubjectClass.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201607241928311_adddatetime2.resx">
-      <DependentUpon>201607241928311_adddatetime2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201607242123059_AddSemesterClass.resx">
-      <DependentUpon>201607242123059_AddSemesterClass.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201610251443214_AddManyToManyRelationshipStudentAndStudyPlan.resx">
+      <DependentUpon>201610251443214_AddManyToManyRelationshipStudentAndStudyPlan.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

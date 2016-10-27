@@ -7,6 +7,8 @@ using System.Web;
 using System.Web.Mvc;
 using AcademicXXI.ViewModel.MapExtensionMethod;
 using System.Threading.Tasks;
+using vm = AcademicXXI.ViewModel.ViewModel;
+using domain = AcademicXXI.Domain;
 
 namespace AcademicXXI.Web.Controllers
 {
@@ -21,7 +23,7 @@ namespace AcademicXXI.Web.Controllers
         public async Task<ActionResult> Maintenance()
         {
             var result = await _semesterService.GetAllAsync();
-            return View(result.MapToSemesterViewModelListFromSemesterList());
+            return View(result.GenericConvertList<vm.SemesterViewModel>());
         }
 
 

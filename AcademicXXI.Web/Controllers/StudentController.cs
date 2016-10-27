@@ -12,6 +12,10 @@ using AcademicXXI.Helpers;
 using Academic.Web.Helpers.Alerts;
 using AcademicXXI.Domain;
 using AcademicXXI.Services.StudyPlanService;
+using vm = AcademicXXI.ViewModel.ViewModel;
+using domain = AcademicXXI.Domain;
+using Newtonsoft.Json;
+using System.Net;
 
 namespace Academic.Web.Controllers
 {
@@ -26,7 +30,6 @@ namespace Academic.Web.Controllers
         public async Task<ActionResult> Create()
         {
             var result = await this._studyPlanService.GetAllAsync();
-            ViewBag.ListOfStudyPlans = result.MapToStudyPlanViewModelFromStudyPlanList();
             return View();
         }
 
@@ -46,41 +49,21 @@ namespace Academic.Web.Controllers
             {
                 return View(student).WithError("Matrícula ingresada ya existe");
             }
-            if (!String.IsNullOrEmpty(student.StudyPlanIDStr))
-            {
-                try
-                {
-                    Guid studyPlanTemp = Guid.Parse(student.StudyPlanIDStr);
-                    student.StudyPlanId = studyPlanTemp;
-                }
-                catch (ArgumentException)
-                {
 
-                    return View(student).WithError("Seleccione un plan de estudio correcto");
-                }
-                catch(FormatException)
-                {
-                    return View(student).WithError("Seleccione un plan de estudio correcto");
-                }
-
-            }
-
-            var studentEntity = student.MapToStudent();
-            studentEntity.Id = Guid.NewGuid();
+            var studentEntity = student.GenericConvert<domain.Student>();
             studentEntity.Status = Status.Active;
             studentEntity.Created = DateTime.Now;
             _studentService.Add(studentEntity);
-
 
             return RedirectToAction("Create").WithSuccess($"{student.FullName}, fue creado satisfactoriamente");
         }
 
         public async Task<ActionResult> Edit(String Id)
         {
-            Guid idStuViewM;
+            Int32 idStuViewM;
             try
             {
-                idStuViewM = Guid.Parse(Id);
+                idStuViewM = Convert.ToInt32(Id);
             }
             catch (Exception)
             {
@@ -94,13 +77,10 @@ namespace Academic.Web.Controllers
                 return RedirectToAction("Maintenance");
             }
 
-            StudentViewModel studentViewM = entity.MapToStudentViewModel();
-            if (studentViewM.StudyPlanId.HasValue)
-            {
-                studentViewM.StudyPlanIDStr = studentViewM.StudyPlanId.Value.ToString();
-            }
+            StudentViewModel studentViewM = entity.GenericConvert<vm.StudentViewModel>();
+        
             var result = await this._studyPlanService.GetAllAsync();
-            ViewBag.ListOfStudyPlans = result.MapToStudyPlanViewModelFromStudyPlanList();
+            ViewBag.ListOfStudyPlans = result.GenericConvertList<vm.StudyPlanViewModel>();
 
             return View(studentViewM);
         }
@@ -113,29 +93,7 @@ namespace Academic.Web.Controllers
             {
                 return View(student).WithError("Hubo un error en el modelo");
             }
-
-            if (!String.IsNullOrEmpty(student.StudyPlanIDStr))
-            {
-                try
-                {
-                    Guid studyPlanTemp = Guid.Parse(student.StudyPlanIDStr);
-                    student.StudyPlanId = studyPlanTemp;
-                }
-                catch (ArgumentException)
-                {
-
-                    return View(student).WithError("Seleccione un plan de estudio correcto");
-                }
-                catch (FormatException)
-                {
-                    return View(student).WithError("Seleccione un plan de estudio correcto");
-                }
-
-            }
-
-            _studentService.Update(student.MapToStudent());
-
-
+            _studentService.Update(student.GenericConvert<domain.Student>());
 
             return RedirectToAction("Maintenance");
         }
@@ -143,11 +101,88 @@ namespace Academic.Web.Controllers
         public async Task<ActionResult> Maintenance()
         {
             var students = await _studentService.GetAllAsync();
-            var studentViewModelList = students.MapToStudentViewModelToStudentList();
+            var studentViewModelList = students.GenericConvertList<vm.StudentViewModel>();
 
             return View(studentViewModelList);
         }
 
+        public async Task<ActionResult> AddPlanToStudent()
+        {
+            var result  = await this._studyPlanService.GetAllAsync();
+            ViewBag.StudyPlanes = result.GenericConvertList<vm.StudyPlanViewModel>();
+            return View();
+        }
+
+        
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult AddPlanToStudent(String registernumber,Int32? studentid,String documentid,
+            String plancode, Int32? planid)
+        {
+            if (String.IsNullOrEmpty(registernumber) || String.IsNullOrEmpty(documentid) || String.IsNullOrEmpty(plancode))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Error, vuelva a intentarlo de nuevo ");
+            }
+            if(!studentid.HasValue && studentid < 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Error, vuelva a intentarlo de nuevo ");
+            }
+            if (!planid.HasValue && planid < 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Error, vuelva a intentarlo de nuevo ");
+            }
+
+            //Validate StudyPlan Exit
+            StudyPlan sp = this._studyPlanService.Find(sp1=> sp1.Code.Equals(plancode) && sp1.Id == planid);
+
+            Student st = this._studentService.Find(s => s.RegisterNumber.Equals(registernumber) && s.Id == studentid && s.DocumentID.Equals(documentid));
+
+            if(st != null && sp != null)
+            {
+                st.StudentPlans.Add(new StudentPlan()
+                {
+                    Created = DateTime.Now,
+                    StudyPlan = sp,
+                    StudyPlanID = sp.Id
+                });
+
+                _studentService.Update(st);
+                var data = new { Message = "Plan Asociado satisfactoriamente", status = "OK" };
+
+                return Json(JsonConvert.SerializeObject(data, Formatting.Indented, new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                }
+                ));
+            }
+            else
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound, "Error, vuelva a intentarlo de nuevo ");
+            }
+        }
+
+        public ActionResult FindStudent(String RegisterNumber)
+        {
+
+            if (String.IsNullOrEmpty(RegisterNumber))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound, "registro no encontrado");
+            }
+
+            var studentvm = _studentService.FindStudentWithStudyPlan(x => x.RegisterNumber.Equals(RegisterNumber));
+            if(studentvm != null)
+            {
+                return Json(JsonConvert.SerializeObject(studentvm.GenericConvert<vm.StudentViewModel>(),Formatting.Indented,new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                }
+                ));
+            }
+            else
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound,"registro no encontrado");
+            }
+            
+        }
         public StudentController(IStudentService service, IStudyPlanService studyPlanService)
         {
             this._studentService = service;

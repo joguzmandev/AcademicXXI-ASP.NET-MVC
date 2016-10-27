@@ -10,6 +10,8 @@ using AcademicXXI.Services.StudyPlanService;
 using AcademicXXI.ViewModel.ViewModel;
 using System.Net;
 using System.Text;
+using vm = AcademicXXI.ViewModel.ViewModel;
+using domain = AcademicXXI.Domain;
 
 namespace AcademicXXI.Web.Controllers
 {
@@ -39,11 +41,10 @@ namespace AcademicXXI.Web.Controllers
             }
 
             //Create Subject
-            Guid studyPlanId;
-            Guid.TryParse(StudyPIDStr, out studyPlanId);
-            subject.Id = Guid.NewGuid();
+            Int32 studyPlanId = Convert.ToInt32(StudyPIDStr);
+
             subject.StudyPID = studyPlanId;
-            var subjectToSave = subject.MapToSubjectFromSubjectViewModel();
+            var subjectToSave = subject.GenericConvert<domain.Subject>();
             subjectToSave.Created = DateTime.Now;
             subjectToSave.Status = Helpers.Status.Active;
             _serviceSubject.Add(subjectToSave);
@@ -52,7 +53,7 @@ namespace AcademicXXI.Web.Controllers
             var result = await _serviceSubject.GetAllSubjectByStudyPlanAsync(StudyPCodeStr, studyPlanId);
 
             //return Json("All ok");
-            return Json(result.MapToSubjectViewModelListFromSubjectList(), "application/json", Encoding.UTF8);
+            return Json(result.GenericConvertList<vm.SubjectViewModel>(), "application/json", Encoding.UTF8);
         }
 
         public async Task<ActionResult> SubjectRelation(string splancode, string splanid)
@@ -62,10 +63,10 @@ namespace AcademicXXI.Web.Controllers
             {
                 return RedirectToAction("Maintenance", "StudyPlan");
             }
-            Guid splanidGuid;
+            Int32 splanidGuid;
             try
             {
-                splanidGuid = Guid.Parse(splanid);
+                splanidGuid = Convert.ToInt32(splanid);
             }
             catch
             {
@@ -76,7 +77,7 @@ namespace AcademicXXI.Web.Controllers
             var result = await _serviceSubject
                 .GetAllSubjectByStudyPlanAsync(splancode, splanidGuid);
 
-            var studyPlanViewModel = _serviceStudyPlan.Find(x => x.Id == splanidGuid).MapStudyPlanViewModelFromStudyPlan();
+            var studyPlanViewModel = _serviceStudyPlan.Find(x => x.Id == splanidGuid).GenericConvert<vm.StudyPlanViewModel>();
 
             if(studyPlanViewModel == null)
             {
@@ -86,7 +87,7 @@ namespace AcademicXXI.Web.Controllers
             ViewBag.StudyPlanViewModelObj = studyPlanViewModel;
 
 
-            return View(result.MapToSubjectViewModelListFromSubjectList());
+            return View(result.GenericConvertList<vm.SubjectViewModel>());
         }
 
         private readonly ISubjectService _serviceSubject;

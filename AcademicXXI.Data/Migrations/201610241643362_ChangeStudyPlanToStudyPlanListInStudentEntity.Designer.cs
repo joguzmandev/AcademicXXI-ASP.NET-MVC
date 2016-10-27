@@ -7,13 +7,13 @@ namespace AcademicXXI.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class AddIDGuid : IMigrationMetadata
+    public sealed partial class ChangeStudyPlanToStudyPlanListInStudentEntity : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddIDGuid));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(ChangeStudyPlanToStudyPlanListInStudentEntity));
         
         string IMigrationMetadata.Id
         {
-            get { return "201605070130173_AddIDGuid"; }
+            get { return "201610241643362_ChangeStudyPlanToStudyPlanListInStudentEntity"; }
         }
         
         string IMigrationMetadata.Source

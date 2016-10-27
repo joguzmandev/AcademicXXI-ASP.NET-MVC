@@ -7,13 +7,13 @@ namespace AcademicXXI.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class adddatetime2 : IMigrationMetadata
+    public sealed partial class All : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(adddatetime2));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(All));
         
         string IMigrationMetadata.Id
         {
-            get { return "201607241928311_adddatetime2"; }
+            get { return "201610211807539_All"; }
         }
         
         string IMigrationMetadata.Source

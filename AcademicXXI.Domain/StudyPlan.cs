@@ -8,12 +8,18 @@ namespace AcademicXXI.Domain
 {
     public class StudyPlan : BaseDomain
     {
+        public StudyPlan()
+        {
+            StudentPlans = new List<StudentPlan>();
+            Subjects = new List<Subject>();
+        }
+
         public string Name { get; set; }
 
         public string Code { get; set; }
 
-        public virtual List<Student> Students { get; set; }
+        public virtual ICollection<Subject> Subjects { get; set; }
 
-        public virtual List<Subject> Subjects { get; set; }
+        public virtual ICollection<StudentPlan> StudentPlans { get; set; }
     }
 }

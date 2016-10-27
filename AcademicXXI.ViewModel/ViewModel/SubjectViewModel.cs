@@ -31,7 +31,7 @@ namespace AcademicXXI.ViewModel.ViewModel
 
         public string FullSubjectName { get { return $"{Code} - {Name}"; } }
 
-        public Guid StudyPID { get; set; }
+        public Int32 StudyPID { get; set; }
 
         public virtual StudyPlan StudyPlan { get; set; }
     }

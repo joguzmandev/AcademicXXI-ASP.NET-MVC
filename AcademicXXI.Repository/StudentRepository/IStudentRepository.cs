@@ -1,9 +1,6 @@
 ﻿using AcademicXXI.Domain;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Linq.Expressions;
 
 namespace AcademicXXI.Repository.StudentRepository
 {
@@ -11,6 +8,7 @@ namespace AcademicXXI.Repository.StudentRepository
     {
         bool ValidateDocumentID(string documentId);
         bool ValidateRegisterNumber(string registerNumber);
-        void Update(Student student);
+        Student FindStudentWithStudyPlan(Expression<Func<Student, bool>> expression);
+        
     }
 }

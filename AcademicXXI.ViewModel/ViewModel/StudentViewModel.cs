@@ -2,15 +2,17 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System;
+using System.Collections.Generic;
 
 namespace AcademicXXI.ViewModel.ViewModel
 {
     public class StudentViewModel : BaseDomain
     {
-
-        public Guid? StudyPlanId { get; set; }
-
-        public string StudyPlanIDStr { get; set; }
+        public StudentViewModel()
+        {
+            this.StudentPlans = new List<StudentPlanViewModel>();
+        }
+        public ICollection<StudentPlanViewModel> StudentPlans { get; set; }
 
         [Required]
         [StringLength(30)]

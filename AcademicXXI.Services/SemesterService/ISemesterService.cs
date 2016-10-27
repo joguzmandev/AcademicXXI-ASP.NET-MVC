@@ -2,7 +2,5 @@
 
 namespace AcademicXXI.Services.SemesterService
 {
-    public interface ISemesterService : IService<Semester>
-    {
-    }
+    public interface ISemesterService : IService<Semester>{}
 }

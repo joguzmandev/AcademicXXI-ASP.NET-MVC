@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using AcademicXXI.ViewModel.MapExtensionMethod;
+using vm = AcademicXXI.ViewModel.ViewModel;
+using domain = AcademicXXI.Domain;
 
 namespace AcademicXXI.Web.Controllers
 {
@@ -21,9 +23,18 @@ namespace AcademicXXI.Web.Controllers
         {
             var result = await _service.GetAllAsync();
             
-            return View(result.MapToStudyPlanViewModelFromStudyPlanList());
+            return View(result.GenericConvertList<vm.StudyPlanViewModel>());
         }
 
+        public ActionResult Create(vm.StudyPlanViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Json("Error en el modelo");
+
+            }
+            return Json("{Data:jlgshk}");
+        }
 
         public StudyPlanController(IStudyPlanService service)
         {

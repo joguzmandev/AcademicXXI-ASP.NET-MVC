@@ -13,7 +13,7 @@ namespace AcademicXXI.Domain
         public string Code { get; set; }
         public string PrerequisiteCode { get; set; }
 
-        public Guid? StudyPID { get; set; }
+        public Int32? StudyPID { get; set; }
 
         public virtual StudyPlan StudyPlan { get; set; }
     }

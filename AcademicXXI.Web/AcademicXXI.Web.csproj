@@ -205,6 +205,7 @@
     <None Include="Properties\PublishProfiles\Desploy WebApp Local IIS.pubxml" />
     <None Include="Properties\PublishProfiles\jorgeguzman.pubxml" />
     <None Include="Scripts\jquery-2.2.3-vsdoc.js" />
+    <Content Include="Scripts\CustomScript.js" />
     <Content Include="Scripts\jquery-2.2.3.js" />
     <Content Include="Scripts\jquery-2.2.3.min.js" />
     <Content Include="Scripts\jquery-ui.js" />
@@ -256,6 +257,7 @@
     <Content Include="Views\Subject\SubjectRelation.cshtml" />
     <Content Include="Views\Semester\Maintenance.cshtml" />
     <Content Include="Views\Shared\_DisplayAllSemestres.cshtml" />
+    <Content Include="Views\Student\AddPlanToStudent.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -265,8 +267,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Images\" />
-    <Folder Include="Models\" />
+    <Folder Include="Resources\Models\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AcademicXXI.Data\AcademicXXI.Data.csproj">

@@ -10,10 +10,9 @@ namespace AcademicXXI.Services
     public interface IService<TEntity> : IDisposable where TEntity : class
     {
         void Add(TEntity entity);
-        TEntity Find(Expression<Func<TEntity, bool>> predicate);
-        List<TEntity> FindAll(Expression<Func<TEntity, bool>> predicate);
+        TEntity Find(Expression<Func<TEntity, bool>> expression);
         Task<List<TEntity>> GetAllAsync();
-        void Delete(Int32? idEntity);
+        void Delete(TEntity tEntity);
         void Update(TEntity tEntity);
     }
 }

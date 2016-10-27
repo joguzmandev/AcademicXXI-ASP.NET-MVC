@@ -1,0 +1,109 @@
+﻿@model AcademicXXI.ViewModel.ViewModel.StudentViewModel
+@using AcademicXXI.ViewModel.ViewModel;
+@{
+    ViewBag.Title = "Asociar Plan de Estudio";
+
+}
+
+@section css{
+    <link href="~/Content/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.theme.min.css" rel="stylesheet" />
+    <style type="text/css">
+
+        #frmUI{
+            display:none
+        }
+    </style>
+}
+<div class="col-md-6">
+
+        <div class="row">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Buscar Estudiante</h3>
+                </div>
+                <div class="panel-body">
+                    @using (Html.BeginForm("FindStudent", "Student", FormMethod.Post, new { id = "frmFindStudent" }))
+                    {
+                        <div class="row">
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(model => model.RegisterNumber, new { @class = "form-control", placeholder = "Ingrese matrícula", @id = "RegisterNumber" })
+                            </div>
+                            <div class="col-md-2">
+                                <input id="btnFindStudent" type="submit" value="Buscar" class="btn btn-info" />
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <h5 id="StudentFound"></h5>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div id="myStudyPlan" class="panel panel-primary">
+                <div class="panel-heading">
+                    Mis Planes de estudio:
+                </div>
+                <div id="listPlanStudent" class="panel-body list-group" style="overflow:auto;height:300px">
+                </div>
+
+            </div>
+        </div>
+
+</div>
+<div class="col-md-6">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-success">
+                <div class="panel-heading">Planes de Estudios</div>
+                <div id="listPlan" class="panel-body list-group" style="overflow:auto;height:350px">
+
+
+                    @foreach (var plan in @ViewBag.StudyPlanes as List<StudyPlanViewModel>)
+                    {
+                        <a href="javascript:void(0)"
+                           data-id="@plan.Id"
+                           data-planname="@plan.Name"
+                           data-plancode="@plan.Code" class="list-group-item">@plan</a>
+                    }
+                </div>
+                <div class="panel-footer">
+
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div id="selectedPlan">
+
+                            </div>
+                        </div>
+                        <div class="col-md-7 text-right">
+                            <input type="button" id="btnAddPlan" value="Asociar Plan" class="btn btn-success" />
+                            <input type="button" id="btnRemovePlan" value="Borrar Selección" class="btn btn-warning" />
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- UI Confirmation-->
+<div id="frmUI" title="Asociar plan de estudio a estudiante">
+    <div class="row">
+        <form id="frmStudyPlanToStudent">
+            <div class="form-group">
+                <input type="button" id="btnConfirm" value="Confirmar" class="btn btn-warning" />
+                <input type="button" id="btnClose" value="Cancelar" class="btn btn-danger" />
+            </div>
+        </form>
+    </div><br/>
+    <div id="Messages" class="form-group row">
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/jquery-ui.min.js"></script>
+    <script src="~/Scripts/CustomScript.js"></script>
+}
+
