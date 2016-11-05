@@ -9,9 +9,13 @@ namespace AcademicXXI.Repository.StudyPlanRepository
     {
         public StudyPlanRepository(AcademicXXIDataContext dbContext):base(dbContext){}
 
-        public bool ExitStudyPlan(string pcode, int pid)
+        public bool ExitStudyPlan(string pcode, int? pid = null)
         {
-            return DbSet.Any(pc => pc.Code.Contains(pcode) && pc.Id == pid);
+            if(!pid.HasValue)
+            {
+                return DbSet.Any(pc => pc.Code.Equals(pcode));
+            }
+            return DbSet.Any(pc => pc.Code.Equals(pcode) && pc.Id == pid);
         }
     }
 }

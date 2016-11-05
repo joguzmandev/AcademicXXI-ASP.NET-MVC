@@ -14,7 +14,7 @@ namespace AcademicXXI.Services.StudyPlanService
             this._repo = repo;
         }
 
-        public bool ExitStudyPlan(string pcode, int pid)
+        public bool ExitStudyPlan(string pcode, int? pid = null)
         {
             return this._repo.ExitStudyPlan(pcode, pid);
         }

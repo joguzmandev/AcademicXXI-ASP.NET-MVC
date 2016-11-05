@@ -9,14 +9,13 @@
     <link href="~/Content/jquery-ui.min.css" rel="stylesheet" />
     <link href="~/Content/jquery-ui.theme.min.css" rel="stylesheet" />
     <style type="text/css">
-
         #frmUI{
             display:none
         }
     </style>
 }
 <div class="col-md-6">
-
+        <!--Form to Find Student-->
         <div class="row">
             <div class="panel panel-info">
                 <div class="panel-heading">
@@ -33,13 +32,16 @@
                                 <input id="btnFindStudent" type="submit" value="Buscar" class="btn btn-info" />
                             </div>
                             <div class="col-md-6 text-right">
-                                <h5 id="StudentFound"></h5>
+                                <input id="StudentFound" type="text" readonly class="form-control"/>
                             </div>
                         </div>
                     }
                 </div>
             </div>
         </div>
+        <!--End Form to Find Student-->
+        
+        <!--Student's Study Plans-->
         <div class="row">
             <div id="myStudyPlan" class="panel panel-primary">
                 <div class="panel-heading">
@@ -50,7 +52,7 @@
 
             </div>
         </div>
-
+        <!--End Student's Study Plans-->
 </div>
 <div class="col-md-6">
     <div class="row">
@@ -58,8 +60,6 @@
             <div class="panel panel-success">
                 <div class="panel-heading">Planes de Estudios</div>
                 <div id="listPlan" class="panel-body list-group" style="overflow:auto;height:350px">
-
-
                     @foreach (var plan in @ViewBag.StudyPlanes as List<StudyPlanViewModel>)
                     {
                         <a href="javascript:void(0)"
@@ -69,12 +69,11 @@
                     }
                 </div>
                 <div class="panel-footer">
-
                     <div class="row">
                         <div class="col-md-5">
-                            <div id="selectedPlan">
+                            <input id="selectedPlan" type="text" readonly class="form-control" />
 
-                            </div>
+                            
                         </div>
                         <div class="col-md-7 text-right">
                             <input type="button" id="btnAddPlan" value="Asociar Plan" class="btn btn-success" />

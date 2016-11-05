@@ -173,6 +173,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\dataTables.bootstrap.min.css" />
     <Content Include="Content\images\loading.gif" />
+    <Content Include="Content\images\loadingAjax.gif" />
     <Content Include="Content\images\ui-bg_glass_45_0078ae_1x400.png" />
     <Content Include="Content\images\ui-bg_glass_55_f8da4e_1x400.png" />
     <Content Include="Content\images\ui-bg_glass_75_79c9ec_1x400.png" />
@@ -239,6 +240,7 @@
     <Compile Include="Helpers\Alerts\Alert.cs" />
     <Compile Include="Helpers\Alerts\AlertCustomActionResult.cs" />
     <Compile Include="Helpers\Alerts\AlertExtensions.cs" />
+    <Compile Include="Models\Message.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -246,7 +248,9 @@
     <Content Include="packages.config" />
     <Content Include="Views\Student\Maintenance.cshtml" />
     <Content Include="Views\Student\Create.cshtml" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\Shared\_PartialAlertView.cshtml" />
     <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\Shared\_DisplayAllStudentList.cshtml" />

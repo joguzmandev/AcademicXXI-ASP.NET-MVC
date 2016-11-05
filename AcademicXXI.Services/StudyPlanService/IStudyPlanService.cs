@@ -6,6 +6,6 @@ namespace AcademicXXI.Services.StudyPlanService
 {
     public interface IStudyPlanService : IService<StudyPlan>
     {
-        bool ExitStudyPlan(string pcode, int pid);
+        bool ExitStudyPlan(string pcode, int? pid = null);
     }
 }

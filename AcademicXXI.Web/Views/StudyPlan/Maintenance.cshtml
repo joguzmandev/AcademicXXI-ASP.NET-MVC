@@ -10,11 +10,12 @@
     <link href="~/Content/jquery-ui.min.css" rel="stylesheet" />
     <link href="~/Content/jquery-ui.theme.min.css" rel="stylesheet" />
     <style>
-        #frmNewStudyPlanUI{
+        #frmNewStudyPlanUI, .loadAjax {
             display: none;
         }
-        label.error{
-            color:red;
+
+        label.error {
+            color: red;
         }
     </style>
 }
@@ -41,36 +42,34 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="tbodydata">
         @if (Model.Any())
         {
             foreach (var item in Model)
             {
-        <tr>
-            <td>
-                <p style="color:black"><b>@item.Name</b></p>
-            </td>
-            <td>
-                <p style="color:black">
-                    <b>@item.Code</b>
+                <tr>
+                    <td>
+                        <p style="color:black"><b>@item.Name</b></p>
+                    </td>
+                    <td>
+                        <p style="color:black">
+                            <b>@item.Code</b>
+                        </p>
+                    </td>
+                    <td>
+                        <a href="@Url.Action("SubjectRelation","Subject",new {splancode=item.Code,splanid=item.Id })" class="btn btn-link">
+                            <span>Relación de Asignatuas</span>
+                        </a>
+                    </td>
 
-                </p>
-
-            </td>
-            <td>
-                <a href="@Url.Action("SubjectRelation","Subject",new {splancode=item.Code,splanid=item.Id })" class="btn btn-link">
-                    <span>Relación de Asignatuas</span>
-                </a>
-            </td>
-
-        </tr>
+                </tr>
             }
         }
         else
         {
-        <tr>
-            <td colspan="3" align="center"><p class="text-danger">Registro no encontrado.</p></td>
-        </tr>
+            <tr>
+                <td colspan="3" align="center"><p class="text-danger">Registro no encontrado.</p></td>
+            </tr>
         }
     </tbody>
 </table>
@@ -79,17 +78,22 @@
 
     @using (Html.BeginForm("Create", "StudyPlan", FormMethod.Post, new { @id = "FrmCreateStudyPlan" }))
     {
-        <div class="form-group">
-            @Html.Label("Código",new {@for="Code" })
-            @Html.TextBox("Code",null,new {@class= "form-control",@placeholder="COD-123", @mixlength = "5", @maxlength = "10" })
-        </div>
-        <div class="form-group">
-            @Html.Label("Nombre", new { @for = "Name" })
-            @Html.TextBox("Name", null, new { @class = "form-control", @mixlength = "5", @maxlength = "30" })
-        </div>
-        <div class="form-group text-right">
-            <input type="submit" value="Registrar" id="BtnRegister" class="btn btn-success" />
-        </div>
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        @Html.Label("Código",new {@for="Code" })
+        @Html.TextBox("Code",null,new {@class= "form-control",@placeholder="COD-123", @mixlength = "5", @maxlength = "10" })
+    </div>
+    <div class="form-group">
+        @Html.Label("Nombre", new { @for = "Name" })
+        @Html.TextBox("Name", null, new { @class = "form-control", @mixlength = "5", @maxlength = "30" })
+    </div>
+    <div class="form-group text-right">
+        <img class="loadAjax" src="~/Content/images/loadingAjax.gif" />
+        <input type="submit" value="Registrar" id="BtnRegister" class="btn btn-success" />
+    </div>
+    <div class="form-group">
+        <span id="Message"></span>
+    </div>
     }
 </div>
 
@@ -102,7 +106,7 @@
         $(document).on("ready", function () {
             var dialog = null;
             var $FrmCreateStudyPlan = $("#FrmCreateStudyPlan");
-
+            var $spanMessage = $("span[id='Message']");
             $("#displayStudyPlan").dataTable({
                 language: {
                     search: "Buscar",
@@ -122,14 +126,16 @@
             });
 
             dialog = $("#frmNewStudyPlanUI").dialog({
-                    autoOpen: false,
-                    height: 350,
-                    width: 350,
-                    modal: true,
-                    beforeClose: function () {
-                        $FrmCreateStudyPlan.trigger("reset");
-                    }
-                });
+                autoOpen: false,
+                height: 350,
+                width: 350,
+                modal: true,
+                beforeClose: function () {
+                    $FrmCreateStudyPlan.trigger("reset");
+                    $spanMessage.empty().removeAttr('class');
+                    
+                }
+            });
 
             $("#NewStudyPlan").click(function () {
                 dialog.dialog("open");
@@ -139,22 +145,58 @@
                 rules: {
                     Code: { required: true, maxlength: 10 },
                     Name: { required: true, maxlength: 30 },
-                },messages: {
-                Code: { required: "Campo obligatorio", maxlength: "Código solo debe contener 10 caracteres" },
-                Name: { required: "Campo obligatorio", maxlength: "Nombre solo debe contener máximo 30 caracteres" },
+                }, messages: {
+                    Code: { required: "Campo obligatorio", maxlength: "Código solo debe contener 10 caracteres" },
+                    Name: { required: "Campo obligatorio", maxlength: "Nombre solo debe contener máximo 30 caracteres" },
                 }, submitHandler: function (form) {
                     console.log($FrmCreateStudyPlan.serialize());
                     //Ajax Request
+                    var $loadAjax = $(".loadAjax");
                     $.ajax({
                         url: $FrmCreateStudyPlan.attr("action"),
                         method: $FrmCreateStudyPlan.attr("method"),
                         data: $FrmCreateStudyPlan.serialize(),
                         dataType: "json",
                         success: function (data, status, jqXHR) {
-                            console.log(data);
+                            
+                            $spanMessage.empty().removeAttr('class')
+                                        .html(data.Messages)
+                                        .addClass(data.Class);
+                            
+                            $.ajax({
+                                url: "/StudyPlan/AllStudyPlansJSON",
+                                method: "post",
+                                dataType: "json",
+                                success: function (data, status, jqXHR) {
+                                    var $tbdoydata = $("#tbodydata");
+                                    $tbdoydata.empty();
+                                    $.each(JSON.parse(data), function (index, item) {
+                                        var tr = '<tr role="row">' +
+                                          '<td>' +
+                                              '<p style="color:black"><b>' + item.Name + '</b></p>' +
+                                          '</td>' +
+                                          '<td>' +
+                                              '<p style="color:black">' +
+                                                  '<b>' + item.Code + '</b>' +
+                                              '</p>' +
+                                          '</td>' +
+                                        '<td>' +
+                                          '<a href="/Subject/SubjectRelation?splancode=' + item.code + '&amp;splanid=' + item.Id + '" class="btn btn-link">' +
+                                              '<span>Relación de Asignatuas</span>' +
+                                          '</a>' +
+                                        '</td>' +
+                                  '</tr>';
+                                        $tbdoydata.append(tr);
+                                    })
+                                }
+                            });
                         },
                         error: function (error, status, jqXHR) {
                             console.log(status);
+                        }, beforeSend: function () {
+                            $loadAjax.show()
+                        }, complete: function () {
+                            $loadAjax.hide()
                         }
                     })
                 }

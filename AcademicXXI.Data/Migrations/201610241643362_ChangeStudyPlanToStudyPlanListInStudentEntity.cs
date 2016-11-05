@@ -17,8 +17,8 @@ namespace AcademicXXI.Data.Migrations
                         Student_Id = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => new { t.StudyPlan_Id, t.Student_Id })
-                .ForeignKey("dbo.StudyPlans", t => t.StudyPlan_Id, cascadeDelete: true)
-                .ForeignKey("dbo.Students", t => t.Student_Id, cascadeDelete: true)
+                .ForeignKey("dbo.StudyPlans", t => t.StudyPlan_Id, cascadeDelete: false)
+                .ForeignKey("dbo.Students", t => t.Student_Id, cascadeDelete: false)
                 .Index(t => t.StudyPlan_Id)
                 .Index(t => t.Student_Id);
             
