@@ -12,6 +12,9 @@ using System.Net;
 using System.Text;
 using vm = AcademicXXI.ViewModel.ViewModel;
 using domain = AcademicXXI.Domain;
+using AcademicXXI.Web.Models;
+using Newtonsoft.Json;
+using System.Net.Mime;
 
 namespace AcademicXXI.Web.Controllers
 {
@@ -42,18 +45,24 @@ namespace AcademicXXI.Web.Controllers
 
             //Create Subject
             Int32 studyPlanId = Convert.ToInt32(StudyPIDStr);
-
+            
             subject.StudyPID = studyPlanId;
             var subjectToSave = subject.GenericConvert<domain.Subject>();
             subjectToSave.Created = DateTime.Now;
             subjectToSave.Status = Helpers.Status.Active;
             _serviceSubject.Add(subjectToSave);
 
+            var listOfSubjects = await _serviceSubject.GetAllSubjectByStudyPlanAsync(StudyPCodeStr, studyPlanId);
 
-            var result = await _serviceSubject.GetAllSubjectByStudyPlanAsync(StudyPCodeStr, studyPlanId);
+            Message msg = new Message()
+            {
+                Code = 1,
+                Messages = "Ok",
+                list = listOfSubjects.GenericConvertList<vm.SubjectViewModel>()
+            };
 
-            //return Json("All ok");
-            return Json(result.GenericConvertList<vm.SubjectViewModel>(), "application/json", Encoding.UTF8);
+
+            return Json(ToJSON<Message>(msg), JsonRequestBehavior.AllowGet);
         }
 
         public async Task<ActionResult> SubjectRelation(string splancode, string splanid)
@@ -63,21 +72,17 @@ namespace AcademicXXI.Web.Controllers
             {
                 return RedirectToAction("Maintenance", "StudyPlan");
             }
-            Int32 splanidGuid;
+            Int32 _splanid;
             try
             {
-                splanidGuid = Convert.ToInt32(splanid);
+                _splanid = Convert.ToInt32(splanid);
             }
             catch
             {
                 return RedirectToAction("Maintenance", "StudyPlan");
             }
 
-
-            var result = await _serviceSubject
-                .GetAllSubjectByStudyPlanAsync(splancode, splanidGuid);
-
-            var studyPlanViewModel = _serviceStudyPlan.Find(x => x.Id == splanidGuid).GenericConvert<vm.StudyPlanViewModel>();
+            var studyPlanViewModel = _serviceStudyPlan.Find(x => x.Id == _splanid).GenericConvert<vm.StudyPlanViewModel>();
 
             if(studyPlanViewModel == null)
             {
@@ -86,10 +91,28 @@ namespace AcademicXXI.Web.Controllers
 
             ViewBag.StudyPlanViewModelObj = studyPlanViewModel;
 
-
+            var result = await _serviceSubject
+              .GetAllSubjectByStudyPlanAsync(splancode, _splanid);
+            
             return View(result.GenericConvertList<vm.SubjectViewModel>());
         }
+                                        
+        public async Task<ActionResult> GetAllSubjectRelation(string splancode, int? splanid)
+        {
 
+            var result = await _serviceSubject
+                .GetAllSubjectByStudyPlanAsync(splancode, splanid.Value);
+
+            return PartialView("_DisplayAllSubjectRelation", result.GenericConvertList<vm.SubjectViewModel>());
+        }
+
+        private Object ToJSON<T>(T list)
+        {
+            return JsonConvert.SerializeObject(list, Formatting.Indented, new JsonSerializerSettings()
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            });
+        }
         private readonly ISubjectService _serviceSubject;
         private readonly IStudyPlanService _serviceStudyPlan;
 

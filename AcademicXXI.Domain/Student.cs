@@ -17,6 +17,8 @@ namespace AcademicXXI.Domain
 
 
         public virtual ICollection<StudentPlan> StudentPlans { get; set; }
+        public virtual ICollection<LineRecordStudent> LineRecordStudent { get; set; }
+
 
 
 

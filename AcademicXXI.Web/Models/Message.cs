@@ -10,5 +10,6 @@ namespace AcademicXXI.Web.Models
         public int Code { get; set; }
         public String Messages { get; set; }
         public String Class { get; set; }
+        public Object list { get; set; }
     }
 }

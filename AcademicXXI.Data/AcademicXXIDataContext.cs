@@ -18,6 +18,10 @@ namespace AcademicXXI.Data
         public DbSet<StudyPlan> StudyPlans { get; set; }
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Semester> Semesters { get; set; }
+        public DbSet<Professor> Professors { get; set; }
+        public DbSet<Record> Records { get; set; }
+        public DbSet<RecordDetails> RecordDetails { get; set; }
+        public DbSet<LineRecordStudent> LineRecordStudents { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -49,7 +53,10 @@ namespace AcademicXXI.Data
                     }));
             Property(s => s.Description).IsRequired().HasMaxLength(100);
             Property(x => x.Created).HasColumnType("datetime2");
-            
+            Property(s => s.Period).IsRequired();
+            Property(s => s.Year).IsRequired().HasMaxLength(4);
+
+
         }
     }
 

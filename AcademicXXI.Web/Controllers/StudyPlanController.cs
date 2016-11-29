@@ -91,12 +91,11 @@ namespace AcademicXXI.Web.Controllers
 
             return Json(msgSuccess, JsonRequestBehavior.AllowGet);
         }
-
-        public async Task<JsonResult>  AllStudyPlansJSON()
+        public async Task<ActionResult> AllStudyPlans()
         {
             var result = await _service.GetAllAsync();
 
-            return Json(ToJSON(result.GenericConvertList<vm.StudyPlanViewModel>()), JsonRequestBehavior.AllowGet);
+            return PartialView("_DisplayAllStudyPlan", result.GenericConvertList<vm.StudyPlanViewModel>());
         }
 
         private Object ToJSON(List<vm.StudyPlanViewModel> list)

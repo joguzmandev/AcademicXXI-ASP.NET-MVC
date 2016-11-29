@@ -1,0 +1,45 @@
+﻿@model IEnumerable<AcademicXXI.ViewModel.ViewModel.StudyPlanViewModel>
+@if (Model.Any()){
+    <table id="tblStudyPlan" class="table table-striped table-bordered" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Code)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="tbodydata">
+            @foreach (var item in Model)
+                {
+                <tr>
+                    <td>
+                        <p style="color:black"><b>@item.Name</b></p>
+                    </td>
+                    <td>
+                        <p style="color:black">
+                            <b>@item.Code</b>
+                        </p>
+                    </td>
+                    <td>
+                        <a href="@Url.Action("SubjectRelation","Subject",new {splancode=item.Code,splanid=item.Id })" class="btn btn-link">
+                            <span>Relación de Asignatuas</span>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="row">
+        <div class="alert alert-info">
+            No hay planes de estudios registrados
+        </div>
+    </div>
+}
+

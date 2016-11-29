@@ -5,44 +5,161 @@
 }
 @section css{
     <link href="~/Content/dataTables.bootstrap.min.css" rel="stylesheet" />
-    
+    <link href="~/Content/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.theme.min.css" rel="stylesheet" />
+    <style>
+        #frmNewSemesterUI, .loadAjax {
+            display: none;
+        }
+
+        label.error {
+            color: red;
+        }
+    </style>
+
 }
-<h2>Semestres Académico</h2>
-<hr />
-
-
-<div id="DisplayData">
-    @Html.Partial("_DisplayAllSemestres",Model)
-
+<div class="row">
+    <div class="col-md-6">
+        <h2>Semestres Académico</h2>
+    </div>
+    <div class="col-md-6">
+        <button id="NewSemester" class="btn btn-primary">Nuevo Semestre</button>
+    </div>
 </div>
 
 
+
+<div id="DisplayData">
+    @{Html.RenderPartial("_DisplayAllSemesters", Model);}
+
+</div>
+
+<div id="frmNewSemesterUI" title="Nuevo Semestre">
+
+    @using (Html.BeginForm("Create", "Semester", FormMethod.Post, new { @id = "FrmCreateSemester" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            @Html.Label("Código Académico", new { @for = "SemesterCode" })
+            @Html.TextBox("SemesterCode", null, new { @class = "form-control", @placeholder = "Ejemplo 2016-01", @maxlength = "7" })
+        </div>
+        <div class="form-group">
+            @Html.Label("Descripción", new { @for = "Description" })
+            @Html.TextBox("Description", null, new { @class = "form-control", @placeholder = "Ejemplo Enero-Abril", @maxlength = "100" })
+        </div>
+        <div class="form-group">
+            @Html.Label("Período Académico", new { @for = "Period" })
+            @Html.DropDownList("Period", new List<SelectListItem>() { new SelectListItem { Text = "1", Value = "1" }, new SelectListItem { Text = "2", Value = "2" }, new SelectListItem { Text = "3", Value = "3" } }, "    ", new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.Label("Año Académico", new { @for = "Year" })
+            @Html.DropDownList("Year",ViewBag.ListRangeYear as List<SelectListItem>," ",new { @class = "form-control" })
+            @*@Html.TextBox("Year", null, new { @class = "date-picker form-control" })*@
+        </div>
+        <div class="form-group text-right">
+            <img class="loadAjax" src="~/Content/images/loadingAjax.gif" />
+            <input type="submit" value="Registrar" id="BtnRegister" class="btn btn-success" />
+        </div>
+        <div class="form-group">
+            <span id="Message"></span>
+        </div>
+    }
+</div>
 
 
 @section scripts{
     <script src="~/Scripts/jquery.dataTables.min.js"></script>
     <script src="~/Scripts/dataTables.bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-ui.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
     <script type="text/javascript">
 
-    $(document).on("ready", function () {
-        $("#tblSemesters").dataTable({
-            language: {
-                search: "Buscar",
-                paginate: {
-                    first: "Primer",
-                    previous: "Anterior",
-                    next: "Siguiente",
-                    last: "Ultimo"
+        $(document).on("ready", function () {
+            var dialog = null;
+            var $FrmCreateSemester = $("#FrmCreateSemester");
+            var $spanMessage = $("span[id='Message']");
+            var dataTable_config = {
+                language: {
+                    search: "Buscar",
+                    paginate: {
+                        first: "Primer",
+                        previous: "Anterior",
+                        next: "Siguiente",
+                        last: "Ultimo"
+                    },
+                    info: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    infoFiltered: "(filtrado de un total de _MAX_ registros)",
+                    lengthMenu: "Mostrar _MENU_ registros",
+                    zeroRecords: "No se encontraron resultados",
+                    EmptyTable: "Ningún dato disponible en esta tabla"
+                }
+            };
+            var dataTable = $("#tblSemesters").dataTable(dataTable_config);
+
+            dialog = $("#FrmCreateSemester").dialog({
+                autoOpen: false,
+                height: 'auto',
+                width: 350,
+                modal: true,
+                resizable: false,
+                beforeClose: function () {
+                    $FrmCreateSemester.trigger("reset");
+                    $spanMessage.empty().removeAttr('class');
+                }
+            });
+
+            $("#NewSemester").click(function () {
+                dialog.dialog("open");
+            });
+
+            $('.date-picker').datepicker();
+
+            $FrmCreateSemester.validate({
+                rules: {
+                    SemesterCode: { required: true, maxlength: 7 },
+                    Description: { required: true, maxlength: 100 },
+                    Period: { required: true },
+                    Year: { required: true },
+                }, messages: {
+                    SemesterCode: { required: "Campo obligatorio", maxlength: "Código solo debe contener 7 caracteres" },
+                    Description: { required: "Campo obligatorio", maxlength: "Descripción solo debe contener máximo 30 caracteres" },
+                    Period: { required: "Campo obligatorio" },
+                    Year: { required: "Campo obligatorio" }
                 },
-                info: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
-                infoFiltered: "(filtrado de un total de _MAX_ registros)",
-                lengthMenu: "Mostrar _MENU_ registros",
-                zeroRecords: "No se encontraron resultados",
-                EmptyTable: "Ningún dato disponible en esta tabla"
-            }
+                submitHandler: function (form) {
+                    console.log($FrmCreateSemester.serialize());
+                    //Ajax Request
+                    var $loadAjax = $(".loadAjax");
+                    $.ajax({
+                        url:$FrmCreateSemester.attr("action"),
+                        method: $FrmCreateSemester.attr("method"),
+                        data:$FrmCreateSemester.serialize(),
+                        dataType: "json",
+                        success: function (data, status, jqXHR) {
+                            $spanMessage.empty().removeAttr('class')
+                                        .html(data.Messages)
+                                        .addClass(data.Class);
+                            $("#DisplayData").load('@Url.Action("GetAllSemester", "Semester", null, Request.Url.Scheme)', function () {
+                                console.log("ReDraw jQuery DataTable");
+                                $("#tblSemesters").dataTable(dataTable_config)
+                            });
+                            
+                        },
+                        error: function (error, status, jqXHR) {
+                            console.log(status);
+                        }, beforeSend: function () {
+                            $loadAjax.show()
+                        }, complete: function () {
+                            $loadAjax.hide()
+                        }
+
+                    });
+
+                }
+
+            });
         });
-    });
     </script>
 
 }

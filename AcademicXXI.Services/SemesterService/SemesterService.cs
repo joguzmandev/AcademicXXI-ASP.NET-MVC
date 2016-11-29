@@ -1,4 +1,5 @@
-﻿using AcademicXXI.Domain;
+﻿using System;
+using AcademicXXI.Domain;
 using AcademicXXI.Repository.SemesterRepository;
 
 namespace AcademicXXI.Services.SemesterService
@@ -9,6 +10,11 @@ namespace AcademicXXI.Services.SemesterService
 
         public SemesterService(ISemesterRepository repo):base(repo){
             this.repo = repo;
-        }   
+        }
+
+        public bool ExitSemesterCode(string semesterCode)
+        {
+            return repo.ExitSemesterCode(semesterCode);
+        }
     }
 }

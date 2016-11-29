@@ -43,6 +43,8 @@
     <Compile Include="GenericService.cs" />
     <Compile Include="IService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RecordService\IRecordService.cs" />
+    <Compile Include="RecordService\RecordService.cs" />
     <Compile Include="SemesterService\ISemesterService.cs" />
     <Compile Include="SemesterService\SemesterService.cs" />
     <Compile Include="StudentService\IStudentService.cs" />

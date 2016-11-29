@@ -38,4 +38,11 @@ namespace AcademicXXI.Helpers
         /// </summary>
         Pedding = 4,
     }
+
+    public enum LineRecordStudentEnum
+    {
+        Retirement = 0,
+        Active = 1,
+        Suspended = 2
+    }
 }

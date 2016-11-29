@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "Apertura de Acta";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="row">
+    <div class="col-md-4 alert alert-success">
+        <div class="form-group">
+            <label for="selectSemester" class="text-success">Periodo Académico</label>
+            <select id="selectSemester" class="form-control">
+                <option value>Seleccione</option>
+                <option value="2007-01">2007-01</option>
+                <option value="2007-02">2007-02</option>
+                <option value="2007-03">2007-02</option>
+            </select>
+        </div>
+            <button class="btn btn-success">Aceptar</button>
+            <input type="text" disabled id="SemesterSelected" class="form-control" />
+    </div>
+
+</div>
+

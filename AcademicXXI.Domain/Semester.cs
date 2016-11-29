@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AcademicXXI.Domain
 {
@@ -10,5 +6,7 @@ namespace AcademicXXI.Domain
     {
         public String SemesterCode { get; set; }
         public String Description { get; set; }
+        public Int32 Period { get; set; }
+        public String Year { get; set; }
     }
 }

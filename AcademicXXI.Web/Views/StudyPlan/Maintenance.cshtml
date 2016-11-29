@@ -13,14 +13,11 @@
         #frmNewStudyPlanUI, .loadAjax {
             display: none;
         }
-
         label.error {
             color: red;
         }
     </style>
 }
-
-
 <div class="row">
     <div class="col-md-6">
         <h2>Mantenimiento de Planes de Estudios</h2>
@@ -30,49 +27,10 @@
     </div>
 </div>
 
-<table id="displayStudyPlan" class="table table-striped table-bordered" cellspacing="0" width="100%">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(x => x.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(x => x.Code)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody id="tbodydata">
-        @if (Model.Any())
-        {
-            foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        <p style="color:black"><b>@item.Name</b></p>
-                    </td>
-                    <td>
-                        <p style="color:black">
-                            <b>@item.Code</b>
-                        </p>
-                    </td>
-                    <td>
-                        <a href="@Url.Action("SubjectRelation","Subject",new {splancode=item.Code,splanid=item.Id })" class="btn btn-link">
-                            <span>Relación de Asignatuas</span>
-                        </a>
-                    </td>
+<div id="DisplayData">
+    @{Html.RenderPartial("_DisplayAllStudyPlan", Model);}
 
-                </tr>
-            }
-        }
-        else
-        {
-            <tr>
-                <td colspan="3" align="center"><p class="text-danger">Registro no encontrado.</p></td>
-            </tr>
-        }
-    </tbody>
-</table>
+</div>
 
 <div id="frmNewStudyPlanUI" title="Nuevo Plan de Estudio">
 
@@ -107,7 +65,7 @@
             var dialog = null;
             var $FrmCreateStudyPlan = $("#FrmCreateStudyPlan");
             var $spanMessage = $("span[id='Message']");
-            $("#displayStudyPlan").dataTable({
+            var dataTable_config = {
                 language: {
                     search: "Buscar",
                     paginate: {
@@ -123,7 +81,8 @@
                     zeroRecords: "No se encontraron resultados",
                     EmptyTable: "Ningún dato disponible en esta tabla",
                 }
-            });
+            };
+            $("#tblStudyPlan").dataTable(dataTable_config);
 
             dialog = $("#frmNewStudyPlanUI").dialog({
                 autoOpen: false,
@@ -133,7 +92,7 @@
                 beforeClose: function () {
                     $FrmCreateStudyPlan.trigger("reset");
                     $spanMessage.empty().removeAttr('class');
-                    
+
                 }
             });
 
@@ -158,37 +117,13 @@
                         data: $FrmCreateStudyPlan.serialize(),
                         dataType: "json",
                         success: function (data, status, jqXHR) {
-                            
+
                             $spanMessage.empty().removeAttr('class')
                                         .html(data.Messages)
                                         .addClass(data.Class);
-                            
-                            $.ajax({
-                                url: "/StudyPlan/AllStudyPlansJSON",
-                                method: "post",
-                                dataType: "json",
-                                success: function (data, status, jqXHR) {
-                                    var $tbdoydata = $("#tbodydata");
-                                    $tbdoydata.empty();
-                                    $.each(JSON.parse(data), function (index, item) {
-                                        var tr = '<tr role="row">' +
-                                          '<td>' +
-                                              '<p style="color:black"><b>' + item.Name + '</b></p>' +
-                                          '</td>' +
-                                          '<td>' +
-                                              '<p style="color:black">' +
-                                                  '<b>' + item.Code + '</b>' +
-                                              '</p>' +
-                                          '</td>' +
-                                        '<td>' +
-                                          '<a href="/Subject/SubjectRelation?splancode=' + item.code + '&amp;splanid=' + item.Id + '" class="btn btn-link">' +
-                                              '<span>Relación de Asignatuas</span>' +
-                                          '</a>' +
-                                        '</td>' +
-                                  '</tr>';
-                                        $tbdoydata.append(tr);
-                                    })
-                                }
+                            $("#DisplayData").load('@Url.Action("AllStudyPlans", "StudyPlan", null, Request.Url.Scheme)', function () {
+                                console.log("ReDraw jQuery DataTable");
+                                $("#tblStudyPlan").dataTable(dataTable_config);
                             });
                         },
                         error: function (error, status, jqXHR) {

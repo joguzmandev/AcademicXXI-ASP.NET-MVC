@@ -1,0 +1,65 @@
+﻿@model IEnumerable<AcademicXXI.ViewModel.ViewModel.SemesterViewModel>
+@if (Model.Any())
+            {
+    <table id="tblSemesters" class="table table-bordered table-hover table-striped table-responsive">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.SemesterCode)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Period)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Year)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+                <th>
+                    --
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.OrderBy(o => o.SemesterCode))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SemesterCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.Period)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.Year)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.Status)
+                    </td>
+                    <td>
+                        --
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+}
+else
+{
+<div class="row">
+    <div class="alert alert-info">
+        No hay semestres registrados
+    </div>
+</div>
+}
+

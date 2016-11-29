@@ -1,0 +1,37 @@
+﻿@model IEnumerable<AcademicXXI.ViewModel.ViewModel.SubjectViewModel>
+
+@if (Model.Any())
+{
+    <table class="table table-bordered table-responsive table-striped" id="tblSubjectRelation">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Asignatura</th>
+                <th>Creditos</th>
+                <th>Prerrequisito</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Code</td>
+                    <td>@item.Name</td>
+                    <td>@item.Credit</td>
+                    <td>@item.PrerequisiteCode</td>
+
+
+                </tr>
+            }
+        </tbody>
+
+    </table>
+}
+else
+{
+    <div class="row">
+        <div class="alert alert-info">
+            No hay asignaturas registradas
+        </div>
+    </div>
+}

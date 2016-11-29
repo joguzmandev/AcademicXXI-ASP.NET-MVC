@@ -1,5 +1,6 @@
 ﻿using System;
 using AcademicXXI.Helpers;
+using System.ComponentModel.DataAnnotations;
 
 namespace AcademicXXI.Domain
 {

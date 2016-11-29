@@ -58,6 +58,10 @@
     <Compile Include="MapExtensionMethod\GenericExtensionMethod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\BaseDomain.cs" />
+    <Compile Include="ViewModel\LineRecordStudentViewModel.cs" />
+    <Compile Include="ViewModel\ProfessorViewModel.cs" />
+    <Compile Include="ViewModel\RecordDetailsViewModel.cs" />
+    <Compile Include="ViewModel\RecordViewModel.cs" />
     <Compile Include="ViewModel\SemesterViewModel.cs" />
     <Compile Include="ViewModel\StudentPlanViewModel.cs" />
     <Compile Include="ViewModel\StudyPlanViewModel.cs" />
