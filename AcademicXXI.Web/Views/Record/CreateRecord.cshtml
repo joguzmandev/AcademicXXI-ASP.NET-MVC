@@ -5,19 +5,58 @@
 <h2>@ViewBag.Title</h2>
 
 <div class="row">
-    <div class="col-md-4 alert alert-success">
-        <div class="form-group">
-            <label for="selectSemester" class="text-success">Periodo Académico</label>
-            <select id="selectSemester" class="form-control">
-                <option value>Seleccione</option>
-                <option value="2007-01">2007-01</option>
-                <option value="2007-02">2007-02</option>
-                <option value="2007-03">2007-02</option>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <span>Semestre Académico</span>
+        </div>
+        <div class="panel-body">
+           <div class="row">
+               <div class="col-md-6 col-sm-6">
+                   @Html.DropDownList("SAcademicYear", ViewBag.GetAllSemester as SelectList,"Selecciona",new {@class= "form-control", @id = "SAcademicYear" })
+               </div>
+               <div class="col-md-6 col-sm-6">
+                   <div class="row">
+                       <div class="col-md-3">
+                           <input type="button" id="btnSelectAcademicYear" class="btn btn-info" value="Seleccionar" />
+                       </div>
+                       <div class="col-md-9">
+                           <input class="form-control" type="text" disabled readonly id="SelectedAcademicYear" />
+                       </div>
+                   </div>
+               </div>
+           </div>
+        </div>
+        <div id="panelFooter" class="panel-footer" style="display:none">
+            Agregar asignatura:
+            <select>
+                <option value>Selecciona</option>
+                <option value="1">Asignatura 1</option>
+                <option value="2">Asignatura 2</option>
+                <option value="3">Asignatura 3</option>
             </select>
         </div>
-            <button class="btn btn-success">Aceptar</button>
-            <input type="text" disabled id="SemesterSelected" class="form-control" />
     </div>
-
 </div>
+@section scripts{
+    
+    <script src="~/Scripts/jquery-2.2.3.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#btnSelectAcademicYear").click(function (e) {
+                e.preventDefault();
 
+                if ($("#SAcademicYear option:selected").attr("value") != "") {
+                        $("#SelectedAcademicYear").attr("value", $("#SAcademicYear option:selected").attr("value"));
+
+                        $.getJSON('@Url.Action("GetAllSubject", "Record")',null,function(data){
+                            console.log(data);
+                        });
+                    $("#panelFooter").show("slow");
+                } else {
+                    alert("Seleccione Semestre Académico")
+                }
+            })
+        });
+    </script>    
+}
