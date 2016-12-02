@@ -78,6 +78,10 @@
     <Compile Include="Migrations\201611091922406_AddSomeTableEntity.Designer.cs">
       <DependentUpon>201611091922406_AddSomeTableEntity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201612021940228_ChangeSubjectEntityProperty.cs" />
+    <Compile Include="Migrations\201612021940228_ChangeSubjectEntityProperty.Designer.cs">
+      <DependentUpon>201612021940228_ChangeSubjectEntityProperty.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -118,6 +122,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611091922406_AddSomeTableEntity.resx">
       <DependentUpon>201611091922406_AddSomeTableEntity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612021940228_ChangeSubjectEntityProperty.resx">
+      <DependentUpon>201612021940228_ChangeSubjectEntityProperty.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -104,8 +104,8 @@ namespace AcademicXXI.Data
         public SubjectMap()
         {
             HasKey(x => x.Id);
-            Property(x => x.Name).HasMaxLength(30).IsRequired();
-            Property(x => x.Credit).IsRequired();
+            Property(x => x.Name).HasMaxLength(100).IsRequired();
+            Property(x => x.Credit);
             Property(x => x.Code).HasColumnType("nvarchar").HasMaxLength(7).IsRequired().HasColumnAnnotation(
                 IndexAnnotation.AnnotationName,new IndexAnnotation(new IndexAttribute() { IsUnique = true }));
             Property(x => x.PrerequisiteCode).HasColumnType("nvarchar").HasMaxLength(7);

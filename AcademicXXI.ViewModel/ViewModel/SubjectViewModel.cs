@@ -12,7 +12,7 @@ namespace AcademicXXI.ViewModel.ViewModel
     {
 
         [Required]
-        [StringLength(30)]
+        [StringLength(100)]
         [Display(Name = "Asignatura")]
         public string Name { get; set; }
 
