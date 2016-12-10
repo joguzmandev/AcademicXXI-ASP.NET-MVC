@@ -58,30 +58,24 @@ namespace Academic.Web.Controllers
             return RedirectToAction("Create").WithSuccess($"{student.FullName}, fue creado satisfactoriamente");
         }
 
-        public async Task<ActionResult> Edit(String Id)
+        [HttpGet]
+        public ActionResult Edit(String RegisterNumber)
         {
-            Int32 idStuViewM;
-            try
-            {
-                idStuViewM = Convert.ToInt32(Id);
-            }
-            catch (Exception)
+
+            if (String.IsNullOrEmpty(RegisterNumber))
             {
                 return RedirectToAction("Maintenance");
             }
 
-            var entity = _studentService.Find(s => s.Id == idStuViewM);
-
+            var entity = _studentService.Find(s => s.RegisterNumber.Equals(RegisterNumber));
+            
             if (entity == null)
             {
                 return RedirectToAction("Maintenance");
             }
-
+         
             StudentViewModel studentViewM = entity.GenericConvert<vm.StudentViewModel>();
-        
-            var result = await this._studyPlanService.GetAllAsync();
-            ViewBag.ListOfStudyPlans = result.GenericConvertList<vm.StudyPlanViewModel>();
-
+                  
             return View(studentViewM);
         }
 
@@ -115,34 +109,27 @@ namespace Academic.Web.Controllers
 
         
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult AddPlanToStudent(String registernumber,Int32? studentid,String documentid,
-            String plancode, Int32? planid)
+        public ActionResult AddPlanToStudent(String registernumber,String documentid,
+            String plancode)
         {
             if (String.IsNullOrEmpty(registernumber) || String.IsNullOrEmpty(documentid) || String.IsNullOrEmpty(plancode))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Error, vuelva a intentarlo de nuevo ");
             }
-            if(!studentid.HasValue && studentid < 0)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Error, vuelva a intentarlo de nuevo ");
-            }
-            if (!planid.HasValue && planid < 0)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Error, vuelva a intentarlo de nuevo ");
-            }
 
             //Validate StudyPlan Exit
-            StudyPlan sp = this._studyPlanService.Find(sp1=> sp1.Code.Equals(plancode) && sp1.Id == planid);
+            StudyPlan sp = this._studyPlanService.Find(sp1=> sp1.Code.Equals(plancode));
+           
+            Student st = this._studentService.Find(s => s.RegisterNumber.Equals(registernumber) && s.DocumentID.Equals(documentid));
+           
 
-            Student st = this._studentService.Find(s => s.RegisterNumber.Equals(registernumber) && s.Id == studentid && s.DocumentID.Equals(documentid));
-
-            if(st != null && sp != null)
+            if (st != null && sp != null)
             {
-                st.StudentPlans.Add(new StudentPlan()
+               st.StudentPlans.Add(new StudentPlan()
                 {
                     Created = DateTime.Now,
-                    StudyPlan = sp,
-                    StudyPlanID = sp.Id
+                    StudyPlanFK = sp.Code,
+
                 });
 
                 _studentService.Update(st);
@@ -183,6 +170,7 @@ namespace Academic.Web.Controllers
             }
             
         }
+
         public StudentController(IStudentService service, IStudyPlanService studyPlanService)
         {
             this._studentService = service;

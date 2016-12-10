@@ -63,7 +63,6 @@
                     @foreach (var plan in @ViewBag.StudyPlanes as List<StudyPlanViewModel>)
                     {
                         <a href="javascript:void(0)"
-                           data-id="@plan.Id"
                            data-planname="@plan.Name"
                            data-plancode="@plan.Code" class="list-group-item">@plan</a>
                     }

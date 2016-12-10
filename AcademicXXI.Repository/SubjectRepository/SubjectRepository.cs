@@ -17,11 +17,10 @@ namespace AcademicXXI.Repository.SubjectRepository
             return this.DbSet.Any(c => c.Code.Equals(code));
         }
 
-        public async Task<IEnumerable<Subject>> GetAllSubjectByStudyPlanAsync(string StudyPlanCode, Int32 StudyPlanId)
+        public async Task<IEnumerable<Subject>> GetAllSubjectByStudyPlanAsync(string StudyPlanCode)
         {
             return await this.DbSet
                 .Where(c => c.StudyPlan.Code == StudyPlanCode)
-                .Where(c => c.StudyPlan.Id == StudyPlanId)
                 .OrderBy(o=>o.Created)
                 .ToListAsync();
         }

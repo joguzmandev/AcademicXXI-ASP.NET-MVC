@@ -6,16 +6,17 @@ namespace AcademicXXI.Domain
     public class StudentPlan
     {
         [Key]
-        [Column(Order = 0)]
-        public int StudentID { get; set; }
+        [Column("StudentFK",Order = 0),ForeignKey("Student")]
+        public String StudentFK { get; set; }
 
         [Key]
-        [Column(Order = 1)]
-        public int StudyPlanID { get; set; }
+        [Column("StudyPlanFK", Order = 1),ForeignKey("StudyPlan")]
+        public string StudyPlanFK { get; set; }
 
         public DateTime Created { get; set; }
 
         public Student Student { get; set; }
+
         public StudyPlan StudyPlan { get; set; }
     }
 }

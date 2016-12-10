@@ -20,9 +20,9 @@ namespace AcademicXXI.Services.SubjectService
             return this._repo.ExitCode(code);
         }
 
-        public Task<IEnumerable<Subject>> GetAllSubjectByStudyPlanAsync(string StudyPlanCode, Int32 StudyPlanId)
+        public Task<IEnumerable<Subject>> GetAllSubjectByStudyPlanAsync(string StudyPlanCode)
         {
-            return this._repo.GetAllSubjectByStudyPlanAsync(StudyPlanCode, StudyPlanId);
+            return this._repo.GetAllSubjectByStudyPlanAsync(StudyPlanCode);
         }
     }
 }

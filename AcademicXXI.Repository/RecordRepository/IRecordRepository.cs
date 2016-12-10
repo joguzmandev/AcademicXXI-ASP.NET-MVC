@@ -9,5 +9,6 @@ namespace AcademicXXI.Repository.RecordRepository
 {
     public interface IRecordRepository : IRepository<Record>
     {
+        bool ExitRecord(String SAcademicYear, String selectAddSubject);
     }
 }

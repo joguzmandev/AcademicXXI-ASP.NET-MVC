@@ -19,7 +19,10 @@ namespace Academic.Web.App_Start
     using AcademicXXI.Services.SubjectService;
     using AcademicXXI.Repository.SemesterRepository;
     using AcademicXXI.Services.SemesterService;
-
+    using AcademicXXI.Repository.RecordRepository;
+    using AcademicXXI.Services.RecordService;
+    using AcademicXXI.Repository.ProfessorRepository;
+    using AcademicXXI.Services.ProfessorService;
     public static class NinjectWebCommon 
     {
         private static readonly Bootstrapper bootstrapper = new Bootstrapper();
@@ -78,6 +81,8 @@ namespace Academic.Web.App_Start
             kernel.Bind<IStudyPlanRepository>().To<StudyPlanRepository>();
             kernel.Bind<ISubjectRepository>().To<SubjectRepository>();
             kernel.Bind<ISemesterRepository>().To<SemesterRepository>();
+            kernel.Bind<IRecordRepository>().To<RecordRepository>();
+            kernel.Bind<IProfessorRepository>().To<ProfessorRepository>();
 
 
             //Register Services
@@ -85,6 +90,8 @@ namespace Academic.Web.App_Start
             kernel.Bind<IStudyPlanService>().To<StudyPlanService>();
             kernel.Bind<ISubjectService>().To<SubjectService>();
             kernel.Bind<ISemesterService>().To<SemesterService>();
+            kernel.Bind<IRecordService>().To<RecordService>();
+            kernel.Bind<IProfessorService>().To<ProfessorService>();
 
 
         }        

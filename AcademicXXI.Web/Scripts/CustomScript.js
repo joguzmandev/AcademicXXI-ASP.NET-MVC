@@ -25,10 +25,8 @@ $(document).ready(function () {
             var self = $(this);
             $("#selectedPlan").val(self.data('plancode')).attr({
                 'data-plancode': self.data('plancode'),
-                'data-planid': self.data('id'),
             });
             StudyPlanActive = {
-                'plan_id': self.data('id'),
                 'plan_name': self.data('planname'),
                 'plan_code': self.data('plancode')
             };
@@ -58,18 +56,16 @@ $(document).ready(function () {
                 if (result != null) {
                     _StudentFound.val(result.FullName).attr({
                         'data-registernumber': result.RegisterNumber,
-                        'data-id': result.Id,
                         'data-documentid': result.DocumentID
                     });
                     StudentActive = {
-                        Id: result.Id,
                         FullName: result.FullName,
                         RegisterNumber: result.RegisterNumber,
                         DocumentID : result.DocumentID
                     }
 
                     console.log("Selected Student:");
-                    console.log('FullName ' + StudentActive.FullName + ' RegisterNumber ' + StudentActive.RegisterNumber + ' Id ' + StudentActive.Id);
+                    console.log('FullName ' + StudentActive.FullName + ' RegisterNumber ' + StudentActive.RegisterNumber);
 
                     _myStudyPlan.find("#listPlanStudent").empty();
                     _myStudyPlan.show('slow');
@@ -77,7 +73,7 @@ $(document).ready(function () {
                     var _listPlanStudent = _myStudyPlan.find("#listPlanStudent");
 
                     $.each(result.StudentPlans, function (index, item) {
-                        _listPlanStudent.append("<a href='javascriptd:void(0)' data-id=" + item.StudyPlan.Id + " data-plancode=" + item.StudyPlan.Code + " class='list-group-item'> *" + item.StudyPlan.Code + " " + item.StudyPlan.Name + "</a>");
+                        _listPlanStudent.append("<a href='javascriptd:void(0)' data-plancode=" + item.StudyPlan.Code + " class='list-group-item'> *" + item.StudyPlan.Code + " " + item.StudyPlan.Name + "</a>");
                     });
                 }
             },
@@ -118,7 +114,7 @@ $(document).ready(function () {
 
         $listPlanStudent_a.each(function (index, item) {
 
-            if ($(this).data("id") === StudyPlanActive.plan_id) {
+            if ($(this).data("plancode") === StudyPlanActive.plan_code) {
                 alert("Plan seleccionado ya está relacionado al estudiante");
                 exitPlan = true;
                 return false;
@@ -143,15 +139,13 @@ $(document).ready(function () {
     $("#btnConfirm").click(function (event) {
 
         event.preventDefault();
-        console.log("Student" + StudentActive.FullName + ' ' + StudentActive.DocumentID + ' ' + StudentActive.Id);
-        console.log('Plan to Add' + StudyPlanActive.plan_name + ' ' + StudyPlanActive.plan_code + ' ' + StudyPlanActive.plan_id);
+        console.log("Student" + StudentActive.FullName + ' ' + StudentActive.DocumentID );
+        console.log('Plan to Add' + StudyPlanActive.plan_name + ' ' + StudyPlanActive.plan_code);
 
         var createJSON = {
             registernumber: StudentActive.RegisterNumber,
-            studentid: StudentActive.Id,
             documentid: StudentActive.DocumentID,
             plancode: StudyPlanActive.plan_code,
-            planid: StudyPlanActive.plan_id
         }
 
         $.ajax({

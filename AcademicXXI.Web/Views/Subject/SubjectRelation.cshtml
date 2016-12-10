@@ -42,7 +42,7 @@
         <div class="form-group" id="form-group-prerequisite-code">
 
             @Html.DropDownList("PrerequisiteCode", new SelectList(Model, "Code", "FullSubjectName"), "Prerrequisito", new { @class = "form-control" })
-            <input type="hidden" id="StudyPIDStr" name="StudyPIDStr" value="@ViewBag.StudyPlanViewModelObj.Id" />
+           
             <input type="hidden" id="StudyPCodeStr" name="StudyPCodeStr" value="@ViewBag.StudyPlanViewModelObj.Code" />
         </div>
         <hr />
@@ -149,7 +149,7 @@
                                     $("#PrerequisiteCode").append(option);
                                 });
 
-                                var URL = '/Subject/GetAllSubjectRelation?splancode=' + $("#StudyPCodeStr").val() + '&splanid=' + $("#StudyPIDStr").val() + '';
+                                var URL = '/Subject/GetAllSubjectRelation?splancode=' + $("#StudyPCodeStr").val()+'';
                                 $("#DisplayData").load(URL, function (data) {
                                     $("#tblSubjectRelation").dataTable(dataTable_config);
                                 });

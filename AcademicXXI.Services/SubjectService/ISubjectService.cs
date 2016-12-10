@@ -7,7 +7,7 @@ namespace AcademicXXI.Services.SubjectService
 {
     public interface ISubjectService : IService<Subject>
     {
-        Task<IEnumerable<Subject>> GetAllSubjectByStudyPlanAsync(string StudyPlanCode, Int32 StudyPlanId);
+        Task<IEnumerable<Subject>> GetAllSubjectByStudyPlanAsync(string StudyPlanCode);
         bool ExitCode(string code);
     }
 }

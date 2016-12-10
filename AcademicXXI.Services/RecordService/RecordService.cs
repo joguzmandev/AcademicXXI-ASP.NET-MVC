@@ -15,5 +15,10 @@ namespace AcademicXXI.Services.RecordService
         public RecordService(IRecordRepository repo):base(repo){
             this.repo = repo;
         }
+
+        public bool ExitRecord(string SAcademicYear, string selectAddSubject)
+        {
+           return repo.ExitRecord(SAcademicYear, selectAddSubject);
+        }
     }
 }

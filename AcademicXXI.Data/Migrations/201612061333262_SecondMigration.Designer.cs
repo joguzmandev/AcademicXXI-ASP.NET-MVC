@@ -7,13 +7,13 @@ namespace AcademicXXI.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class AddManyToManyRelationshipStudentAndStudyPlan : IMigrationMetadata
+    public sealed partial class SecondMigration : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddManyToManyRelationshipStudentAndStudyPlan));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(SecondMigration));
         
         string IMigrationMetadata.Id
         {
-            get { return "201610251443214_AddManyToManyRelationshipStudentAndStudyPlan"; }
+            get { return "201612061333262_SecondMigration"; }
         }
         
         string IMigrationMetadata.Source

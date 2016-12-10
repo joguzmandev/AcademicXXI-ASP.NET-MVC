@@ -8,9 +8,9 @@ namespace AcademicXXI.ViewModel.ViewModel
 {
     public class StudentPlanViewModel
     {
-        public int StudentID { get; set; }
+        public string StudentID { get; set; }
 
-        public int StudyPlanID { get; set; }
+        public string StudyPlanID { get; set; }
 
         public DateTime Created { get; set; }
 

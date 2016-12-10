@@ -9,5 +9,6 @@ namespace AcademicXXI.Services.RecordService
 {
     public interface IRecordService : IService<Record>
     {
+        bool ExitRecord(String SAcademicYear, String selectAddSubject);
     }
 }

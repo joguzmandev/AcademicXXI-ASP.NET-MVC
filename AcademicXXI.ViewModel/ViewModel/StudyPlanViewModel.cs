@@ -9,17 +9,15 @@ namespace AcademicXXI.ViewModel.ViewModel
 {
     public class StudyPlanViewModel : BaseDomain
     {
-
-        [Required]
-        [StringLength(30)]
-        [Display(Name = "Plan de Estudio")]
-        public string Name { get; set; }
-
         [Required]
         [StringLength(10)]
         [Display(Name = "Código")]
         public string Code { get; set; }
 
+        [Required]
+        [StringLength(30)]
+        [Display(Name = "Plan de Estudio")]
+        public string Name { get; set; }
 
         public override string ToString()
         {

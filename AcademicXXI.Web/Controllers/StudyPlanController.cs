@@ -91,6 +91,7 @@ namespace AcademicXXI.Web.Controllers
 
             return Json(msgSuccess, JsonRequestBehavior.AllowGet);
         }
+
         public async Task<ActionResult> AllStudyPlans()
         {
             var result = await _service.GetAllAsync();

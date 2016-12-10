@@ -231,6 +231,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProfessorController.cs" />
     <Compile Include="Controllers\RecordController.cs" />
     <Compile Include="Controllers\SemesterController.cs" />
     <Compile Include="Controllers\StudyPlanController.cs" />
@@ -267,6 +268,7 @@
     <Content Include="Views\Shared\_DisplayAllStudyPlan.cshtml" />
     <Content Include="Views\Shared\_DisplayAllSubjectRelation.cshtml" />
     <Content Include="Views\Record\CreateRecord.cshtml" />
+    <Content Include="Views\Shared\_AllSubjecsBySemester.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -277,6 +279,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Resources\Models\" />
+    <Folder Include="Views\Professor\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AcademicXXI.Data\AcademicXXI.Data.csproj">

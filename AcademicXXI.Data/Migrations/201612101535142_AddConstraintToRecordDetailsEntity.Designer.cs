@@ -7,13 +7,13 @@ namespace AcademicXXI.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class DeleteYearPropertyFromSemesterEntity : IMigrationMetadata
+    public sealed partial class AddConstraintToRecordDetailsEntity : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(DeleteYearPropertyFromSemesterEntity));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddConstraintToRecordDetailsEntity));
         
         string IMigrationMetadata.Id
         {
-            get { return "201611081522257_DeleteYearPropertyFromSemesterEntity"; }
+            get { return "201612101535142_AddConstraintToRecordDetailsEntity"; }
         }
         
         string IMigrationMetadata.Source

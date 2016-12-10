@@ -28,7 +28,7 @@ namespace AcademicXXI.Web.Controllers
 
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public async Task<ActionResult> Create(SubjectViewModel subject, string StudyPIDStr, string StudyPCodeStr)
+        public async Task<ActionResult> Create(SubjectViewModel subject, string StudyPCodeStr)
         {
             if (!ModelState.IsValid)
             {
@@ -44,15 +44,13 @@ namespace AcademicXXI.Web.Controllers
             }
 
             //Create Subject
-            Int32 studyPlanId = Convert.ToInt32(StudyPIDStr);
-            
-            subject.StudyPID = studyPlanId;
             var subjectToSave = subject.GenericConvert<domain.Subject>();
+            subjectToSave.StudyPlanFK = StudyPCodeStr;
             subjectToSave.Created = DateTime.Now;
             subjectToSave.Status = Helpers.Status.Active;
             _serviceSubject.Add(subjectToSave);
 
-            var listOfSubjects = await _serviceSubject.GetAllSubjectByStudyPlanAsync(StudyPCodeStr, studyPlanId);
+            var listOfSubjects = await _serviceSubject.GetAllSubjectByStudyPlanAsync(StudyPCodeStr);
 
             Message msg = new Message()
             {
@@ -65,24 +63,16 @@ namespace AcademicXXI.Web.Controllers
             return Json(ToJSON<Message>(msg), JsonRequestBehavior.AllowGet);
         }
 
-        public async Task<ActionResult> SubjectRelation(string splancode, string splanid)
+        public async Task<ActionResult> SubjectRelation(string splancode)
         {
 
-            if (String.IsNullOrEmpty(splancode) || String.IsNullOrEmpty(splanid))
+            if (String.IsNullOrEmpty(splancode))
             {
                 return RedirectToAction("Maintenance", "StudyPlan");
             }
-            Int32 _splanid;
-            try
-            {
-                _splanid = Convert.ToInt32(splanid);
-            }
-            catch
-            {
-                return RedirectToAction("Maintenance", "StudyPlan");
-            }
-
-            var studyPlanViewModel = _serviceStudyPlan.Find(x => x.Id == _splanid).GenericConvert<vm.StudyPlanViewModel>();
+           
+            var studyPlanViewModel = _serviceStudyPlan.Find(x => x.Code == splancode).GenericConvert<vm.StudyPlanViewModel>();
+            
 
             if(studyPlanViewModel == null)
             {
@@ -92,16 +82,16 @@ namespace AcademicXXI.Web.Controllers
             ViewBag.StudyPlanViewModelObj = studyPlanViewModel;
 
             var result = await _serviceSubject
-              .GetAllSubjectByStudyPlanAsync(splancode, _splanid);
+              .GetAllSubjectByStudyPlanAsync(splancode);
             
             return View(result.GenericConvertList<vm.SubjectViewModel>());
         }
                                         
-        public async Task<ActionResult> GetAllSubjectRelation(string splancode, int? splanid)
+        public async Task<ActionResult> GetAllSubjectRelation(string splancode)
         {
 
             var result = await _serviceSubject
-                .GetAllSubjectByStudyPlanAsync(splancode, splanid.Value);
+                .GetAllSubjectByStudyPlanAsync(splancode);
 
             return PartialView("_DisplayAllSubjectRelation", result.GenericConvertList<vm.SubjectViewModel>());
         }

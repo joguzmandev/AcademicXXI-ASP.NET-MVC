@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using AcademicXXI.Domain;
 using AcademicXXI.Repository.SemesterRepository;
 
@@ -15,6 +16,11 @@ namespace AcademicXXI.Services.SemesterService
         public bool ExitSemesterCode(string semesterCode)
         {
             return repo.ExitSemesterCode(semesterCode);
+        }
+
+        public Semester GetSemesterSubjects(string semesterCode)
+        {
+            return repo.GetSemesterSubjects(semesterCode);
         }
     }
 }

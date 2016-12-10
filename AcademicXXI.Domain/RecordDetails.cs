@@ -10,7 +10,11 @@ namespace AcademicXXI.Domain
 {
     public class RecordDetails : BaseDomain
     {
+        [Key]
+        public int Id { get; set; }
+
         [Required]
+        [Index("IX_SubjectFKAndSemesterFKAndNumericSession", 3, IsUnique = true)]
         public int NumericSession { get; set; }
 
         [Required]
@@ -20,16 +24,22 @@ namespace AcademicXXI.Domain
         [Required]
         public int LimitSession { get; set; }
         
-        public int? ProfessorId { get; set; }
-        public Int32 RecordId { get; set; }
+        [Column("ProfessorFK"),ForeignKey("Professor")]
+        public string ProfessorFK { get; set; }
 
-        [ForeignKey("ProfessorId")]
         public virtual Professor Professor { get; set; }
 
-        [ForeignKey("RecordId")]
+        [Column("SubjectFK", Order = 1)]
+        [Index("IX_SubjectFKAndSemesterFKAndNumericSession", 1,IsUnique =true)]
+        public string SubjectFK { get; set; }
+
+        [Column("SemesterFK", Order = 2)]
+        [Index("IX_SubjectFKAndSemesterFKAndNumericSession", 2, IsUnique = true)]
+        public String SemesterFK { get; set; }
+
+        [ForeignKey("SubjectFK,SemesterFK")]
         public virtual Record Record { get; set; }
 
-        public virtual ICollection<LineRecordStudent> LineRecordStudent { get; set; }
-
+       
     }
 }

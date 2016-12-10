@@ -80,7 +80,7 @@ namespace AcademicXXI.Web.Controllers
             List<SelectListItem> years = new List<SelectListItem>();
             var lastYear = DateTime.Now.Year;
             years.Add(new SelectListItem() { Value = lastYear.ToString(), Text = lastYear.ToString() });
-            for (var x=1;x < 10; x++)
+            for (var x=1;x < 15; x++)
             {
                 var result = (--lastYear).ToString();
                 years.Add(new SelectListItem() {

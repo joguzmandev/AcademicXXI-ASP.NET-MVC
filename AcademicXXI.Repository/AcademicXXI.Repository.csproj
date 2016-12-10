@@ -50,6 +50,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IRepository.cs" />
+    <Compile Include="ProfessorRepository\IProfessorRepository.cs" />
+    <Compile Include="ProfessorRepository\ProfessorRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GenericRepository.cs" />
     <Compile Include="RecordRepository\IRecordRepository.cs" />

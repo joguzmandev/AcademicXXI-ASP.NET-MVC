@@ -50,37 +50,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AcademicXXIDataContext.cs" />
-    <Compile Include="Migrations\201610211807539_All.cs" />
-    <Compile Include="Migrations\201610211807539_All.Designer.cs">
-      <DependentUpon>201610211807539_All.cs</DependentUpon>
+    <Compile Include="Migrations\201612052106192_FirstMigration.cs" />
+    <Compile Include="Migrations\201612052106192_FirstMigration.Designer.cs">
+      <DependentUpon>201612052106192_FirstMigration.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201610241643362_ChangeStudyPlanToStudyPlanListInStudentEntity.cs" />
-    <Compile Include="Migrations\201610241643362_ChangeStudyPlanToStudyPlanListInStudentEntity.Designer.cs">
-      <DependentUpon>201610241643362_ChangeStudyPlanToStudyPlanListInStudentEntity.cs</DependentUpon>
+    <Compile Include="Migrations\201612061333262_SecondMigration.cs" />
+    <Compile Include="Migrations\201612061333262_SecondMigration.Designer.cs">
+      <DependentUpon>201612061333262_SecondMigration.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201610251443214_AddManyToManyRelationshipStudentAndStudyPlan.cs" />
-    <Compile Include="Migrations\201610251443214_AddManyToManyRelationshipStudentAndStudyPlan.Designer.cs">
-      <DependentUpon>201610251443214_AddManyToManyRelationshipStudentAndStudyPlan.cs</DependentUpon>
+    <Compile Include="Migrations\201612061516420_ThirdMigration.cs" />
+    <Compile Include="Migrations\201612061516420_ThirdMigration.Designer.cs">
+      <DependentUpon>201612061516420_ThirdMigration.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201611051810303_EditSemesterDomain.cs" />
-    <Compile Include="Migrations\201611051810303_EditSemesterDomain.Designer.cs">
-      <DependentUpon>201611051810303_EditSemesterDomain.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611081522257_DeleteYearPropertyFromSemesterEntity.cs" />
-    <Compile Include="Migrations\201611081522257_DeleteYearPropertyFromSemesterEntity.Designer.cs">
-      <DependentUpon>201611081522257_DeleteYearPropertyFromSemesterEntity.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611081523269_AddYearProperty.cs" />
-    <Compile Include="Migrations\201611081523269_AddYearProperty.Designer.cs">
-      <DependentUpon>201611081523269_AddYearProperty.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611091922406_AddSomeTableEntity.cs" />
-    <Compile Include="Migrations\201611091922406_AddSomeTableEntity.Designer.cs">
-      <DependentUpon>201611091922406_AddSomeTableEntity.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201612021940228_ChangeSubjectEntityProperty.cs" />
-    <Compile Include="Migrations\201612021940228_ChangeSubjectEntityProperty.Designer.cs">
-      <DependentUpon>201612021940228_ChangeSubjectEntityProperty.cs</DependentUpon>
+    <Compile Include="Migrations\201612101535142_AddConstraintToRecordDetailsEntity.cs" />
+    <Compile Include="Migrations\201612101535142_AddConstraintToRecordDetailsEntity.Designer.cs">
+      <DependentUpon>201612101535142_AddConstraintToRecordDetailsEntity.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -102,29 +86,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201610211807539_All.resx">
-      <DependentUpon>201610211807539_All.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201612052106192_FirstMigration.resx">
+      <DependentUpon>201612052106192_FirstMigration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201610241643362_ChangeStudyPlanToStudyPlanListInStudentEntity.resx">
-      <DependentUpon>201610241643362_ChangeStudyPlanToStudyPlanListInStudentEntity.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201612061333262_SecondMigration.resx">
+      <DependentUpon>201612061333262_SecondMigration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201610251443214_AddManyToManyRelationshipStudentAndStudyPlan.resx">
-      <DependentUpon>201610251443214_AddManyToManyRelationshipStudentAndStudyPlan.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201612061516420_ThirdMigration.resx">
+      <DependentUpon>201612061516420_ThirdMigration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611051810303_EditSemesterDomain.resx">
-      <DependentUpon>201611051810303_EditSemesterDomain.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611081522257_DeleteYearPropertyFromSemesterEntity.resx">
-      <DependentUpon>201611081522257_DeleteYearPropertyFromSemesterEntity.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611081523269_AddYearProperty.resx">
-      <DependentUpon>201611081523269_AddYearProperty.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611091922406_AddSomeTableEntity.resx">
-      <DependentUpon>201611091922406_AddSomeTableEntity.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201612021940228_ChangeSubjectEntityProperty.resx">
-      <DependentUpon>201612021940228_ChangeSubjectEntityProperty.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201612101535142_AddConstraintToRecordDetailsEntity.resx">
+      <DependentUpon>201612101535142_AddConstraintToRecordDetailsEntity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

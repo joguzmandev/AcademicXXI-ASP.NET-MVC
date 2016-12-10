@@ -10,16 +10,22 @@ namespace AcademicXXI.Domain
 {
     public class Record : BaseDomain
     {
-        public Int32 SubjectId { get; set; }
-        public Int32 SemesterId{get; set;}
 
-        [ForeignKey("SubjectId")]
+        [Key,Column("SubjectFK", Order =1),ForeignKey("Subject")]
+        public string SubjectFK { get; set; }
+
         public virtual Subject Subject { get; set; }
 
-        [ForeignKey("SemesterId")]
+        [Key,Column("SemesterFK", Order = 2), ForeignKey("Semester")]
+        public String SemesterFK { get; set; }
+
         public virtual Semester Semester { get; set; }
 
         public virtual ICollection<RecordDetails> RecordDetails { get; set; }
 
+        public Record()
+        {
+            this.RecordDetails = new List<RecordDetails>();
+        }
     }
 }

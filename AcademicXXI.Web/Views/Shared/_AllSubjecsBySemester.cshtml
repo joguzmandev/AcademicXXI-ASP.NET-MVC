@@ -1,0 +1,49 @@
+﻿@{ 
+   var semesterVM = ViewData["ActiveSemester"] as AcademicXXI.ViewModel.ViewModel.SemesterViewModel;
+}
+@if (semesterVM != null && semesterVM.Records.Count > 0)
+{
+    <table class="table table-bordered table-striped" id="tblSubjectsBySemester">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Asignatura</th>
+                <th>Creditos</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="tblSubjectsBySemesterTbody">
+            @foreach (var item in semesterVM.Records)
+            {
+                <tr>
+                    <td>@item.SubjectViewModel.Code</td>
+                    <td>@item.SubjectViewModel.Name</td>
+                    <td>@item.SubjectViewModel.Credit</td>
+                    <td width="25%">
+                        <a href="javascript:void(0)" 
+                           id="AddSessionToSubject" 
+                           class="btn btn-link"
+                           data-subject-name="@item.SubjectViewModel.Name"
+                           data-subject="@item.SubjectFK"
+                           data-semester="@item.SemesterFK">Asociar Sección</a>
+                        <a href="javascript:void(0)"
+                           id="DisplaySessionSubject"
+                           class="btn btn-link"
+                           data-subject-name="@item.SubjectViewModel.Name"
+                           data-subject="@item.SubjectFK"
+                           data-semester="@item.SemesterFK">Ver Secciones</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+}
+else
+{
+    <div>
+        <div class="alert alert-info">
+            No hay asignaturas registradas
+        </div>
+    </div>
+}

@@ -11,11 +11,7 @@ namespace AcademicXXI.Repository.StudyPlanRepository
 
         public bool ExitStudyPlan(string pcode, int? pid = null)
         {
-            if(!pid.HasValue)
-            {
-                return DbSet.Any(pc => pc.Code.Equals(pcode));
-            }
-            return DbSet.Any(pc => pc.Code.Equals(pcode) && pc.Id == pid);
+            return DbSet.Any(x => x.Code.Equals(pcode));
         }
     }
 }

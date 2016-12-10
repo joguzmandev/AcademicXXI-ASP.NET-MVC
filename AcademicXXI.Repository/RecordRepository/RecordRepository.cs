@@ -14,5 +14,10 @@ namespace AcademicXXI.Repository.RecordRepository
         {
 
         }
+
+        public bool ExitRecord(string SAcademicYear, string selectAddSubject)
+        {
+            return DbSet.Any(r => r.SemesterFK.Equals(SAcademicYear) && r.SubjectFK.Equals(selectAddSubject));
+        }
     }
 }

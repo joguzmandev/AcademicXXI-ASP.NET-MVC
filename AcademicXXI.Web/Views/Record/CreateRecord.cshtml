@@ -1,62 +1,356 @@
 ﻿@{
     ViewBag.Title = "Apertura de Acta";
 }
-
+@section css{
+<link href="~/Content/dataTables.bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/jquery-ui.min.css" rel="stylesheet" />
+<link href="~/Content/jquery-ui.theme.min.css" rel="stylesheet" />
+<style type="text/css">
+    label.error {
+        color: red;
+    }
+</style>
+}
 <h2>@ViewBag.Title</h2>
 
 <div class="row">
+  @using (Html.BeginForm("CreateRecord", "Record", FormMethod.Post, new { @id = "FrmCreateRecord" }))
+  {
+    <div id="displayMessage">
+
+    </div>
     <div class="panel panel-info">
         <div class="panel-heading">
             <span>Semestre Académico</span>
         </div>
         <div class="panel-body">
-           <div class="row">
-               <div class="col-md-6 col-sm-6">
-                   @Html.DropDownList("SAcademicYear", ViewBag.GetAllSemester as SelectList,"Selecciona",new {@class= "form-control", @id = "SAcademicYear" })
-               </div>
-               <div class="col-md-6 col-sm-6">
-                   <div class="row">
-                       <div class="col-md-3">
-                           <input type="button" id="btnSelectAcademicYear" class="btn btn-info" value="Seleccionar" />
-                       </div>
-                       <div class="col-md-9">
-                           <input class="form-control" type="text" disabled readonly id="SelectedAcademicYear" />
-                       </div>
-                   </div>
-               </div>
-           </div>
+            <div class="row">
+                <div class="col-md-6 col-sm-6">
+                    @Html.DropDownList("SAcademicYear", ViewBag.GetAllSemester as SelectList, "Selecciona", new { @class = "form-control", @id = "SAcademicYear" })
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <input type="button" id="btnSelectAcademicYear" class="btn btn-info" value="Seleccionar" />
+                        </div>
+                        <div class="col-md-9">
+                            <input class="form-control" type="text" disabled readonly id="SelectedAcademicYear" />
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div id="panelFooter" class="panel-footer" style="display:none">
-            Agregar asignatura:
-            <select>
-                <option value>Selecciona</option>
-                <option value="1">Asignatura 1</option>
-                <option value="2">Asignatura 2</option>
-                <option value="3">Asignatura 3</option>
-            </select>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="selectAddSubject">Asignatura:</label>
+                    <select id="selectAddSubject" name="selectAddSubject" class="form-control"></select>
+                </div>
+                <div class="col-md-6">
+                    <br/>
+                    <img id="imgAjaxLoading" style="display:none" src="~/Content/images/loadingAjax.gif" />
+                    <button id="btnCreateRecord" class="btn btn-primary">Crear Acta</button>
+                </div>
+            </div>
         </div>
     </div>
+    <hr />
+    <div id="panelDisplaySubjectBySemester" style="display:none" class="panel panel-success">
+        
+       <div class="panel-heading">
+            <span id="spanPanelDetail"></span>
+        </div>
+       <div id="panelBodyTable" class="panel-body table-responsive">
+           @Html.Partial("_AllSubjecsBySemester")
+       </div>
+
+    </div>
+  }
+
+</div>
+<div id="frmAddSessionToRecord" style="display:none">
+    <div id="outMessage">
+
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <form id="frmAddSession" action="#" method="post">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="NumericSession">Sección:</label>
+                            <input class="form-control" id="NumericSession" name="NumericSession" type="number" />
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="SessionDescription">Descripción:</label>
+                            <input class="form-control" name="SessionDescription" id="SessionDescription" type="text" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="LimitSession">Capacidad:</label>
+                            <input class="form-control" name="LimitSession" id="LimitSession" type="number" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="ProfessorId">Profesor:</label>
+                            <select class="form-control" name="Professor" id="Professor"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <label for="applyCapacity">Aplicar Capacidad:</label>
+                        <input type="checkbox" id="applyCapacity" name="applyCapacity" />
+                        <img src="~/Content/images/loadingAjax.gif" id="loadingAjax" style="display:none" />
+                        <button type="submit" class="btn btn-primary">Agregar</button>
+                        <button type="button" class="btn btn-danger" id="btnCloseFrmAddSessionToRecord" name="btnCloseFrmAddSessionToRecord">Cancelar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div id="frmDisplayAllSessions">
+    Display session
 </div>
 @section scripts{
     
     <script src="~/Scripts/jquery-2.2.3.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/dataTables.bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-ui.min.js"></script>
     <script>
         $(document).ready(function () {
+            var dataSelected = {}
+            $("#frmAddSession").validate({
+                rules: {
+                    NumericSession: {
+                        required: true,
+                        minlength: 2,
+                        maxlength: 3
+                    },
+                    SessionDescription: { required: true, maxlength: 100 },
+                    LimitSession: { required: true },
+                },
+                messages: {
+                    NumericSession: {
+                        required: 'Campo obligatorio',
+                        minlength: "Debes ingresar un núumero mayor que 10",
+                        maxlength: "Debe ingresar un número menor que 1000"
+                    },
+                    SessionDescription: {
+                        required: "Campo obligatorio",
+                        maxlength: "El número máximo de caracteres 100"
+                    },
+                    LimitSession: { required: "Campo obligatorio" },
+                }, submitHandler: function (form) {
+                    var frm = $("#frmAddSession");
+                    var createSession = {
+                        subject:dataSelected.subject,
+                        semester: dataSelected.semester,
+                        NumericSession: frm.find('#NumericSession').val(),
+                        SessionDescription: frm.find('#SessionDescription').val(),
+                        LimitSession: frm.find('#LimitSession').val(),
+                        Professor: frm.find("#Professor").val()
+                    }
+                    $.ajax({
+                        url: "/Record/AddSessionRecord",
+                        method: "post",
+                        data: createSession,
+                        dataType: "json",
+                        success: function (data, status, jqXHR) {
+
+                            var outMessage = $("#outMessage");
+                            outMessage.empty().delay(2000);
+                            var alert = ' <div class="' + data.Class + ' alert-dismissable">' +
+                            '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">' +
+                            ' &times;' +
+                            '</button> ' + data.Messages + '</div>';
+                            outMessage.append(alert).show("slow");
+                        }, error: function (error, status, jqXHR) {
+                            console.log(error);
+                        }, beforeSend: function () {
+                            $("#loadingAjax").show();
+                        }, complete: function () {
+                            $("#loadingAjax").hide();
+                        }
+                    })
+                }
+            });
+            var dialogAddSession = $("#frmAddSessionToRecord").dialog({
+                autoOpen: false,
+                height: 'auto',
+                width: 'auto',
+                modal: true,
+                beforeClose: function (e) {
+                    $("#frmAddSession").trigger("reset");
+                    $("#outMessage").empty();
+                }
+            });
+
+            var dialogDisplaySession = $("#frmDisplayAllSessions").dialog({
+                autoOpen: false,
+                height: 'auto',
+                width: 'auto',
+                modal: true,
+                beforeClose: function () {
+
+                }
+            });
+
+            $("#btnCloseFrmAddSessionToRecord").click(function () {
+                dialogAddSession.dialog("close");
+            });
+
+            $("#panelDisplaySubjectBySemester").on("click", "#AddSessionToSubject", function () {
+                var subjectName = $(this).data("subject-name");
+                var subject = $(this).data("subject");
+                var semester = $(this).data("semester");
+                dataSelected = {
+                    semester: semester,
+                    subject: subject
+                }
+
+                dialogAddSession.dialog({ title: "Semestre Académico: " + semester + "| [" + subject + "] " + subjectName });
+                dialogAddSession.dialog("open");
+                $.ajax({
+                    url: '@Url.Action("GetAllProfessor","Record")',
+                    method:"get",
+                    dataType: "json",
+                    success: function (data, statu, jqXHR) {
+                        var $Professor = $("#Professor");
+                        $Professor.empty();
+                        $Professor.append("<option value>Selecciona</option>");
+                        $.each(data, function (index, item) {
+                            $Professor.append("<option value='" + item.DocumentID + "'>" + item.FullName + "</option>")
+                        });
+                    },error:function(status,error,jqHXR){
+                        console.log(error)
+                    }
+                });
+           });
+
+            $("#panelDisplaySubjectBySemester").on("click", "#DisplaySessionSubject", function () {
+                var subjectName = $(this).data("subject-name");
+                var subject = $(this).data("subject");
+                var semester = $(this).data("semester");
+
+                dialogDisplaySession.dialog({ title: "Semestre Académico: " + semester + "| [" + subject + "] " + subjectName });
+                dialogDisplaySession.dialog("open");
+            });
+            //CONFIG DATATABLE
+            var dataTable_config = {
+                language: {
+                    search: "Buscar",
+                    paginate: {
+                        first: "Primer",
+                        previous: "Anterior",
+                        next: "Siguiente",
+                        last: "Ultimo"
+                    },
+                    info: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    infoFiltered: "(filtrado de un total de _MAX_ registros)",
+                    lengthMenu: "Mostrar _MENU_ registros",
+                    zeroRecords: "No se encontraron resultados",
+                    EmptyTable: "Ningún dato disponible en esta tabla",
+                }
+            };
+
+            $("#SAcademicYear").on("change", function () {
+                $("#selectAddSubject").empty();
+                $("#tblSubjectsBySemesterTbody").empty();
+                $("#spanPanelDetail").empty();
+
+                $("#SelectedAcademicYear").attr("value", "");
+
+                $("#panelDisplaySubjectBySemester").hide("slow");
+                $("#panelFooter").hide("slow");
+
+            });
+
+            $("#btnCreateRecord").click(function (event) {
+                event.preventDefault();
+                if ($("#selectAddSubject option:selected").attr("value") != "") {
+
+                    var form = $("#FrmCreateRecord")
+                    $.ajax({
+                        url: form.attr("action"),
+                        method: form.attr("method"),
+                        data: form.serialize(),
+                        dataType: "json",
+                        beforeSend: function () {
+                            $("#imgAjaxLoading").show();
+                        },
+                        complete:function(){
+                            $("#imgAjaxLoading").hide();
+                        },
+                        success: function (data, status, jqXHR) {
+                            var displayMsg = $("#displayMessage");
+                            displayMsg.empty().delay(2000);
+                            var alert = ' <div class="' + data.Class + ' alert-dismissable">' +
+                            '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">' +
+                            ' &times;' +
+                            '</button> ' + data.Messages + '</div>';
+                            displayMsg.append(alert).show("slow");
+                            $("#panelBodyTable").load("/Record/GetSemesterSubjects", { semesterCode: $("#SAcademicYear option:selected").attr("value") }, function (data) {
+                                console.log(data);
+                                $("#spanPanelDetail").text("Detalles Asignaturas Periodo:" + $("#SAcademicYear option:selected").attr("value").toUpperCase())
+                                $("#tblSubjectsBySemester").dataTable(dataTable_config);
+
+                            });
+
+                        },
+                        error: function (jqXHR, textStatus, error) {
+                            alert(textStatus);
+                        }
+
+                    })
+                } else {
+                    alert("Debe seleccionar la asignatura");
+                }
+
+                return false;
+            });
+
             $("#btnSelectAcademicYear").click(function (e) {
                 e.preventDefault();
-
                 if ($("#SAcademicYear option:selected").attr("value") != "") {
                         $("#SelectedAcademicYear").attr("value", $("#SAcademicYear option:selected").attr("value"));
 
-                        $.getJSON('@Url.Action("GetAllSubject", "Record")',null,function(data){
-                            console.log(data);
+                        $.getJSON('@Url.Action("GetAllSubject", "Record")', null, function (data) {
+
+                            var $selectAddSubject = $("#selectAddSubject");
+                            $selectAddSubject.empty();
+                            $selectAddSubject.append("<option value>Selecciona</option>");
+                            $.each(data, function (index, item) {
+                                $selectAddSubject.append("<option value='" + item.Code + "'>" + item.FullSubjectName + "</option>")
+                            });
+
+
                         });
-                    $("#panelFooter").show("slow");
+                        $("#panelFooter").show("slow");
+                        $("#panelDisplaySubjectBySemester").show("slow", function () {
+                            $("#panelBodyTable").load("/Record/GetSemesterSubjects", { semesterCode: $("#SAcademicYear option:selected").attr("value") }, function (data) {
+                                console.log(data);
+                                $("#spanPanelDetail").text("Detalles Asignaturas Periodo:" + $("#SAcademicYear option:selected").attr("value").toUpperCase())
+                                $("#tblSubjectsBySemester").dataTable(dataTable_config);
+
+                            });
+
+                        });
                 } else {
                     alert("Seleccione Semestre Académico")
                 }
-            })
+            });
+
         });
     </script>    
 }

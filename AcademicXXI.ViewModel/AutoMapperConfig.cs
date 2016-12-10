@@ -50,7 +50,27 @@ namespace AcademicXXI.ViewModel
 
             //Map StudentPlanViewModel to StudentPlan
             Mapper.CreateMap<ViewModel.StudentPlanViewModel,domain.StudentPlan>();
+
+            //================================================================
+
+            //Map Record to RecordViewModel
             
+            Mapper.CreateMap<domain.Record, ViewModel.RecordViewModel>()
+                .ForMember(s1=>s1.SubjectViewModel,opt=>opt.MapFrom(s=>s.Subject));
+
+            //Map RecordViewModel to Record
+            Mapper.CreateMap<ViewModel.RecordViewModel, domain.Record>()
+                .ForMember(s1 => s1.Subject, opt => opt.MapFrom(s => s.SubjectViewModel)); ;
+
+            //================================================================
+            //Map Professor to ProfessorViewModel
+
+            Mapper.CreateMap<domain.Professor, ViewModel.ProfessorViewModel>();
+
+
+            //Map ProfessorViewModel to Professor
+            Mapper.CreateMap<ViewModel.ProfessorViewModel, domain.Professor>();
+             
             //================================================================
 #pragma warning restore
         }

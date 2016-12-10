@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace AcademicXXI.ViewModel.ViewModel
@@ -22,5 +23,14 @@ namespace AcademicXXI.ViewModel.ViewModel
         [Required]
         [Display(Name = "Año Académico")]
         public String Year { get; set; }
+
+        public String DisplaySemesterDescription { get {return $"{SemesterCode} - {Description.ToUpper()}"; } private set { } }
+
+        public ICollection<RecordViewModel> Records { get; set; }
+
+        public SemesterViewModel()
+        {
+            this.Records = new List<RecordViewModel>();
+        }
     }
 }
