@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -14,5 +15,6 @@ namespace AcademicXXI.Repository
         Task<List<TEntity>> GetAllAsync();
         void Delete(TEntity entity);
         void Update(TEntity entity);
+        DbSet<T> GetGenericDbSet<T>() where T : class;
     }
 }

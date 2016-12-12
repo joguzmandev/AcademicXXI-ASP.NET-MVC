@@ -19,5 +19,12 @@ namespace AcademicXXI.Repository.RecordRepository
         {
             return DbSet.Any(r => r.SemesterFK.Equals(SAcademicYear) && r.SubjectFK.Equals(selectAddSubject));
         }
+
+        public List<RecordDetails> GetAllSessionBySubject(string selectedAcademicSemester, string selectedSubject)
+        {
+            return GetGenericDbSet<RecordDetails>()
+                .Where(r => r.SemesterFK.Equals(selectedAcademicSemester) && r.SubjectFK.Equals(selectedSubject))
+                .ToList();
+        }
     }
 }

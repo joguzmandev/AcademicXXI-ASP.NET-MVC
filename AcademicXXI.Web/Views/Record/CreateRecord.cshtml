@@ -117,7 +117,7 @@
     </div>
 </div>
 <div id="frmDisplayAllSessions">
-    Display session
+    @Html.Partial("_DisplayAllSessionBySubject")
 </div>
 @section scripts{
     
@@ -201,7 +201,7 @@
                 width: 'auto',
                 modal: true,
                 beforeClose: function () {
-
+                    $("#tblDisplaySessionbySubject").find("tbody").empty();
                 }
             });
 
@@ -241,7 +241,17 @@
                 var subjectName = $(this).data("subject-name");
                 var subject = $(this).data("subject");
                 var semester = $(this).data("semester");
+                var datas = {
+                    semester: semester,
+                    subject: subject
 
+                };
+                $("#frmDisplayAllSessions").load("/Record/GetAllSessionBySubject", datas, function (responseText, StatuText, xhr) {
+                    console.log("GetAllSessionBySubject");
+                    console.log(responseText);
+                    console.log("=========================");
+                    console.log(StatuText);
+                });
                 dialogDisplaySession.dialog({ title: "Semestre Académico: " + semester + "| [" + subject + "] " + subjectName });
                 dialogDisplaySession.dialog("open");
             });

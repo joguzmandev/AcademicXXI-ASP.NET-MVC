@@ -269,6 +269,7 @@
     <Content Include="Views\Shared\_DisplayAllSubjectRelation.cshtml" />
     <Content Include="Views\Record\CreateRecord.cshtml" />
     <Content Include="Views\Shared\_AllSubjecsBySemester.cshtml" />
+    <Content Include="Views\Shared\_DisplayAllSessionBySubject.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -167,6 +167,14 @@ namespace AcademicXXI.Web.Controllers
             ,JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        //TODO Pending to validate
+        public PartialViewResult GetAllSessionBySubject(String semester, String subject)
+        {
+            var result = _recordService.GetAllSessionBySubject(semester,subject);
+            ViewData["AllSessionBySubject"] = result.GenericConvertList<vm.RecordDetailsViewModel>();
+            return PartialView("_DisplayAllSessionBySubject");
+        }
         public async Task<ActionResult> GetAllSubject()
         {
            var result = await _subjectService.GetAllAsync();

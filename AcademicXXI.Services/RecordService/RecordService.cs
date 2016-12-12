@@ -20,5 +20,10 @@ namespace AcademicXXI.Services.RecordService
         {
            return repo.ExitRecord(SAcademicYear, selectAddSubject);
         }
+
+        public List<RecordDetails> GetAllSessionBySubject(string selectedAcademicSemester, string selectedSubject)
+        {
+            return repo.GetAllSessionBySubject(selectedAcademicSemester, selectedSubject);
+        }
     }
 }

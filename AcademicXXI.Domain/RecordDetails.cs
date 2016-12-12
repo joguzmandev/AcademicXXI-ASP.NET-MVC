@@ -11,8 +11,8 @@ namespace AcademicXXI.Domain
     public class RecordDetails : BaseDomain
     {
         [Key]
-        public int Id { get; set; }
-
+        public String RecordDetailId { get; set; }
+   
         [Required]
         [Index("IX_SubjectFKAndSemesterFKAndNumericSession", 3, IsUnique = true)]
         public int NumericSession { get; set; }

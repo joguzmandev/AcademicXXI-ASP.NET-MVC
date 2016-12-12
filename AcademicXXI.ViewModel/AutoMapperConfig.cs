@@ -63,6 +63,15 @@ namespace AcademicXXI.ViewModel
                 .ForMember(s1 => s1.Subject, opt => opt.MapFrom(s => s.SubjectViewModel)); ;
 
             //================================================================
+            //Map RecordDetails to RecordDetailsViewModel
+
+            Mapper.CreateMap<domain.RecordDetails, ViewModel.RecordDetailsViewModel>();
+
+
+            //Map RecordDetailsViewModel to RecordDetails
+            Mapper.CreateMap<ViewModel.RecordDetailsViewModel,domain.RecordDetails>();
+
+            //================================================================
             //Map Professor to ProfessorViewModel
 
             Mapper.CreateMap<domain.Professor, ViewModel.ProfessorViewModel>();

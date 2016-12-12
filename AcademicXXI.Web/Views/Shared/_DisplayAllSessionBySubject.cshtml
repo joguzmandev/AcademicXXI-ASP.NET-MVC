@@ -1,0 +1,29 @@
+﻿@{
+    var result = ViewData["AllSessionBySubject"] as List<AcademicXXI.ViewModel.ViewModel.RecordDetailsViewModel>;
+}
+@if (result != null && result.Count > 0)
+{
+    <table id="tblDisplaySessionbySubject" class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Sección</th>
+                <th>Descripción</th>
+                <th>Capacidad</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in result)
+            {
+                <tr>
+                    <th>@item.NumericSession</th>
+                    <th>@item.SessionDescription</th>
+                    <th>@item.LimitSession</th>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h4>Registro no encontrado</h4>
+}

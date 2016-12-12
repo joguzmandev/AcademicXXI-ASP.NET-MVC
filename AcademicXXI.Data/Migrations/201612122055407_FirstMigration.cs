@@ -25,7 +25,7 @@ namespace AcademicXXI.Data.Migrations
                     {
                         SubjectFK = c.String(maxLength: 7),
                         SemesterFK = c.String(maxLength: 7),
-                        Id = c.Int(nullable: false, identity: true),
+                        RecordDetailId = c.String(nullable: false, maxLength: 128),
                         NumericSession = c.Int(nullable: false),
                         SessionDescription = c.String(nullable: false, maxLength: 100),
                         LimitSession = c.Int(nullable: false),
@@ -33,10 +33,10 @@ namespace AcademicXXI.Data.Migrations
                         Status = c.Int(nullable: false),
                         Created = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
                     })
-                .PrimaryKey(t => t.Id)
+                .PrimaryKey(t => t.RecordDetailId)
                 .ForeignKey("dbo.Professors", t => t.ProfessorFK)
                 .ForeignKey("dbo.Records", t => new { t.SubjectFK, t.SemesterFK })
-                .Index(t => new { t.SubjectFK, t.SemesterFK })
+                .Index(t => new { t.SubjectFK, t.SemesterFK, t.NumericSession }, unique: true, name: "IX_SubjectFKAndSemesterFKAndNumericSession")
                 .Index(t => t.ProfessorFK);
             
             CreateTable(
@@ -74,7 +74,7 @@ namespace AcademicXXI.Data.Migrations
                         SubjectID = c.String(nullable: false, maxLength: 7),
                         Name = c.String(nullable: false, maxLength: 100),
                         Credit = c.Int(nullable: false),
-                        PrerequisiteCode = c.String(nullable: false, maxLength: 7),
+                        PrerequisiteCode = c.String(maxLength: 7),
                         StudyPlanFK = c.String(maxLength: 10),
                         Status = c.Int(nullable: false),
                         Created = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
@@ -98,7 +98,7 @@ namespace AcademicXXI.Data.Migrations
                 "dbo.StudentPlans",
                 c => new
                     {
-                        StudentFK = c.String(nullable: false, maxLength: 128),
+                        StudentFK = c.String(nullable: false, maxLength: 10),
                         StudyPlanFK = c.String(nullable: false, maxLength: 10),
                         Created = c.DateTime(nullable: false),
                     })
@@ -112,7 +112,7 @@ namespace AcademicXXI.Data.Migrations
                 "dbo.Students",
                 c => new
                     {
-                        StudentID = c.String(nullable: false, maxLength: 128),
+                        StudentID = c.String(nullable: false, maxLength: 10),
                         FirstName = c.String(nullable: false, maxLength: 30),
                         LastName = c.String(nullable: false, maxLength: 30),
                         DocumentID = c.String(nullable: false, maxLength: 11),
@@ -142,7 +142,7 @@ namespace AcademicXXI.Data.Migrations
             DropIndex("dbo.Records", new[] { "SemesterFK" });
             DropIndex("dbo.Records", new[] { "SubjectFK" });
             DropIndex("dbo.RecordDetails", new[] { "ProfessorFK" });
-            DropIndex("dbo.RecordDetails", new[] { "SubjectFK", "SemesterFK" });
+            DropIndex("dbo.RecordDetails", "IX_SubjectFKAndSemesterFKAndNumericSession");
             DropIndex("dbo.Professors", "DocumentID_Unique");
             DropTable("dbo.Students");
             DropTable("dbo.StudentPlans");

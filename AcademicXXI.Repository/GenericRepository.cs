@@ -13,7 +13,7 @@ namespace AcademicXXI.Repository
     {
         private AcademicXXIDataContext _dbContext;
 
-        protected DbSet<TEntity> DbSet { get;private set; }
+        protected DbSet<TEntity> DbSet { get; private set; }
 
         public GenericRepository(AcademicXXIDataContext dbContext)
         {
@@ -29,12 +29,12 @@ namespace AcademicXXI.Repository
 
         public TEntity Find(Expression<Func<TEntity, bool>> expression)
         {
-                return _dbContext.Set<TEntity>().Where(expression).SingleOrDefault();
+            return _dbContext.Set<TEntity>().Where(expression).SingleOrDefault();
         }
 
         public Task<List<TEntity>> GetAllAsync()
         {
-                return _dbContext.Set<TEntity>().ToListAsync<TEntity>();
+            return _dbContext.Set<TEntity>().ToListAsync<TEntity>();
         }
 
         public void Delete(TEntity entity)
@@ -55,6 +55,11 @@ namespace AcademicXXI.Repository
             {
                 _dbContext.Dispose();
             }
+        }
+
+        public DbSet<T> GetGenericDbSet<T>() where T : class
+        {
+            return _dbContext.Set<T>();
         }
     }
 }
