@@ -13,5 +13,10 @@ namespace AcademicXXI.ViewModel.ViewModel
 
         //One Professor has many RecordDetails
         public virtual List<RecordDetailsViewModel> RecordDetailsViewModel { get; set; }
+
+        public override string ToString()
+        {
+            return this.FullName;
+        }
     }
 }

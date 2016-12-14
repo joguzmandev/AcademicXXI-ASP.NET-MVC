@@ -23,13 +23,15 @@ namespace AcademicXXI.Domain
 
         #region Relationship
         public virtual ICollection<StudentPlan> StudentPlans { get; set; }
-        
+        public virtual ICollection<LineRecordStudentDetails> LineRecordStudentDetails { get; set; }
+
         #endregion
 
         public Student()
         {
             this.StudentPlans = new List<StudentPlan>();
-            
+            this.LineRecordStudentDetails = new List<LineRecordStudentDetails>();
+
         }
 
 

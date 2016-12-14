@@ -11,10 +11,21 @@ namespace AcademicXXI.Domain
     [Table("LineRecordStudent")]
     public class LineRecordStudentDetails : BaseDomain
     {
-        [Key, Column("StudentID"), Index("StudentID_Unique", IsUnique = false), StringLength(10)]
+        [Key,MaxLength(20),Column("LineRecordStudentID")]
+        public String LineRecordStudentID { get; set; }
+
+        [Required,ForeignKey("Student"),MaxLength(10)]
         public string StudentFK { get; set; }
         public Student Student { get; set; }
 
+        [Required,ForeignKey("RecordDetails"),MaxLength(15)]
+        public String RecordDetailsFK { get; set; }
+        public RecordDetails RecordDetails { get; set; }
 
+        [Required]
+        public int NumericScore { get; set; }
+
+        [Required,MaxLength(2)]
+        public String LiteralScore { get; set; }
     }
 }

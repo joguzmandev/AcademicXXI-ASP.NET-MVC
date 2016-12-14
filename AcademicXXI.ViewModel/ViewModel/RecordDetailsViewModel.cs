@@ -10,6 +10,9 @@ namespace AcademicXXI.ViewModel.ViewModel
 {
     public class RecordDetailsViewModel : BaseDomain
     {
+        
+        public String RecordDetailId { get; set; }
+
         [Required]
         public int NumericSession { get; set; }
 

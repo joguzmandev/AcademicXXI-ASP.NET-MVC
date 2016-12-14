@@ -10,7 +10,7 @@ namespace AcademicXXI.Domain
 {
     public class RecordDetails : BaseDomain
     {
-        [Key]
+        [Key,Column("RecordDetailId"),MaxLength(15)]
         public String RecordDetailId { get; set; }
    
         [Required]
@@ -40,6 +40,14 @@ namespace AcademicXXI.Domain
         [ForeignKey("SubjectFK,SemesterFK")]
         public virtual Record Record { get; set; }
 
-       
+
+        public ICollection<LineRecordStudentDetails> LineRecordStudentDetails { get; set; }
+
+        public RecordDetails()
+        {
+            this.LineRecordStudentDetails = new List<LineRecordStudentDetails>();
+        }
+
+
     }
 }

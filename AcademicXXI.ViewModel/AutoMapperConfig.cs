@@ -56,20 +56,24 @@ namespace AcademicXXI.ViewModel
             //Map Record to RecordViewModel
             
             Mapper.CreateMap<domain.Record, ViewModel.RecordViewModel>()
-                .ForMember(s1=>s1.SubjectViewModel,opt=>opt.MapFrom(s=>s.Subject));
+                .ForMember(s1=>s1.SubjectViewModel,opt=>opt.MapFrom(s=>s.Subject))
+                .ForMember(s1 => s1.RecordDetailsViewModel, opt => opt.MapFrom(s => s.RecordDetails));
 
             //Map RecordViewModel to Record
             Mapper.CreateMap<ViewModel.RecordViewModel, domain.Record>()
-                .ForMember(s1 => s1.Subject, opt => opt.MapFrom(s => s.SubjectViewModel)); ;
+                .ForMember(s1 => s1.Subject, opt => opt.MapFrom(s => s.SubjectViewModel))
+                .ForMember(s1 => s1.RecordDetails, opt => opt.MapFrom(s => s.RecordDetailsViewModel));
 
             //================================================================
             //Map RecordDetails to RecordDetailsViewModel
 
-            Mapper.CreateMap<domain.RecordDetails, ViewModel.RecordDetailsViewModel>();
+            Mapper.CreateMap<domain.RecordDetails, ViewModel.RecordDetailsViewModel>()
+                .ForMember(s1 => s1.ProfessorViewModel, opt => opt.MapFrom(s => s.Professor));
 
 
             //Map RecordDetailsViewModel to RecordDetails
-            Mapper.CreateMap<ViewModel.RecordDetailsViewModel,domain.RecordDetails>();
+            Mapper.CreateMap<ViewModel.RecordDetailsViewModel,domain.RecordDetails>()
+                .ForMember(s1 => s1.Professor, opt => opt.MapFrom(s => s.ProfessorViewModel));
 
             //================================================================
             //Map Professor to ProfessorViewModel

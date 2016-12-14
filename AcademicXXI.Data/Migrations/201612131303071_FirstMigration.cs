@@ -25,7 +25,7 @@ namespace AcademicXXI.Data.Migrations
                     {
                         SubjectFK = c.String(maxLength: 7),
                         SemesterFK = c.String(maxLength: 7),
-                        RecordDetailId = c.String(nullable: false, maxLength: 128),
+                        Id = c.String(nullable: false, maxLength: 10),
                         NumericSession = c.Int(nullable: false),
                         SessionDescription = c.String(nullable: false, maxLength: 100),
                         LimitSession = c.Int(nullable: false),
@@ -33,7 +33,7 @@ namespace AcademicXXI.Data.Migrations
                         Status = c.Int(nullable: false),
                         Created = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
                     })
-                .PrimaryKey(t => t.RecordDetailId)
+                .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Professors", t => t.ProfessorFK)
                 .ForeignKey("dbo.Records", t => new { t.SubjectFK, t.SemesterFK })
                 .Index(t => new { t.SubjectFK, t.SemesterFK, t.NumericSession }, unique: true, name: "IX_SubjectFKAndSemesterFKAndNumericSession")

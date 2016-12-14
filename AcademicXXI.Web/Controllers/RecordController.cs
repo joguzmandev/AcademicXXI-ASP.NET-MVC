@@ -131,8 +131,14 @@ namespace AcademicXXI.Web.Controllers
                 return Json(msg, JsonRequestBehavior.AllowGet);
             }
 
+            var key1 = record.SemesterFK.Replace("-",string.Empty);
+            var key2 = record.SubjectFK.Replace("-", string.Empty);
+            var key3 = NumericSession.ToString();
+            
             var recordDetail = new domian.RecordDetails()
             {
+                
+                RecordDetailId = $"{key1+key2+key3}",
                 SubjectFK = record.SubjectFK,
                 SemesterFK = record.SemesterFK,
                 NumericSession = Int32.Parse(NumericSession),
@@ -175,11 +181,42 @@ namespace AcademicXXI.Web.Controllers
             ViewData["AllSessionBySubject"] = result.GenericConvertList<vm.RecordDetailsViewModel>();
             return PartialView("_DisplayAllSessionBySubject");
         }
+
         public async Task<ActionResult> GetAllSubject()
         {
            var result = await _subjectService.GetAllAsync();
 
             return Json(result.GenericConvertList<vm.SubjectViewModel>(),JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult SearchingSubjectSessions(String subjectCode, String SemesterCode)
+        {
+            Message msg = null;
+            if(String.IsNullOrEmpty(subjectCode) || string.IsNullOrEmpty(SemesterCode))
+            {
+                msg = new Message()
+                {
+                    Class = "alert alert-danger",
+                    Messages = "Error - Semestre - Asignatura",
+                    Code = -1
+                };
+                return Json(msg, JsonRequestBehavior.AllowGet);
+            }
+            var result = _recordService.GetRecordWithSubjectAndSessions(subjectCode, SemesterCode);
+
+            if(result == null)
+            {
+                msg = new Message()
+                {
+                    Class = "alert alert-danger",
+                    Messages = "Error - Semestre - Asignatura",
+                    Code = -1
+                };
+                return Json(msg, JsonRequestBehavior.AllowGet);
+
+            }
+
+            return Json(result.GenericConvert<vm.RecordViewModel>(), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult GetSemesterSubjects(String semesterCode)
@@ -213,6 +250,14 @@ namespace AcademicXXI.Web.Controllers
             this._professorService = professorfService;
         }
 
+        public async Task<ActionResult> MaintenanceSessionToRecord()
+        {
+            var result = await _semesterService.GetAllAsync();
+
+            SelectList list = new SelectList(result.GenericConvertList<vm.SemesterViewModel>(), "SemesterCode", "DisplaySemesterDescription");
+            ViewBag.GetAllSemester = list;
+            return View();
+        }
         private ISubjectService _subjectService { get; set; }
         private ISemesterService _semesterService { get; set; }
         private IRecordService _recordService { get; set; }

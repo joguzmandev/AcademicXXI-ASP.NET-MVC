@@ -1,0 +1,174 @@
+﻿@{
+    ViewBag.Title = "Mantenimiento de Secciones por Acta";
+}
+@section css{
+    <link href="~/Content/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.theme.min.css" rel="stylesheet" />
+    <style>
+        #displaySubjec, #displayAllSessionBySubject, #loadingAjax {
+            display: none;
+        }
+
+        label.error {
+            color: red;
+        }
+    </style>
+}
+<!-- Load all semester--->
+<div id="displayAllSemester" class="row">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            Semestre
+        </div>
+        <div class="panel-body">
+            <div class="col-md-12">
+                @Html.DropDownList("dropListSemester", ViewBag.GetAllSemester as SelectList, "-- Seleccione -- ", new { @id = "dropListSemester", @class = "form-control" })
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Load Subject-->
+<div id="displaySubjec" class="row">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            Asignatura
+        </div>
+        <div class="panel-body">
+            @using (Html.BeginForm("SearchingSubjectSessions", "Record", FormMethod.Post, new { @id = "FrmSearchingSubjectSessions" }))
+            {
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <input type="text" class="form-control"
+                               name="inputSubjectCode" id="inputSubjectCode"
+                               placeholder="Código Asignatura" maxlength="7" width="100" style="text-align:center" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    
+                    <button class="btn btn-primary" id="btnSearch">Buscar</button>
+                    <img id="loadingAjax" src="~/Content/images/loadingAjax.gif" />
+                </div>
+                <div class="col-md-6">
+                    <input type="text" class="form-control" readonly id="SubjectFound" name="SubjectFound" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Load All Session by Subject And Semester-->
+<div id="displayAllSessionBySubject" class="row">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            Lista Secciones
+        </div>
+        <div class="panel-body">
+            <table id="tbl" class="table table-bordered table-condensed table-hover table-responsive">
+                <thead>
+                    <tr>
+                        <th>Sección</th>
+                        <th>Descripción</th>
+                        <th>Capacidad</th>
+                        <th>Docente</th>
+                        <th></th>
+
+                    </tr>
+                </thead>
+               <tbody id="tbodyDisplaySession"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/jquery-2.2.3.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/dataTables.bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $("#dropListSemester").change(function (data) {
+
+                var displaySubjec = $("#displaySubjec");
+                displaySubjec.find("input[type=text]").val("");
+                $("#displayAllSessionBySubject").hide("slow");
+
+                if ($(this).find("option:selected").val() != "") {
+                    
+                    displaySubjec.hide("slow").delay(500).show("slow");
+                    
+
+                } else {
+                    displaySubjec.hide("slow");
+                    
+                }
+            });
+
+            $("#FrmSearchingSubjectSessions").validate({
+                rules: {
+                    inputSubjectCode: { required: true }
+                },
+                messages: {
+                    inputSubjectCode: { required: 'Debe ingresar Código' }
+                }, submitHandler: function (form) {
+                    var loadingAjax = $("#loadingAjax");
+                    var dataToSend={
+                        subjectCode: form.inputSubjectCode.value,
+                        SemesterCode: $("#dropListSemester option:selected").val()
+                    }
+                    $.ajax({
+                        url: form.action,
+                        method: form.method,
+                        data: dataToSend,
+                        dataType: "json",
+                        success: function (data, status, jqxhr) {
+                            console.log(data);
+                            if (data.SubjectViewModel != null) {
+                                $("#SubjectFound").val(data.SubjectViewModel.FullSubjectName)
+                                
+                            } else {
+                                $("#SubjectFound").val("Registro no encontrado");
+                                $("#displayAllSessionBySubject").hide("slow");
+                            }
+                            if (data.RecordDetailsViewModel != null) {
+                                var tbodyDisplaySession = $("#tbodyDisplaySession");
+                                tbodyDisplaySession.empty();
+                                var notProfessor = "<span style='color:red'>Sin Asignación</span>";
+                                $.each(data.RecordDetailsViewModel, function (index, item) {
+                                    var professor = item.ProfessorViewModel;
+                                    var includeStudent = "<a href='#' class='btn btn-link'>Incluir Alumno</a>";
+                                    var excludeStudent = "<a href='#' class='btn btn-link'>Encluir Alumno</a>";
+                                    var row = "<tr>"+
+                                                    "<td>" + item.NumericSession + "</td>" +
+                                                    "<td>" + item.SessionDescription + "</td>" +
+                                                    "<td>" + item.LimitSession + "</td>" +
+                                                    "<td>" + (professor != null ? professor.FullName : notProfessor ) + "</td>" +
+                                                    "<td>" + includeStudent +" || "+ excludeStudent + "</td>" +
+                                               "</tr>";
+                                    tbodyDisplaySession.append(row);
+                                });
+                                $("#displayAllSessionBySubject").show("slow");
+                            }
+                            
+                            
+                        }, error: function (error,status,jqxhr) {
+                            console.log(error);
+                        }, beforeSend: function () {
+                            loadingAjax.show();
+                        }, complete: function () {
+                            loadingAjax.hide();
+                        }
+                        
+                    })
+                }
+            })
+
+
+        });
+
+    </script>
+}

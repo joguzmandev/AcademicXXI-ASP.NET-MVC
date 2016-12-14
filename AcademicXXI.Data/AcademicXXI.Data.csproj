@@ -50,9 +50,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AcademicXXIDataContext.cs" />
-    <Compile Include="Migrations\201612122055407_FirstMigration.cs" />
-    <Compile Include="Migrations\201612122055407_FirstMigration.Designer.cs">
-      <DependentUpon>201612122055407_FirstMigration.cs</DependentUpon>
+    <Compile Include="Migrations\201612131303071_FirstMigration.cs" />
+    <Compile Include="Migrations\201612131303071_FirstMigration.Designer.cs">
+      <DependentUpon>201612131303071_FirstMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612131323424_SecondMigration.cs" />
+    <Compile Include="Migrations\201612131323424_SecondMigration.Designer.cs">
+      <DependentUpon>201612131323424_SecondMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612131920360_ThridMigrations.cs" />
+    <Compile Include="Migrations\201612131920360_ThridMigrations.Designer.cs">
+      <DependentUpon>201612131920360_ThridMigrations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612131929313_FourMigrations.cs" />
+    <Compile Include="Migrations\201612131929313_FourMigrations.Designer.cs">
+      <DependentUpon>201612131929313_FourMigrations.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -74,8 +86,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201612122055407_FirstMigration.resx">
-      <DependentUpon>201612122055407_FirstMigration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201612131303071_FirstMigration.resx">
+      <DependentUpon>201612131303071_FirstMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612131323424_SecondMigration.resx">
+      <DependentUpon>201612131323424_SecondMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612131920360_ThridMigrations.resx">
+      <DependentUpon>201612131920360_ThridMigrations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612131929313_FourMigrations.resx">
+      <DependentUpon>201612131929313_FourMigrations.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

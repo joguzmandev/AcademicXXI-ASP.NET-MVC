@@ -25,5 +25,10 @@ namespace AcademicXXI.Services.RecordService
         {
             return repo.GetAllSessionBySubject(selectedAcademicSemester, selectedSubject);
         }
+
+        public Record GetRecordWithSubjectAndSessions(string subjectCode, string semesterCode)
+        {
+            return repo.GetRecordWithSubjectAndSessions(subjectCode, semesterCode);
+        }
     }
 }

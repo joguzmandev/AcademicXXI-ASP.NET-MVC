@@ -22,7 +22,7 @@ namespace AcademicXXI.Data
         public DbSet<Professor> Professors { get; set; }
         public DbSet<Record> Records { get; set; }
         public DbSet<RecordDetails> RecordDetails { get; set; }
-        //public DbSet<LineRecordStudent> LineRecordStudents { get; set; }
+        public DbSet<LineRecordStudentDetails> LineRecordStudentDetails { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

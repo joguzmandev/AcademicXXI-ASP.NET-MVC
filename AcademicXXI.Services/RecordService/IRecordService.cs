@@ -11,5 +11,6 @@ namespace AcademicXXI.Services.RecordService
     {
         bool ExitRecord(String SAcademicYear, String selectAddSubject);
         List<RecordDetails> GetAllSessionBySubject(String selectedAcademicSemester, String selectedSubject);
+        Record GetRecordWithSubjectAndSessions(String subjectCode, String semesterCode);
     }
 }
