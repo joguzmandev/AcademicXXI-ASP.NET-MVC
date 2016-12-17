@@ -6,7 +6,7 @@
     <link href="~/Content/jquery-ui.min.css" rel="stylesheet" />
     <link href="~/Content/jquery-ui.theme.min.css" rel="stylesheet" />
     <style>
-        #displaySubjec, #displayAllSessionBySubject, #loadingAjax {
+        #displaySubjec, #displayAllSessionBySubject, #loadingAjax,#dialogIncludeStudent {
             display: none;
         }
 
@@ -82,11 +82,31 @@
     </div>
 </div>
 
+
+<!--Dialogs-->
+<div id="dialogIncludeStudent" title="Ejemplo">
+    <div class="row">
+        <div class="col-md-12">
+            @using (Html.BeginForm("IncludeStudentToSession", "Record", FormMethod.Post, new { @id = "FrmIncludeStudentToSession" }))
+            {
+                <div class="form-group">
+                    <label for="StudentRegisterNumber">Matrícula</label>
+                    <input type="text" maxlength="10" placeholder="Matrícula" name="StudentRegisterNumber" class="form-control" style="text-align:center" />
+                </div>
+                <div class="form-group">
+                    <input type="submit" name="btnSearchStudent" value="Consultar" class="btn btn-info" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
 @section scripts{
     <script src="~/Scripts/jquery-2.2.3.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.dataTables.min.js"></script>
     <script src="~/Scripts/dataTables.bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-ui.min.js"></script>
 
     <script>
         $(document).ready(function () {
@@ -140,8 +160,12 @@
                                 var notProfessor = "<span style='color:red'>Sin Asignación</span>";
                                 $.each(data.RecordDetailsViewModel, function (index, item) {
                                     var professor = item.ProfessorViewModel;
-                                    var includeStudent = "<a href='#' class='btn btn-link'>Incluir Alumno</a>";
-                                    var excludeStudent = "<a href='#' class='btn btn-link'>Encluir Alumno</a>";
+                                    var includeStudent = "<a href='javascript:void(0)' class='btn btn-link'"+ 
+                                                         "data-record-detail-id='" + item.RecordDetailId + "'" +
+                                                         "data-numeric-session='" + item.NumericSession + "'" +
+                                                         "data-session-description='" + item.SessionDescription + "'" +
+                                                         ">Incluir Alumno</a>";
+                                    var excludeStudent = "<a href='/Record/ExcludeStudentToSession?RecordDetailId=&SubjectFK=" + data.SubjectFK + "&SemesterFK=" + data.SemesterFK + "&NumericSession=" + item.NumericSession + "' class='btn btn-link'>Excluir Alumno</a>";
                                     var row = "<tr>"+
                                                     "<td>" + item.NumericSession + "</td>" +
                                                     "<td>" + item.SessionDescription + "</td>" +
@@ -167,7 +191,28 @@
                 }
             })
 
+            $("tbody").on('click', 'a', function () {
+                var self = $(this);
 
+                var RecordDetailId = self.data("record-detail-id");
+                var SessionDescription = self.data("session-description");
+                var NumericSession = self.data("numeric-session");
+                var title = '[' + NumericSession + '] - ' + SessionDescription + '| Incluir Alumno';
+
+                dialogIncludeStudent.dialog({ 'title': title })
+                dialogIncludeStudent.dialog("open");
+                
+            });
+
+            var dialogIncludeStudent = $("#dialogIncludeStudent").dialog({
+                autoOpen: false,
+                height: 'auto',
+                width: 550,
+                modal: true,
+                beforeClose: function () {
+                    
+                }
+            });
         });
 
     </script>

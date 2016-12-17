@@ -234,6 +234,16 @@ namespace AcademicXXI.Web.Controllers
             return Json(result.GenericConvertList<vm.ProfessorViewModel>(), JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult IncludeStudentToSession(String RecordDetailId,String SubjectFK,String SemesterFK, String NumericSession)
+        {
+            return View();
+        }
+
+        public ActionResult ExcludeStudentToSession(String RecordDetailId, String SubjectFK, String SemesterFK, String NumericSession)
+        {
+            return View();
+        }
+
         private Object ToJSON(vm.SemesterViewModel semester)
         {
             return JsonConvert.SerializeObject(semester, Formatting.Indented, new JsonSerializerSettings()
@@ -241,6 +251,8 @@ namespace AcademicXXI.Web.Controllers
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             });
         }
+
+
 
         public RecordController(ISubjectService subjectService,ISemesterService semesterService, IRecordService recordService, IProfessorService professorfService)
         {
