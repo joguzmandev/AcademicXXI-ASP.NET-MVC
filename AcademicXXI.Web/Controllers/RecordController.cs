@@ -14,6 +14,7 @@ using AcademicXXI.Web.Models;
 using System.Data.SqlClient;
 using Newtonsoft.Json;
 using AcademicXXI.Services.ProfessorService;
+using AcademicXXI.Services.StudentService;
 
 namespace AcademicXXI.Web.Controllers
 {
@@ -28,14 +29,14 @@ namespace AcademicXXI.Web.Controllers
         public async Task<ActionResult> CreateRecord()
         {
             var result = await _semesterService.GetAllAsync();
-            
+
             SelectList list = new SelectList(result.GenericConvertList<vm.SemesterViewModel>(), "SemesterCode", "DisplaySemesterDescription");
             ViewBag.GetAllSemester = list;
             return View();
         }
 
         [HttpPost]
-        public JsonResult CreateRecord(String SAcademicYear,String selectAddSubject)
+        public JsonResult CreateRecord(String SAcademicYear, String selectAddSubject)
         {
             Message msg = null;
             if (String.IsNullOrEmpty(SAcademicYear))
@@ -62,7 +63,7 @@ namespace AcademicXXI.Web.Controllers
                 };
                 return Json(msg, JsonRequestBehavior.AllowGet);
             }
-            
+
             if (_recordService.ExitRecord(SAcademicYear, selectAddSubject))
             {
                 msg = new Message()
@@ -75,7 +76,8 @@ namespace AcademicXXI.Web.Controllers
                 return Json(msg, JsonRequestBehavior.AllowGet);
             }
 
-            var record = new domian.Record() {
+            var record = new domian.Record()
+            {
                 SemesterFK = SAcademicYear,
                 SubjectFK = selectAddSubject,
                 Created = DateTime.Now,
@@ -84,7 +86,8 @@ namespace AcademicXXI.Web.Controllers
             try
             {
                 _recordService.Add(record);
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 var result = e.InnerException.InnerException.Message.Contains("Violation of PRIMARY KEY constraint");
                 if (result)
@@ -100,7 +103,7 @@ namespace AcademicXXI.Web.Controllers
                     return Json(msg, JsonRequestBehavior.AllowGet);
 
                 }
-               
+
             }
             msg = new Message()
             {
@@ -109,18 +112,18 @@ namespace AcademicXXI.Web.Controllers
                 Messages = "Acta creada satisfactoriamente",
                 Status = true
             };
-            return Json(msg,JsonRequestBehavior.AllowGet);
+            return Json(msg, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
         //TODO Pending to validate
         public JsonResult AddSessionRecord(
-            String subject,String semester,String NumericSession,
-            String SessionDescription,String LimitSession,String Professor)
+            String subject, String semester, String NumericSession,
+            String SessionDescription, String LimitSession, String Professor)
         {
             //Get Record
             var record = _recordService.Find(r => r.SubjectFK.Equals(subject) && r.SemesterFK.Equals(semester));
-            if(record == null)
+            if (record == null)
             {
                 Message msg = new Message()
                 {
@@ -131,27 +134,29 @@ namespace AcademicXXI.Web.Controllers
                 return Json(msg, JsonRequestBehavior.AllowGet);
             }
 
-            var key1 = record.SemesterFK.Replace("-",string.Empty);
+            var key1 = record.SemesterFK.Replace("-", string.Empty);
             var key2 = record.SubjectFK.Replace("-", string.Empty);
             var key3 = NumericSession.ToString();
-            
+
             var recordDetail = new domian.RecordDetails()
             {
-                
-                RecordDetailId = $"{key1+key2+key3}",
+
+                RecordDetailId = $"{key1 + key2 + key3}",
                 SubjectFK = record.SubjectFK,
                 SemesterFK = record.SemesterFK,
                 NumericSession = Int32.Parse(NumericSession),
                 SessionDescription = SessionDescription,
                 LimitSession = Int32.Parse(LimitSession),
-                ProfessorFK = String.IsNullOrEmpty(Professor)?null:Professor,
+                ProfessorFK = String.IsNullOrEmpty(Professor) ? null : Professor,
                 Status = Helpers.Status.Active,
                 Created = DateTime.Now,
             };
             record.RecordDetails.Add(recordDetail);
-            try {
+            try
+            {
                 _recordService.Update(record);
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 if (e.InnerException.InnerException.Message.Contains("Cannot insert duplicate key row in object "))
                 {
@@ -164,35 +169,37 @@ namespace AcademicXXI.Web.Controllers
                     return Json(msg, JsonRequestBehavior.AllowGet);
                 }
             }
-           
 
 
-            return Json(new Message() {
+
+            return Json(new Message()
+            {
                 Class = "alert alert-success",
-                Messages = "Sección registrada satisfactoriamente" }
-            ,JsonRequestBehavior.AllowGet);
+                Messages = "Sección registrada satisfactoriamente"
+            }
+            , JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
         //TODO Pending to validate
         public PartialViewResult GetAllSessionBySubject(String semester, String subject)
         {
-            var result = _recordService.GetAllSessionBySubject(semester,subject);
+            var result = _recordService.GetAllSessionBySubject(semester, subject);
             ViewData["AllSessionBySubject"] = result.GenericConvertList<vm.RecordDetailsViewModel>();
             return PartialView("_DisplayAllSessionBySubject");
         }
 
         public async Task<ActionResult> GetAllSubject()
         {
-           var result = await _subjectService.GetAllAsync();
+            var result = await _subjectService.GetAllAsync();
 
-            return Json(result.GenericConvertList<vm.SubjectViewModel>(),JsonRequestBehavior.AllowGet);
+            return Json(result.GenericConvertList<vm.SubjectViewModel>(), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult SearchingSubjectSessions(String subjectCode, String SemesterCode)
         {
             Message msg = null;
-            if(String.IsNullOrEmpty(subjectCode) || string.IsNullOrEmpty(SemesterCode))
+            if (String.IsNullOrEmpty(subjectCode) || string.IsNullOrEmpty(SemesterCode))
             {
                 msg = new Message()
                 {
@@ -204,7 +211,7 @@ namespace AcademicXXI.Web.Controllers
             }
             var result = _recordService.GetRecordWithSubjectAndSessions(subjectCode, SemesterCode);
 
-            if(result == null)
+            if (result == null)
             {
                 msg = new Message()
                 {
@@ -234,9 +241,83 @@ namespace AcademicXXI.Web.Controllers
             return Json(result.GenericConvertList<vm.ProfessorViewModel>(), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult IncludeStudentToSession(String RecordDetailId,String SubjectFK,String SemesterFK, String NumericSession)
+        public ActionResult IncludeStudentToSession(String RecordDetailId, String StudentRegisterNumber)
         {
-            return View();
+
+            //Primero Buscar la session con RecordDetail
+            
+
+
+
+
+
+            var msg = new Message();
+            //1: Validate RecordDetailId and StudentRegisterNumber are not empty
+            if (String.IsNullOrEmpty(RecordDetailId))
+            {
+                msg.Class = "alert alert-danger";
+                msg.Code = -1;
+                msg.Messages = "Error : Vuelta a recargar la página";
+                return Json(msg, JsonRequestBehavior.AllowGet);
+            }
+            if (String.IsNullOrEmpty(StudentRegisterNumber))
+            {
+                msg.Class = "alert alert-danger";
+                msg.Code = -1;
+                msg.Messages = "Error - Campo Matrícula es requerido";
+                return Json(msg, JsonRequestBehavior.AllowGet);
+            }
+
+            //2: Find Student with RegisterNumber
+            var studentFound = _studentService.Find(s => s.RegisterNumber.Equals(StudentRegisterNumber));
+
+            //3: Validate if StudentRegisterNumber exit
+            if (studentFound == null)
+            {
+                msg.Class = "alert alert-danger";
+                msg.Code = -1;
+                msg.Messages = "Error - Matrícula no existe / Incompleta";
+                return Json(msg, JsonRequestBehavior.AllowGet);
+
+            }
+            //4: Find RecordDetails with RecordDetailId
+            var record_details = _recordService.GetRecordWithRecordDetailsByRDId(RecordDetailId);
+
+            //5: Validate if record_details exit
+            if (record_details == null)
+            {
+                msg.Class = "alert alert-danger";
+                msg.Code = -1;
+                msg.Messages = "Error";
+                return Json(msg, JsonRequestBehavior.AllowGet);
+            }
+
+            //6: Student add a new LineRecordStudentDetails
+            var ID = $"{studentFound.RegisterNumber}{record_details.SubjectFK}{record_details.NumericSession}";
+            studentFound.LineRecordStudentDetails.Add(new domian.LineRecordStudentDetails()
+            {
+                LineRecordStudentID = ID.Replace("-", string.Empty),
+                RecordDetailsFK = record_details.RecordDetailId,
+                Created = DateTime.Now,
+                Status = Helpers.Status.Active
+
+            });
+            try
+            {
+                //7: Update Student and save
+                _studentService.Update(studentFound);
+            }
+            catch (Exception e)
+            {
+                msg.Class = "alert alert-danger";
+                msg.Code = -1;
+                msg.Messages = $"Error {e.Message}";
+                return Json(msg, JsonRequestBehavior.AllowGet);
+            }
+            msg.Class = "alert alert-success";
+            msg.Code = 1;
+            msg.Messages = $"Agregado satisfactoriamente.";
+            return Json(msg, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult ExcludeStudentToSession(String RecordDetailId, String SubjectFK, String SemesterFK, String NumericSession)
@@ -252,16 +333,6 @@ namespace AcademicXXI.Web.Controllers
             });
         }
 
-
-
-        public RecordController(ISubjectService subjectService,ISemesterService semesterService, IRecordService recordService, IProfessorService professorfService)
-        {
-            this._subjectService = subjectService;
-            this._semesterService = semesterService;
-            this._recordService = recordService;
-            this._professorService = professorfService;
-        }
-
         public async Task<ActionResult> MaintenanceSessionToRecord()
         {
             var result = await _semesterService.GetAllAsync();
@@ -270,9 +341,20 @@ namespace AcademicXXI.Web.Controllers
             ViewBag.GetAllSemester = list;
             return View();
         }
+
+        public RecordController(ISubjectService subjectService, ISemesterService semesterService, IRecordService recordService, IProfessorService professorfService, IStudentService studentService)
+        {
+            this._subjectService = subjectService;
+            this._semesterService = semesterService;
+            this._recordService = recordService;
+            this._professorService = professorfService;
+            this._studentService = studentService;
+        }
+
         private ISubjectService _subjectService { get; set; }
         private ISemesterService _semesterService { get; set; }
         private IRecordService _recordService { get; set; }
-        public IProfessorService _professorService { get; set; }
+        private IProfessorService _professorService { get; set; }
+        private IStudentService _studentService { get; set; }
     }
 }

@@ -28,6 +28,17 @@ namespace AcademicXXI.Repository.RecordRepository
                 .ToList();
         }
 
+        public RecordDetails GetRecordWithRecordDetailsByRDId(string recordDetailsid)
+        {
+            var _DbSetRecordDetails = GetGenericDbSet<RecordDetails>();
+            var result = _DbSetRecordDetails.Include(x => x.Record)
+                                .Where(x => x.RecordDetailId.Equals(recordDetailsid))
+                                .SingleOrDefault();
+            
+            
+            return result;
+        }
+
         public Record GetRecordWithSubjectAndSessions(string subjectCode, string semesterCode)
         {
             var record = DbSet.Include(r => r.RecordDetails)

@@ -66,6 +66,10 @@
     <Compile Include="Migrations\201612131929313_FourMigrations.Designer.cs">
       <DependentUpon>201612131929313_FourMigrations.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201612201721190_RemoveRequiredMetaToLineRecordStudent.cs" />
+    <Compile Include="Migrations\201612201721190_RemoveRequiredMetaToLineRecordStudent.Designer.cs">
+      <DependentUpon>201612201721190_RemoveRequiredMetaToLineRecordStudent.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -97,6 +101,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201612131929313_FourMigrations.resx">
       <DependentUpon>201612131929313_FourMigrations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612201721190_RemoveRequiredMetaToLineRecordStudent.resx">
+      <DependentUpon>201612201721190_RemoveRequiredMetaToLineRecordStudent.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

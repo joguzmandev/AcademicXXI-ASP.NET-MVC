@@ -21,10 +21,9 @@ namespace AcademicXXI.ViewModel.ViewModel
         [ForeignKey("RecordDetailsId")]
         public RecordDetailsViewModel RecordDetailsViewModel { get; set; }
 
-        [Required]
-        public int? NumericScore { get; set; }
+        public int NumericScore { get; set; }
 
-        [Required,StringLength(2)]
+        [StringLength(2)]
         public String LiteralScore { get; set; }
 
         public LineRecordStudentEnum StatusLineRecordStudent { get; set; }

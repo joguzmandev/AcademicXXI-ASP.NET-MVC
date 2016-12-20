@@ -22,10 +22,9 @@ namespace AcademicXXI.Domain
         public String RecordDetailsFK { get; set; }
         public RecordDetails RecordDetails { get; set; }
 
-        [Required]
         public int NumericScore { get; set; }
 
-        [Required,MaxLength(2)]
+        [MaxLength(2)]
         public String LiteralScore { get; set; }
     }
 }

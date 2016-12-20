@@ -10,6 +10,9 @@ namespace AcademicXXI.Repository.RecordRepository
         bool ExitRecord(String SAcademicYear, String selectAddSubject);
         List<RecordDetails> GetAllSessionBySubject(String selectedAcademicSemester, String selectedSubject);
         Record GetRecordWithSubjectAndSessions(String subjectCode, String semesterCode);
+        RecordDetails GetRecordWithRecordDetailsByRDId(String recordDetailsid);
+
+
 
     }
 }
