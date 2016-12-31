@@ -63,6 +63,8 @@
     <Compile Include="ViewModel\RecordDetailsViewModel.cs" />
     <Compile Include="ViewModel\RecordViewModel.cs" />
     <Compile Include="ViewModel\SemesterViewModel.cs" />
+    <Compile Include="ViewModel\SpRecordStudentViewModel.cs" />
+    <Compile Include="ViewModel\SpStudentRecordNotesViewModel.cs" />
     <Compile Include="ViewModel\StudentPlanViewModel.cs" />
     <Compile Include="ViewModel\StudyPlanViewModel.cs" />
     <Compile Include="ViewModel\StudentViewModel.cs" />

@@ -15,6 +15,7 @@ namespace AcademicXXI.Data
             //Disable Proxy
             this.Configuration.ProxyCreationEnabled = false;
         }
+
         public DbSet<Student> Students { get; set; }
         public DbSet<StudyPlan> StudyPlans { get; set; }
         public DbSet<Subject> Subjects { get; set; }
@@ -28,5 +29,5 @@ namespace AcademicXXI.Data
         {
             base.OnModelCreating(modelBuilder);
         }
-    }  
+    }
 }

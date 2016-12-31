@@ -55,6 +55,8 @@
     <Compile Include="Record.cs" />
     <Compile Include="RecordDetails.cs" />
     <Compile Include="Semester.cs" />
+    <Compile Include="SpRecordStudent.cs" />
+    <Compile Include="SpStudentRecordNotes.cs" />
     <Compile Include="Student.cs" />
     <Compile Include="StudentPlan.cs" />
     <Compile Include="StudyPlan.cs" />

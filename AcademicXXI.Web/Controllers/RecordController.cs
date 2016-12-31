@@ -1,20 +1,17 @@
-﻿using AcademicXXI.Services.SemesterService;
+﻿using AcademicXXI.Services.ProfessorService;
+using AcademicXXI.Services.RecordService;
+using AcademicXXI.Services.SemesterService;
+using AcademicXXI.Services.StudentService;
 using AcademicXXI.Services.SubjectService;
+using AcademicXXI.ViewModel.MapExtensionMethod;
+using AcademicXXI.Web.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
-using AcademicXXI.ViewModel.MapExtensionMethod;
-using vm = AcademicXXI.ViewModel.ViewModel;
 using domian = AcademicXXI.Domain;
-using AcademicXXI.Services.RecordService;
-using AcademicXXI.Web.Models;
-using System.Data.SqlClient;
-using Newtonsoft.Json;
-using AcademicXXI.Services.ProfessorService;
-using AcademicXXI.Services.StudentService;
+using vm = AcademicXXI.ViewModel.ViewModel;
 
 namespace AcademicXXI.Web.Controllers
 {
@@ -98,12 +95,9 @@ namespace AcademicXXI.Web.Controllers
                         Class = "alert alert-danger",
                         Messages = "La asignatura seleccionada está ya registrada para el periodo seleccionado",
                         Status = false
-
                     };
                     return Json(msg, JsonRequestBehavior.AllowGet);
-
                 }
-
             }
             msg = new Message()
             {
@@ -140,7 +134,6 @@ namespace AcademicXXI.Web.Controllers
 
             var recordDetail = new domian.RecordDetails()
             {
-
                 RecordDetailId = $"{key1 + key2 + key3}",
                 SubjectFK = record.SubjectFK,
                 SemesterFK = record.SemesterFK,
@@ -170,8 +163,6 @@ namespace AcademicXXI.Web.Controllers
                 }
             }
 
-
-
             return Json(new Message()
             {
                 Class = "alert alert-success",
@@ -194,6 +185,23 @@ namespace AcademicXXI.Web.Controllers
             var result = await _subjectService.GetAllAsync();
 
             return Json(result.GenericConvertList<vm.SubjectViewModel>(), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult DisplayStudentRecord(String semester, String subject, String session)
+        {
+            var result = _recordService.RecordStudent(session);
+            return View(result.GenericConvertList<vm.SpRecordStudentViewModel>());
+        }
+
+        [HttpPost]
+        public ActionResult DisplayStudentRecord(List<vm.SpRecordStudentViewModel> studentsRecord)
+        {
+            bool isOk = _recordService.UpdateLineRecordStudentDetail(studentsRecord.GenericConvertList<domian.SpRecordStudent>());
+            if (isOk)
+            {
+                return Json("OK", JsonRequestBehavior.AllowGet);
+            }
+            return Json("Fail", JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult SearchingSubjectSessions(String subjectCode, String SemesterCode)
@@ -220,19 +228,27 @@ namespace AcademicXXI.Web.Controllers
                     Code = -1
                 };
                 return Json(msg, JsonRequestBehavior.AllowGet);
-
             }
 
             return Json(result.GenericConvert<vm.RecordViewModel>(), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GetSemesterSubjects(String semesterCode)
+        [HttpPost]
+        public ActionResult GetSemesterSubjects(String semesterCode, String TypePage = null)
         {
             var result = _semesterService.GetSemesterSubjects(semesterCode).GenericConvert<vm.SemesterViewModel>();
 
-            ViewData["ActiveSemester"] = result;
+            if (TypePage == null && result != null)
+            {
+                ViewData["ActiveSemester"] = result;
+                return PartialView("_AllSubjecsBySemester");
+            }
+            else if (TypePage.Equals("Json") && result != null)
+            {
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
 
-            return PartialView("_AllSubjecsBySemester");
+            return RedirectToAction("Index");
         }
 
         public async Task<JsonResult> GetAllProfessor()
@@ -243,15 +259,8 @@ namespace AcademicXXI.Web.Controllers
 
         public ActionResult IncludeStudentToSession(String RecordDetailId, String StudentRegisterNumber)
         {
-
-            //Primero Buscar la session con RecordDetail
-            
-
-
-
-
-
             var msg = new Message();
+
             //1: Validate RecordDetailId and StudentRegisterNumber are not empty
             if (String.IsNullOrEmpty(RecordDetailId))
             {
@@ -278,7 +287,6 @@ namespace AcademicXXI.Web.Controllers
                 msg.Code = -1;
                 msg.Messages = "Error - Matrícula no existe / Incompleta";
                 return Json(msg, JsonRequestBehavior.AllowGet);
-
             }
             //4: Find RecordDetails with RecordDetailId
             var record_details = _recordService.GetRecordWithRecordDetailsByRDId(RecordDetailId);
@@ -292,6 +300,15 @@ namespace AcademicXXI.Web.Controllers
                 return Json(msg, JsonRequestBehavior.AllowGet);
             }
 
+            bool exit = _recordService.ValidateIfGivenSubject(RecordDetailId, StudentRegisterNumber);
+            if (exit)
+            {
+                msg.Class = "alert alert-danger";
+                msg.Code = -1;
+                msg.Messages = "Error : Posibles error [Estudiante matriculado en otra sección de esta misma asignatura] [Asignatura cursada y aprobada]";
+                return Json(msg, JsonRequestBehavior.AllowGet);
+            }
+
             //6: Student add a new LineRecordStudentDetails
             var ID = $"{studentFound.RegisterNumber}{record_details.SubjectFK}{record_details.NumericSession}";
             studentFound.LineRecordStudentDetails.Add(new domian.LineRecordStudentDetails()
@@ -300,7 +317,6 @@ namespace AcademicXXI.Web.Controllers
                 RecordDetailsFK = record_details.RecordDetailId,
                 Created = DateTime.Now,
                 Status = Helpers.Status.Active
-
             });
             try
             {
@@ -334,6 +350,15 @@ namespace AcademicXXI.Web.Controllers
         }
 
         public async Task<ActionResult> MaintenanceSessionToRecord()
+        {
+            var result = await _semesterService.GetAllAsync();
+
+            SelectList list = new SelectList(result.GenericConvertList<vm.SemesterViewModel>(), "SemesterCode", "DisplaySemesterDescription");
+            ViewBag.GetAllSemester = list;
+            return View();
+        }
+
+        public async Task<ActionResult> IntroduceManualRecord()
         {
             var result = await _semesterService.GetAllAsync();
 

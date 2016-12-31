@@ -1,0 +1,169 @@
+﻿@model IEnumerable<AcademicXXI.ViewModel.ViewModel.SpRecordStudentViewModel>
+
+@{
+    ViewBag.Title = "Calificación de acta manual";
+
+}
+@if (Model.Count() > 0 && Model != null)
+{
+
+    var data = @Model.First();
+
+    <h2>@ViewBag.Title</h2>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table>
+                <tbody style="font-size:18px">
+                    <tr>
+                        <th>Semestre:</th>
+                        <td>@data.SemesterDescription @data.SemesterID</td>
+                    </tr>
+                    <tr>
+                        <th>Asignatura:</th>
+                        <td>@data.SubjecName (@data.SubjectCredit)Cr.</td>
+                    </tr>
+                    <tr>
+                        <th>Sección:</th>
+                        <td>@data.NumericSession - @data.SessionDescription</td>
+                    </tr>
+                    <tr>
+                        <th>Profesor:</th>
+                        <td>@data.ProfesorName</td>
+                    </tr>
+                    <tr>
+                        <th>Estudiantes Registrados: </th>
+                        <td> @Model.Count()</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <hr />
+
+    <div style="margin:auto;text-align:center;padding:20px">
+        <button class="btn btn-success" id="btnTop">Guardar Cambios</button>
+    </div>
+    <table class="table table-bordered table-hover table-responsive">
+        <thead>
+            <tr>
+                <th>Cédula</th>
+                <th>Matrícula</th>
+                <th>Nombre(s)</th>
+                <th>Apellido(s)</th>
+                <th>Calificación Literal</th>
+                <th>Calificación Numerica</th>
+            </tr>
+        </thead>
+        <tbody id="tbStdentRecord">
+            @foreach (var item in Model.OrderBy(x=>x.LastName))
+            {
+                <tr id="@item.LineRecordStudentID" data-record-details-id="@item.RecordDetailId">
+                    <td id="DocumentID">@item.DocumentID</td>
+                    <td id="StudentID">@item.StudentID</td>
+                    <td id="FirstName">@item.FirstName</td>
+                    <td id="LastName">@item.LastName</td>
+                    <td>
+                        <select name="LiteralScore" id="LiteralScore">
+                            <option value=""></option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="R">Retirado</option>
+                            <option value="FI">Reprobado por Inasistencia</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="number" name="NumericScore" id="NumericScore" data-literal-score="@item.LiteralScore" value="@item.NumericScore" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div style="margin:auto;text-align:center;padding:20px">
+        <button class="btn btn-success" id="btnBotton">Guardar Cambios</button>
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="alert alert-warning">
+            No hay registro relacionado.
+
+            <a href="~/Record/IntroduceManualRecord" class="btn btn-link">Volver atras</a>
+        </div>
+    </div>
+}
+
+@section scripts{
+    <script src="~/Scripts/jquery-2.2.3.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var studentsRecord = [];
+            var tbStdentRecord = $("#tbStdentRecord").find("tr");
+
+            tbStdentRecord.each(function (index) {
+                var self = $(this);
+                var NumericScore = self.find("#NumericScore");
+
+                if (NumericScore.data("literal-score") != "") {
+                    self.find("#LiteralScore option[value=" + NumericScore.data("literal-score") + "]").prop("selected", true);
+                }
+            });
+            $("#btnTop,#btnBotton").click(function () {
+                studentsRecord = [];
+                tbStdentRecord.each(function () {
+                    var self = $(this);
+                    var NumericScore = self.find("#NumericScore");
+                    var LiteralScore = self.find("#LiteralScore");
+
+                    if (NumericScore.val() != "") {
+                        if (NumericScore.val() >= 1 && NumericScore.val() <= 100) {
+                            self.find("#LiteralScore option[value=" + getLiteral(NumericScore.val()) + "]").prop("selected", true);
+                        } else {
+                            alert("Debe ingresar una calificación numerica valida entre");
+                        }
+                    }
+                    studentsRecord.push({
+                        StudentID: self.find("#StudentID").text(),
+                        LineRecordStudentID: self.attr("id"),
+                        NumericScore: NumericScore.val(),
+                        LiteralScore: LiteralScore.val(),
+                        RecordDetailId: tbStdentRecord.data("record-details-id")
+                    });
+
+                });
+                $.each(studentsRecord, function (index, item) {
+                    console.log(item);
+                });
+                $.ajax({
+                    url: "/Record/DisplayStudentRecord",
+                    method: "post",
+                    data: JSON.stringify(studentsRecord),
+                    contentType: "application/json",
+                    success: function (data, status, jqXHR) {
+                        console.log(data)
+                    }
+                })
+            })
+
+        });
+
+        function getLiteral(num) {
+            if (num >= 90 && num <= 100) {
+                return 'A';
+            } else if (num >= 80 && num <= 89) {
+                return 'B'
+            } else if (num >= 70 && num <= 79) {
+                return 'C'
+            } else if (num <= 69) {
+                return 'D'
+            } else {
+                return null;
+            }
+        }
+    </script>
+}

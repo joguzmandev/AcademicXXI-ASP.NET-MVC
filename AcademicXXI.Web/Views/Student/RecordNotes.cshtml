@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "Record de notas";
+}
+<div class="row">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            Matrícula
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <input type="text" name="StudentID" id="StudentID" placeholder="Matrícula" class="form-control" />
+                </div>
+                <div class="col-md-6">
+                    <button class="btn btn-info" id="btnConsult">Consultar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="loadStudentRecordNotes">
+    @Html.Partial("_StudentRecordNotes")
+</div>
+@section Scripts {
+    <script src="~/Scripts/jquery-2.2.3.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $("#btnConsult").click(function () {
+                var data = $("#StudentID").val();
+                $("#loadStudentRecordNotes").load('@Url.Action("RecordNotes", "Student")',{StudentID:data},function(data){
+                    console.log(data);
+                });
+            });
+        });
+    </script>
+}

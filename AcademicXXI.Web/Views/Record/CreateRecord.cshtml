@@ -2,75 +2,71 @@
     ViewBag.Title = "Apertura de Acta";
 }
 @section css{
-<link href="~/Content/dataTables.bootstrap.min.css" rel="stylesheet" />
-<link href="~/Content/jquery-ui.min.css" rel="stylesheet" />
-<link href="~/Content/jquery-ui.theme.min.css" rel="stylesheet" />
-<style type="text/css">
-    label.error {
-        color: red;
-    }
-</style>
+    <link href="~/Content/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.theme.min.css" rel="stylesheet" />
+    <style type="text/css">
+        label.error {
+            color: red;
+        }
+    </style>
 }
 <h2>@ViewBag.Title</h2>
 
 <div class="row">
-  @using (Html.BeginForm("CreateRecord", "Record", FormMethod.Post, new { @id = "FrmCreateRecord" }))
-  {
-    <div id="displayMessage">
-
-    </div>
-    <div class="panel panel-info">
-        <div class="panel-heading">
-            <span>Semestre Académico</span>
+    @using (Html.BeginForm("CreateRecord", "Record", FormMethod.Post, new { @id = "FrmCreateRecord" }))
+    {
+        <div id="displayMessage">
         </div>
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-md-6 col-sm-6">
-                    @Html.DropDownList("SAcademicYear", ViewBag.GetAllSemester as SelectList, "Selecciona", new { @class = "form-control", @id = "SAcademicYear" })
-                </div>
-                <div class="col-md-6 col-sm-6">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <input type="button" id="btnSelectAcademicYear" class="btn btn-info" value="Seleccionar" />
-                        </div>
-                        <div class="col-md-9">
-                            <input class="form-control" type="text" disabled readonly id="SelectedAcademicYear" />
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <span>Semestre Académico</span>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6">
+                        @Html.DropDownList("SAcademicYear", ViewBag.GetAllSemester as SelectList, "Selecciona", new { @class = "form-control", @id = "SAcademicYear" })
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <input type="button" id="btnSelectAcademicYear" class="btn btn-info" value="Seleccionar" />
+                            </div>
+                            <div class="col-md-9">
+                                <input class="form-control" type="text" disabled readonly id="SelectedAcademicYear" />
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div id="panelFooter" class="panel-footer" style="display:none">
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="selectAddSubject">Asignatura:</label>
-                    <select id="selectAddSubject" name="selectAddSubject" class="form-control"></select>
-                </div>
-                <div class="col-md-6">
-                    <br/>
-                    <img id="imgAjaxLoading" style="display:none" src="~/Content/images/loadingAjax.gif" />
-                    <button id="btnCreateRecord" class="btn btn-primary">Crear Acta</button>
+            <div id="panelFooter" class="panel-footer" style="display:none">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="selectAddSubject">Asignatura:</label>
+                        <select id="selectAddSubject" name="selectAddSubject" class="form-control"></select>
+                    </div>
+                    <div class="col-md-6">
+                        <br />
+                        <img id="imgAjaxLoading" style="display:none" src="~/Content/images/loadingAjax.gif" />
+                        <button id="btnCreateRecord" class="btn btn-primary">Crear Acta</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <hr />
-    <div id="panelDisplaySubjectBySemester" style="display:none" class="panel panel-success">
-        
-       <div class="panel-heading">
-            <span id="spanPanelDetail"></span>
+        <hr />
+        <div id="panelDisplaySubjectBySemester" style="display:none" class="panel panel-success">
+
+            <div class="panel-heading">
+                <span id="spanPanelDetail"></span>
+            </div>
+            <div id="panelBodyTable" class="panel-body table-responsive">
+                @Html.Partial("_AllSubjecsBySemester")
+            </div>
         </div>
-       <div id="panelBodyTable" class="panel-body table-responsive">
-           @Html.Partial("_AllSubjecsBySemester")
-       </div>
-
-    </div>
-  }
-
+    }
 </div>
 <div id="frmAddSessionToRecord" style="display:none">
     <div id="outMessage">
-
     </div>
     <div class="row">
         <div class="col-md-12">
@@ -120,7 +116,7 @@
     @Html.Partial("_DisplayAllSessionBySubject")
 </div>
 @section scripts{
-    
+
     <script src="~/Scripts/jquery-2.2.3.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.dataTables.min.js"></script>
@@ -153,7 +149,7 @@
                 }, submitHandler: function (form) {
                     var frm = $("#frmAddSession");
                     var createSession = {
-                        subject:dataSelected.subject,
+                        subject: dataSelected.subject,
                         semester: dataSelected.semester,
                         NumericSession: frm.find('#NumericSession').val(),
                         SessionDescription: frm.find('#SessionDescription').val(),
@@ -222,7 +218,7 @@
                 dialogAddSession.dialog("open");
                 $.ajax({
                     url: '@Url.Action("GetAllProfessor","Record")',
-                    method:"get",
+                    method: "get",
                     dataType: "json",
                     success: function (data, statu, jqXHR) {
                         var $Professor = $("#Professor");
@@ -231,11 +227,11 @@
                         $.each(data, function (index, item) {
                             $Professor.append("<option value='" + item.DocumentID + "'>" + item.FullName + "</option>")
                         });
-                    },error:function(status,error,jqHXR){
+                    }, error: function (status, error, jqHXR) {
                         console.log(error)
                     }
                 });
-           });
+            });
 
             $("#panelDisplaySubjectBySemester").on("click", "#DisplaySessionSubject", function () {
                 var subjectName = $(this).data("subject-name");
@@ -299,7 +295,7 @@
                         beforeSend: function () {
                             $("#imgAjaxLoading").show();
                         },
-                        complete:function(){
+                        complete: function () {
                             $("#imgAjaxLoading").hide();
                         },
                         success: function (data, status, jqXHR) {
@@ -333,34 +329,33 @@
             $("#btnSelectAcademicYear").click(function (e) {
                 e.preventDefault();
                 if ($("#SAcademicYear option:selected").attr("value") != "") {
-                        $("#SelectedAcademicYear").attr("value", $("#SAcademicYear option:selected").attr("value"));
+                    $("#SelectedAcademicYear").attr("value", $("#SAcademicYear option:selected").attr("value"));
 
-                        $.getJSON('@Url.Action("GetAllSubject", "Record")', null, function (data) {
+                    $.getJSON('@Url.Action("GetAllSubject", "Record")', null, function (data) {
 
-                            var $selectAddSubject = $("#selectAddSubject");
-                            $selectAddSubject.empty();
-                            $selectAddSubject.append("<option value>Selecciona</option>");
-                            $.each(data, function (index, item) {
-                                $selectAddSubject.append("<option value='" + item.Code + "'>" + item.FullSubjectName + "</option>")
-                            });
+                        var $selectAddSubject = $("#selectAddSubject");
+                        $selectAddSubject.empty();
+                        $selectAddSubject.append("<option value>Selecciona</option>");
+                        $.each(data, function (index, item) {
+                            $selectAddSubject.append("<option value='" + item.Code + "'>" + item.FullSubjectName + "</option>")
+                        });
 
+                    });
+                    $("#panelFooter").show("slow");
+                    $("#panelDisplaySubjectBySemester").show("slow", function () {
+                        $("#panelBodyTable").load("/Record/GetSemesterSubjects", { semesterCode: $("#SAcademicYear option:selected").attr("value") }, function (data) {
+                            console.log(data);
+                            $("#spanPanelDetail").text("Detalles Asignaturas Periodo:" + $("#SAcademicYear option:selected").attr("value").toUpperCase())
+                            $("#tblSubjectsBySemester").dataTable(dataTable_config);
 
                         });
-                        $("#panelFooter").show("slow");
-                        $("#panelDisplaySubjectBySemester").show("slow", function () {
-                            $("#panelBodyTable").load("/Record/GetSemesterSubjects", { semesterCode: $("#SAcademicYear option:selected").attr("value") }, function (data) {
-                                console.log(data);
-                                $("#spanPanelDetail").text("Detalles Asignaturas Periodo:" + $("#SAcademicYear option:selected").attr("value").toUpperCase())
-                                $("#tblSubjectsBySemester").dataTable(dataTable_config);
 
-                            });
-
-                        });
+                    });
                 } else {
                     alert("Seleccione Semestre Académico")
                 }
             });
 
         });
-    </script>    
+    </script>
 }

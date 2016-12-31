@@ -1,21 +1,22 @@
-﻿using AcademicXXI.Services.StudentService;
+﻿using Academic.Web.Helpers.Alerts;
+using AcademicXXI.Domain;
+using AcademicXXI.Helpers;
+using AcademicXXI.Services.StudentService;
+using AcademicXXI.Services.StudyPlanService;
+using AcademicXXI.ViewModel.MapExtensionMethod;
 using AcademicXXI.ViewModel.ViewModel;
 using AutoMapper;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using AcademicXXI.ViewModel.MapExtensionMethod;
-using AcademicXXI.Helpers;
-using Academic.Web.Helpers.Alerts;
-using AcademicXXI.Domain;
-using AcademicXXI.Services.StudyPlanService;
-using vm = AcademicXXI.ViewModel.ViewModel;
+
 using domain = AcademicXXI.Domain;
-using Newtonsoft.Json;
-using System.Net;
+using vm = AcademicXXI.ViewModel.ViewModel;
 
 namespace Academic.Web.Controllers
 {
@@ -61,27 +62,26 @@ namespace Academic.Web.Controllers
         [HttpGet]
         public ActionResult Edit(String RegisterNumber)
         {
-
             if (String.IsNullOrEmpty(RegisterNumber))
             {
                 return RedirectToAction("Maintenance");
             }
 
             var entity = _studentService.Find(s => s.RegisterNumber.Equals(RegisterNumber));
-            
+
             if (entity == null)
             {
                 return RedirectToAction("Maintenance");
             }
-         
+
             StudentViewModel studentViewM = entity.GenericConvert<vm.StudentViewModel>();
-                  
+
             return View(studentViewM);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit (StudentViewModel student)
+        public ActionResult Edit(StudentViewModel student)
         {
             if (!ModelState.IsValid)
             {
@@ -102,14 +102,13 @@ namespace Academic.Web.Controllers
 
         public async Task<ActionResult> AddPlanToStudent()
         {
-            var result  = await this._studyPlanService.GetAllAsync();
+            var result = await this._studyPlanService.GetAllAsync();
             ViewBag.StudyPlanes = result.GenericConvertList<vm.StudyPlanViewModel>();
             return View();
         }
 
-        
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult AddPlanToStudent(String registernumber,String documentid,
+        public ActionResult AddPlanToStudent(String registernumber, String documentid,
             String plancode)
         {
             if (String.IsNullOrEmpty(registernumber) || String.IsNullOrEmpty(documentid) || String.IsNullOrEmpty(plancode))
@@ -118,18 +117,16 @@ namespace Academic.Web.Controllers
             }
 
             //Validate StudyPlan Exit
-            StudyPlan sp = this._studyPlanService.Find(sp1=> sp1.Code.Equals(plancode));
-           
+            StudyPlan sp = this._studyPlanService.Find(sp1 => sp1.Code.Equals(plancode));
+
             Student st = this._studentService.Find(s => s.RegisterNumber.Equals(registernumber) && s.DocumentID.Equals(documentid));
-           
 
             if (st != null && sp != null)
             {
-               st.StudentPlans.Add(new StudentPlan()
+                st.StudentPlans.Add(new StudentPlan()
                 {
                     Created = DateTime.Now,
                     StudyPlanFK = sp.Code,
-
                 });
 
                 _studentService.Update(st);
@@ -149,16 +146,15 @@ namespace Academic.Web.Controllers
 
         public ActionResult FindStudent(String RegisterNumber)
         {
-
             if (String.IsNullOrEmpty(RegisterNumber))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound, "registro no encontrado");
             }
 
             var studentvm = _studentService.FindStudentWithStudyPlan(x => x.RegisterNumber.Equals(RegisterNumber));
-            if(studentvm != null)
+            if (studentvm != null)
             {
-                return Json(JsonConvert.SerializeObject(studentvm.GenericConvert<vm.StudentViewModel>(),Formatting.Indented,new JsonSerializerSettings()
+                return Json(JsonConvert.SerializeObject(studentvm.GenericConvert<vm.StudentViewModel>(), Formatting.Indented, new JsonSerializerSettings()
                 {
                     ReferenceLoopHandling = ReferenceLoopHandling.Ignore
                 }
@@ -166,9 +162,22 @@ namespace Academic.Web.Controllers
             }
             else
             {
-                return new HttpStatusCodeResult(HttpStatusCode.NotFound,"registro no encontrado");
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound, "registro no encontrado");
             }
-            
+        }
+
+        [HttpGet]
+        public ActionResult RecordNotes()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult RecordNotes(String StudentID)
+        {
+            var result = _studentService.GetStudentRecordNotes(StudentID);
+            var vm = result.GenericConvertList<SpStudentRecordNotesViewModel>();
+            return PartialView("_StudentRecordNotes", vm);
         }
 
         public StudentController(IStudentService service, IStudyPlanService studyPlanService)
@@ -183,9 +192,8 @@ namespace Academic.Web.Controllers
             this._studentService.Dispose();
             this._studyPlanService.Dispose();
         }
+
         private readonly IStudyPlanService _studyPlanService;
         private readonly IStudentService _studentService;
-
-
     }
 }

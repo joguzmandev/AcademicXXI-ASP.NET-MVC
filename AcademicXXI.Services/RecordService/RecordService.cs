@@ -12,13 +12,14 @@ namespace AcademicXXI.Services.RecordService
     {
         private IRecordRepository repo;
 
-        public RecordService(IRecordRepository repo):base(repo){
+        public RecordService(IRecordRepository repo) : base(repo)
+        {
             this.repo = repo;
         }
 
         public bool ExitRecord(string SAcademicYear, string selectAddSubject)
         {
-           return repo.ExitRecord(SAcademicYear, selectAddSubject);
+            return repo.ExitRecord(SAcademicYear, selectAddSubject);
         }
 
         public List<RecordDetails> GetAllSessionBySubject(string selectedAcademicSemester, string selectedSubject)
@@ -34,6 +35,21 @@ namespace AcademicXXI.Services.RecordService
         public Record GetRecordWithSubjectAndSessions(string subjectCode, string semesterCode)
         {
             return repo.GetRecordWithSubjectAndSessions(subjectCode, semesterCode);
+        }
+
+        public List<SpRecordStudent> RecordStudent(string RecordDetailId)
+        {
+            return this.repo.RecordStudent(RecordDetailId);
+        }
+
+        public bool UpdateLineRecordStudentDetail(List<SpRecordStudent> list)
+        {
+            return this.repo.UpdateLineRecordStudentDetail(list);
+        }
+
+        public bool ValidateIfGivenSubject(string RecordDetailId, string StudentRegisterNumber)
+        {
+            return this.repo.ValidateIfGivenSubject(RecordDetailId, StudentRegisterNumber);
         }
     }
 }

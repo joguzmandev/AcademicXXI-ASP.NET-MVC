@@ -11,18 +11,20 @@ namespace AcademicXXI.Domain
     [Table("LineRecordStudent")]
     public class LineRecordStudentDetails : BaseDomain
     {
-        [Key,MaxLength(20),Column("LineRecordStudentID")]
+        [Key, MaxLength(20), Column("LineRecordStudentID")]
         public String LineRecordStudentID { get; set; }
 
-        [Required,ForeignKey("Student"),MaxLength(10)]
+        [Required, ForeignKey("Student"), MaxLength(10)]
         public string StudentFK { get; set; }
+
         public Student Student { get; set; }
 
-        [Required,ForeignKey("RecordDetails"),MaxLength(15)]
+        [Required, ForeignKey("RecordDetails"), MaxLength(15)]
         public String RecordDetailsFK { get; set; }
+
         public RecordDetails RecordDetails { get; set; }
 
-        public int NumericScore { get; set; }
+        public Nullable<int> NumericScore { get; set; }
 
         [MaxLength(2)]
         public String LiteralScore { get; set; }

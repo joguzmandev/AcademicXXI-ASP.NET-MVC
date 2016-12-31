@@ -6,7 +6,7 @@
     <link href="~/Content/jquery-ui.min.css" rel="stylesheet" />
     <link href="~/Content/jquery-ui.theme.min.css" rel="stylesheet" />
     <style>
-        #displaySubjec, #displayAllSessionBySubject, #loadingAjax,#dialogIncludeStudent,#displayAjax {
+        #displaySubjec, #displayAllSessionBySubject, #loadingAjax, #dialogIncludeStudent, #displayAjax {
             display: none;
         }
 
@@ -15,7 +15,7 @@
         }
     </style>
 }
-<!-- Load all semester--->
+<!-- Load all semesters--->
 <div id="displayAllSemester" class="row">
     <div class="panel panel-info">
         <div class="panel-heading">
@@ -45,14 +45,14 @@
                                placeholder="Código Asignatura" maxlength="7" width="100" style="text-align:center" />
                     </div>
                 </div>
-                <div class="col-md-3">
-                    
-                    <button class="btn btn-primary" id="btnSearch">Buscar</button>
-                    <img id="loadingAjax" src="~/Content/images/loadingAjax.gif" />
-                </div>
-                <div class="col-md-6">
-                    <input type="text" class="form-control" readonly id="SubjectFound" name="SubjectFound" />
-                </div>
+                    <div class="col-md-3">
+
+                        <button class="btn btn-primary" id="btnSearch">Buscar</button>
+                        <img id="loadingAjax" src="~/Content/images/loadingAjax.gif" />
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" readonly id="SubjectFound" name="SubjectFound" />
+                    </div>
             }
         </div>
     </div>
@@ -73,31 +73,30 @@
                         <th>Capacidad</th>
                         <th>Docente</th>
                         <th></th>
-
                     </tr>
                 </thead>
-               <tbody id="tbodyDisplaySession"></tbody>
+                <tbody id="tbodyDisplaySession"></tbody>
             </table>
         </div>
     </div>
 </div>
 
-
 <!--Dialogs-->
 <div id="dialogIncludeStudent" title="Ejemplo">
     <div class="row">
         <div class="col-md-12">
+            <div id="outputMessage"></div>
             @using (Html.BeginForm("IncludeStudentToSession", "Record", FormMethod.Post, new { @id = "FrmIncludeStudentToSession" }))
             {
                 <input type="hidden" name="RecordDetailId" id="RecordDetailId" />
-                <div class="form-group">
-                    <label for="StudentRegisterNumber">Matrícula</label>
-                    <input type="text" maxlength="10" placeholder="Matrícula" name="StudentRegisterNumber" class="form-control" style="text-align:center" />
-                </div>
-                <div class="form-group">
-                    <input type="submit" name="btnSearchStudent" value="Incluir" class="btn btn-primary"/>
-                    <img id="displayAjax" src="~/Content/images/loadingAjax.gif" />
-                </div>
+                    <div class="form-group">
+                        <label for="StudentRegisterNumber">Matrícula</label>
+                        <input type="text" maxlength="10" placeholder="Matrícula" name="StudentRegisterNumber" class="form-control" style="text-align:center" />
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" name="btnSearchStudent" value="Incluir" class="btn btn-primary" />
+                        <img id="displayAjax" src="~/Content/images/loadingAjax.gif" />
+                    </div>
             }
         </div>
     </div>
@@ -119,11 +118,11 @@
                 displaySubjec.find("input[type=text]").val("");
                 $("#displayAllSessionBySubject").hide("slow");
 
-                if ($(this).find("option:selected").val() != "") {               
+                if ($(this).find("option:selected").val() != "") {
                     displaySubjec.hide("slow").delay(500).show("slow");
                 } else {
                     displaySubjec.hide("slow");
-                    
+
                 }
             });
 
@@ -135,7 +134,7 @@
                     inputSubjectCode: { required: 'Debe ingresar Código' }
                 }, submitHandler: function (form) {
                     var loadingAjax = $("#loadingAjax");
-                    var dataToSend={
+                    var dataToSend = {
                         subjectCode: form.inputSubjectCode.value,
                         SemesterCode: $("#dropListSemester option:selected").val()
                     }
@@ -148,7 +147,7 @@
                             console.log(data);
                             if (data.SubjectViewModel != null) {
                                 $("#SubjectFound").val(data.SubjectViewModel.FullSubjectName)
-                                
+
                             } else {
                                 $("#SubjectFound").val("Registro no encontrado");
                                 $("#displayAllSessionBySubject").hide("slow");
@@ -159,33 +158,32 @@
                                 var notProfessor = "<span style='color:red'>Sin Asignación</span>";
                                 $.each(data.RecordDetailsViewModel, function (index, item) {
                                     var professor = item.ProfessorViewModel;
-                                    var includeStudent = "<a href='javascript:void(0)' class='btn btn-link'"+ 
+                                    var includeStudent = "<a href='javascript:void(0)' class='btn btn-link'" +
                                                          "data-record-detail-id='" + item.RecordDetailId + "'" +
                                                          "data-numeric-session='" + item.NumericSession + "'" +
                                                          "data-session-description='" + item.SessionDescription + "'" +
                                                          ">Incluir Alumno</a>";
                                     var excludeStudent = "<a href='/Record/ExcludeStudentToSession?RecordDetailId=&SubjectFK=" + data.SubjectFK + "&SemesterFK=" + data.SemesterFK + "&NumericSession=" + item.NumericSession + "' class='btn btn-link'>Excluir Alumno</a>";
-                                    var row = "<tr>"+
+                                    var row = "<tr>" +
                                                     "<td>" + item.NumericSession + "</td>" +
                                                     "<td>" + item.SessionDescription + "</td>" +
                                                     "<td>" + item.LimitSession + "</td>" +
-                                                    "<td>" + (professor != null ? professor.FullName : notProfessor ) + "</td>" +
-                                                    "<td>" + includeStudent +" || "+ excludeStudent + "</td>" +
+                                                    "<td>" + (professor != null ? professor.FullName : notProfessor) + "</td>" +
+                                                    "<td>" + includeStudent + " || " + excludeStudent + "</td>" +
                                                "</tr>";
                                     tbodyDisplaySession.append(row);
                                 });
                                 $("#displayAllSessionBySubject").show("slow");
                             }
-                            
-                            
-                        }, error: function (error,status,jqxhr) {
+
+                        }, error: function (error, status, jqxhr) {
                             console.log(error);
                         }, beforeSend: function () {
                             loadingAjax.show();
                         }, complete: function () {
                             loadingAjax.hide();
                         }
-                        
+
                     })
                 }
             })
@@ -202,7 +200,7 @@
 
                 dialogIncludeStudent.dialog({ 'title': title })
                 dialogIncludeStudent.dialog("open");
-                
+
             });
 
             $("#FrmIncludeStudentToSession").validate({
@@ -217,12 +215,14 @@
                         url: self.attr("action"),
                         method: self.attr("method"),
                         data: self.serialize(),
-                        dataType:"json",
+                        dataType: "json",
                         success: function (data, status, jqxhr) {
-                            console.log(data.Messages);
+
+                            $("#outputMessage").html("<p>"+data.Messages+"</p>");
+                            
                         },
                         error: function (error, status, jqxhr) {
-                            console.log(error);
+                            $("#outputMessage").html("<p>" + data.Messages + "</p>");
                         }, beforeSend() {
                             $("#displayAjax").show();
                         },
@@ -240,9 +240,9 @@
                 modal: true,
                 beforeClose: function () {
                     $("#FrmIncludeStudentToSession").trigger("reset");
+                    $("#outputMessage").empty();
                 }
             });
         });
-
     </script>
 }

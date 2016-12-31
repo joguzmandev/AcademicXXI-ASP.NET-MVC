@@ -61,5 +61,21 @@ namespace AcademicXXI.Repository
         {
             return _dbContext.Set<T>();
         }
+
+        public List<T> GetStoreProcedure<T>(String storeProcedure, string paramName, string paramValue) where T : class
+        {
+            string sp = storeProcedure + " " + paramName + " = {0}";
+            return _dbContext.Database.SqlQuery<T>(sp, paramValue).ToList();
+        }
+
+        public Database GetDatabase()
+        {
+            return _dbContext.Database;
+        }
+
+        public void Save()
+        {
+            _dbContext.SaveChanges();
+        }
     }
 }

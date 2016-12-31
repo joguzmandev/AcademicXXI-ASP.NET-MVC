@@ -1,0 +1,179 @@
+﻿@{
+    ViewBag.Title = "Introducción de Acta Manual";
+}
+
+<h2>@ViewBag.Title</h2>
+@section css{
+    <style>
+        #displayAllSubject, #displayAllSessions, #displayRecord {
+            display: none;
+        }
+
+        label.error {
+            color: red;
+        }
+    </style>
+}
+<!-- Load all semesters--->
+<div id="displayAllSemester" class="row">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            Semestre
+        </div>
+        <div class="panel-body">
+            <div class="col-md-12">
+                @Html.DropDownList("dropListSemester", ViewBag.GetAllSemester as SelectList, "-- Seleccione -- ", new { @id = "dropListSemester", @class = "form-control" })
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Load all subjects--->
+<div id="displayAllSubject" class="row">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            Asignatura
+        </div>
+        <div class="panel-body">
+            <div class="col-md-12">
+                <select id="Selectsubjects" class="form-control"></select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Load all Sessions From Subject-->
+<div id="displayAllSessions" class="row">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            Secciones
+        </div>
+        <div class="panel-body">
+            <div class="col-md-12">
+                <select id="SelectSession" class="form-control"></select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Display Student's list-->
+<div id="displayRecord" class="row">
+    <div class="col-md-6">
+        <button id="btnDisplayRecord" class="btn btn-primary">Mostrar Record</button>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/jquery-2.2.3.min.js"></script>
+    
+        <script>
+        $(document).ready(function () {
+
+            $("#dropListSemester").change(function (data) {
+                var self = $(this);
+                if (self.val() != "") {
+                    $.ajax({
+                        url: '@Url.Action("GetSemesterSubjects","Record")',
+                        method: "post",
+                        data: { semesterCode: self.val(), TypePage: "Json" },
+                        dataType: "json",
+                        success: function (dataJSon, status, jqXHR) {
+                            console.log("Getting Data");
+                            console.log(dataJSon);
+                            if (dataJSon.Records.length > 0) {
+                                var Selectsubjects = $("#displayAllSubject").find("#Selectsubjects");
+                                Selectsubjects.empty();
+                                Selectsubjects.append("<option value>-- Seleccione --</option>");
+                                $.each(dataJSon.Records, function (index, item) {
+                                    var subject = item.SubjectViewModel;
+                                    var option = '<option value=' + subject.Code + '>' + subject.FullSubjectName + '</option>';
+                                    Selectsubjects.append(option);
+                                });
+
+                                $("#displayAllSubject").show("slow");
+                                SetHidedisplayAllSessions();
+
+                            } else {
+                                SetHidedisplayAllSubject();
+                                SetHidedisplayAllSessions();
+                            }
+
+                        }
+                    })
+                } else {
+                    SetHidedisplayAllSubject();
+                    SetHidedisplayAllSessions();
+                }
+            });
+
+            $("#Selectsubjects").change(function () {
+                var self = $(this);
+
+                if (self.val() != "") {
+                    var subjectSelected = self.val();
+                    var semesterSelected = $("#dropListSemester").val();
+                    var datas = {
+                        subjectCode: subjectSelected,
+                        SemesterCode: semesterSelected
+                    }
+                    $.getJSON("/Record/SearchingSubjectSessions", datas, function (data) {
+                        console.log("Getting data from getJSON jQuery Method");
+                        console.log(data)
+
+                        if (data.RecordDetailsViewModel.length > 0) {
+
+                            var SelectSession = $("#displayAllSessions").find("#SelectSession");
+                            SelectSession.empty();
+                            SelectSession.append("<option value>-- Seleccione --</option>");
+                            $.each(data.RecordDetailsViewModel, function (index, item) {
+                                var session = item.NumericSession;
+                                var RecordDetailId = item.RecordDetailId
+                                var description = session + " - " + item.SessionDescription
+                                var option = '<option value=' + RecordDetailId + '>' + description + '</option>';
+                                SelectSession.append(option);
+                            });
+
+                            $("#displayAllSessions").show("slow");
+                        } else {
+                            SetHidedisplayAllSessions();
+                        }
+
+                    })
+                } else {
+                    SetHidedisplayAllSessions();
+                }
+
+            });
+
+            $("#SelectSession").change(function () {
+                var self = $(this);
+                if (self.val() != "") {
+                    $("#displayRecord").show("slow");
+                } else {
+                    $("#displayRecord").hide("slow");
+                }
+            });
+
+            $("#btnDisplayRecord").click(function () {
+                var semester = $("#dropListSemester").val();
+                var subject = $("#Selectsubjects").val();
+                var session = $("#SelectSession").val();
+                location.href = "/Record/DisplayStudentRecord?semester=" + semester + "&subject=" + subject + "&session=" + session;
+
+            })
+
+        });
+
+        function SetHidedisplayAllSessions() {
+            $("#displayAllSessions").hide("slow");
+            $("#displayAllSessions").find("#SelectSession").empty();
+            $("#displayRecord").hide("slow");
+        }
+
+        function SetHidedisplayAllSubject() {
+            $("#displayAllSubject").hide("slow");
+            $("#displayAllSubject").find("#Selectsubjects").empty();
+        }
+    </script>
+
+}

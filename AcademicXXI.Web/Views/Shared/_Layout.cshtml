@@ -28,7 +28,6 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
 </head>
 <body>
     <div class="row">
@@ -62,6 +61,7 @@
                             <li>@Html.ActionLink("Nuevo", "Create", "Student")</li>
                             <li>@Html.ActionLink("Asociar Plan a Estudiante", "AddPlanToStudent", "Student")</li>
                             <li>@Html.ActionLink("Mantenimiento", "Maintenance", "Student")</li>
+                            <li>@Html.ActionLink("Record de notas", "RecordNotes", "Student")</li>
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -81,8 +81,7 @@
                         <ul class="dropdown-menu">
                             <li>@Html.ActionLink("Apertura Acta", "CreateRecord", "Record")</li>
                             <li>@Html.ActionLink("Mant. de Secciones por Acta", "MaintenanceSessionToRecord", "Record")</li>
-                            <li>@Html.ActionLink("Asociar Est. a Acta", "AddStudentToRecord", "Record")</li>
-                            <li>@Html.ActionLink("Mantenimiento de Actas", "RecordMaintenance", "Record")</li>
+                            <li>@Html.ActionLink("Introduccion Actas Manual", "IntroduceManualRecord", "Record")</li>
                         </ul>
                     </li>
                 </ul>
@@ -95,7 +94,7 @@
     </div>
 
     <div class="container" style="margin-top:30px">
-        <br/>
+        <br />
         @Html.Partial("_PartialAlertView")
         @RenderBody()
         <div class="clearfix"></div>

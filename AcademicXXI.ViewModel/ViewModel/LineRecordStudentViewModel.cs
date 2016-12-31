@@ -15,18 +15,15 @@ namespace AcademicXXI.ViewModel.ViewModel
         public StudentViewModel StudentViewModel { get; set; }
 
         [Key]
-        [Column(Order =0)]
+        [Column(Order = 0)]
         public Int32 RecordDetailsId { get; set; }
 
         [ForeignKey("RecordDetailsId")]
         public RecordDetailsViewModel RecordDetailsViewModel { get; set; }
 
-        public int NumericScore { get; set; }
+        public Nullable<int> NumericScore { get; set; }
 
         [StringLength(2)]
         public String LiteralScore { get; set; }
-
-        public LineRecordStudentEnum StatusLineRecordStudent { get; set; }
-
     }
 }

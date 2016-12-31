@@ -1,0 +1,61 @@
+﻿@model IEnumerable<AcademicXXI.ViewModel.ViewModel.SpStudentRecordNotesViewModel>
+@{
+
+    if (Model != null && Model.Count() > 0)
+    {
+        var student = Model.First();
+
+        var result = from x in Model
+                     group x by x.SemesterID into s
+                     select new
+                     {
+                         Semester = s.Key,
+                         Data = s
+                     };
+
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <p><b>Nombre Completo : </b>@student.FullName</p>
+                    <p><b>Matrícula : </b>@student.StudentID</p>
+                    <p><b>Cédula : </b>@student.DocumentID</p>
+        </div>
+        <div class="panel-body">
+            @foreach (var item in result)
+            {
+                <h1>@item.Semester</h1>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th width="20%">Código</th>
+                            <th width="60%">Asignatura</th>
+                            <th width="10%">Calificación Numerica</th>
+                            <th width="10%">Calificación Literal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item2 in item.Data)
+                        {
+                        <tr>
+                            <td width="20%">@item2.SubjectCode</td>
+                            <td width="60%">@item2.SubjectName</td>
+                            <td width="10%">@item2.NumericScore</td>
+                            <td width="10%">@item2.LiteralScore</td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+        <div class="panel-footer">
+
+        </div>
+    </div>
+</div>
+    }else
+    {
+      <div></div>
+    }
+
+
+}

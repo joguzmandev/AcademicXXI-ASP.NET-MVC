@@ -70,6 +70,10 @@
     <Compile Include="Migrations\201612201721190_RemoveRequiredMetaToLineRecordStudent.Designer.cs">
       <DependentUpon>201612201721190_RemoveRequiredMetaToLineRecordStudent.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201612290658539_AddNuableField.cs" />
+    <Compile Include="Migrations\201612290658539_AddNuableField.Designer.cs">
+      <DependentUpon>201612290658539_AddNuableField.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -104,6 +108,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201612201721190_RemoveRequiredMetaToLineRecordStudent.resx">
       <DependentUpon>201612201721190_RemoveRequiredMetaToLineRecordStudent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612290658539_AddNuableField.resx">
+      <DependentUpon>201612290658539_AddNuableField.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

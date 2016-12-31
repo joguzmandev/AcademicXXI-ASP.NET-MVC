@@ -12,23 +12,23 @@ namespace AcademicXXI.ViewModel
 
 #pragma warning disable
 
-
             //Map Student to StudentViewModel
-            Mapper.CreateMap<domain.Student, ViewModel.StudentViewModel>();
-
+            Mapper.CreateMap<domain.Student, ViewModel.StudentViewModel>()
+                .ForMember(s1 => s1.LineRecordStudentViewModel, opt => opt.MapFrom(s => s.LineRecordStudentDetails));
 
             //Map StudentViewModel to Student
-            Mapper.CreateMap<ViewModel.StudentViewModel, domain.Student>();
+            Mapper.CreateMap<ViewModel.StudentViewModel, domain.Student>()
+                .ForMember(s1 => s1.LineRecordStudentDetails, opt => opt.MapFrom(s => s.LineRecordStudentViewModel));
             //================================================================
 
             //Map SubjectViewModel to Subjec
             Mapper.CreateMap<ViewModel.SubjectViewModel, domain.Subject>();
 
             //Map Subject to SubjectViewModel
-            Mapper.CreateMap<domain.Subject,ViewModel.SubjectViewModel>();
+            Mapper.CreateMap<domain.Subject, ViewModel.SubjectViewModel>();
 
             //================================================================
-            
+
             //Map SemesterViewModel to Semester
             Mapper.CreateMap<ViewModel.SemesterViewModel, domain.Semester>();
 
@@ -46,17 +46,17 @@ namespace AcademicXXI.ViewModel
             //================================================================
 
             //Map StudentPlan to StudentPlanViewModel
-            Mapper.CreateMap<domain.StudentPlan,ViewModel.StudentPlanViewModel>();
+            Mapper.CreateMap<domain.StudentPlan, ViewModel.StudentPlanViewModel>();
 
             //Map StudentPlanViewModel to StudentPlan
-            Mapper.CreateMap<ViewModel.StudentPlanViewModel,domain.StudentPlan>();
+            Mapper.CreateMap<ViewModel.StudentPlanViewModel, domain.StudentPlan>();
 
             //================================================================
 
             //Map Record to RecordViewModel
-            
+
             Mapper.CreateMap<domain.Record, ViewModel.RecordViewModel>()
-                .ForMember(s1=>s1.SubjectViewModel,opt=>opt.MapFrom(s=>s.Subject))
+                .ForMember(s1 => s1.SubjectViewModel, opt => opt.MapFrom(s => s.Subject))
                 .ForMember(s1 => s1.RecordDetailsViewModel, opt => opt.MapFrom(s => s.RecordDetails));
 
             //Map RecordViewModel to Record
@@ -70,9 +70,8 @@ namespace AcademicXXI.ViewModel
             Mapper.CreateMap<domain.RecordDetails, ViewModel.RecordDetailsViewModel>()
                 .ForMember(s1 => s1.ProfessorViewModel, opt => opt.MapFrom(s => s.Professor));
 
-
             //Map RecordDetailsViewModel to RecordDetails
-            Mapper.CreateMap<ViewModel.RecordDetailsViewModel,domain.RecordDetails>()
+            Mapper.CreateMap<ViewModel.RecordDetailsViewModel, domain.RecordDetails>()
                 .ForMember(s1 => s1.Professor, opt => opt.MapFrom(s => s.ProfessorViewModel));
 
             //================================================================
@@ -80,11 +79,32 @@ namespace AcademicXXI.ViewModel
 
             Mapper.CreateMap<domain.Professor, ViewModel.ProfessorViewModel>();
 
-
             //Map ProfessorViewModel to Professor
             Mapper.CreateMap<ViewModel.ProfessorViewModel, domain.Professor>();
-             
+
             //================================================================
+
+            Mapper.CreateMap<domain.SpRecordStudent, ViewModel.SpRecordStudentViewModel>();
+
+            //Map ProfessorViewModel to Professor
+            Mapper.CreateMap<ViewModel.SpRecordStudentViewModel, domain.SpRecordStudent>();
+
+            //================================================================
+
+            Mapper.CreateMap<domain.LineRecordStudentDetails, ViewModel.LineRecordStudentViewModel>()
+                .ForMember(s1 => s1.RecordDetailsViewModel, opt => opt.MapFrom(s => s.RecordDetails))
+                .ForMember(s1 => s1.StudentViewModel, opt => opt.MapFrom(s => s.Student));
+
+            //Map ProfessorViewModel to Professor
+            Mapper.CreateMap<ViewModel.LineRecordStudentViewModel, domain.LineRecordStudentDetails>()
+                .ForMember(s1 => s1.RecordDetails, opt => opt.MapFrom(s => s.RecordDetailsViewModel))
+                .ForMember(s1 => s1.Student, opt => opt.MapFrom(s => s.StudentViewModel));
+            //================================================================
+
+            Mapper.CreateMap<domain.SpStudentRecordNotes, ViewModel.SpStudentRecordNotesViewModel>();
+
+            //Map ProfessorViewModel to Professor
+            Mapper.CreateMap<ViewModel.SpStudentRecordNotesViewModel, domain.SpStudentRecordNotes>();
 #pragma warning restore
         }
     }
