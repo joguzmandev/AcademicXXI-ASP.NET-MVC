@@ -157,7 +157,7 @@
                         Professor: frm.find("#Professor").val()
                     }
                     $.ajax({
-                        url: "/Record/AddSessionRecord",
+                        url: "/AcademicXXI/Record/AddSessionRecord",
                         method: "post",
                         data: createSession,
                         dataType: "json",
@@ -242,7 +242,7 @@
                     subject: subject
 
                 };
-                $("#frmDisplayAllSessions").load("/Record/GetAllSessionBySubject", datas, function (responseText, StatuText, xhr) {
+                $("#frmDisplayAllSessions").load("/AcademicXXI/Record/GetAllSessionBySubject", datas, function (responseText, StatuText, xhr) {
                     console.log("GetAllSessionBySubject");
                     console.log(responseText);
                     console.log("=========================");
@@ -306,8 +306,8 @@
                             ' &times;' +
                             '</button> ' + data.Messages + '</div>';
                             displayMsg.append(alert).show("slow");
-                            $("#panelBodyTable").load("/Record/GetSemesterSubjects", { semesterCode: $("#SAcademicYear option:selected").attr("value") }, function (data) {
-                                console.log(data);
+                            $("#panelBodyTable").load("/AcademicXXI/Record/GetSemesterSubjects", { semesterCode: $("#SAcademicYear option:selected").attr("value") }, function (data) {
+                                
                                 $("#spanPanelDetail").text("Detalles Asignaturas Periodo:" + $("#SAcademicYear option:selected").attr("value").toUpperCase())
                                 $("#tblSubjectsBySemester").dataTable(dataTable_config);
 
@@ -343,7 +343,7 @@
                     });
                     $("#panelFooter").show("slow");
                     $("#panelDisplaySubjectBySemester").show("slow", function () {
-                        $("#panelBodyTable").load("/Record/GetSemesterSubjects", { semesterCode: $("#SAcademicYear option:selected").attr("value") }, function (data) {
+                        $("#panelBodyTable").load("/AcademicXXI/Record/GetSemesterSubjects", { semesterCode: $("#SAcademicYear option:selected").attr("value") }, function (data) {
                             console.log(data);
                             $("#spanPanelDetail").text("Detalles Asignaturas Periodo:" + $("#SAcademicYear option:selected").attr("value").toUpperCase())
                             $("#tblSubjectsBySemester").dataTable(dataTable_config);

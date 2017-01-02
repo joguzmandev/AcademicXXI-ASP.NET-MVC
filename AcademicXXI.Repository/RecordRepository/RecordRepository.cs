@@ -86,7 +86,9 @@ namespace AcademicXXI.Repository.RecordRepository
             }
             catch (Exception ex)
             {
+                
                 db.CurrentTransaction.Rollback();
+                ex.ToString();
                 return false;
             }
             return true;

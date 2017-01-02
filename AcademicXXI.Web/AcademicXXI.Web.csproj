@@ -209,6 +209,7 @@
     <None Include="Properties\PublishProfiles\PublicApp.pubxml" />
     <None Include="Scripts\jquery-2.2.3-vsdoc.js" />
     <Content Include="Scripts\CustomScript.js" />
+    <Content Include="Scripts\dataTables.bootstrap.min.js" />
     <Content Include="Scripts\jquery-2.2.3.js" />
     <Content Include="Scripts\jquery-2.2.3.min.js" />
     <Content Include="Scripts\jquery-ui.js" />

@@ -116,7 +116,7 @@
                         subjectCode: subjectSelected,
                         SemesterCode: semesterSelected
                     }
-                    $.getJSON("/Record/SearchingSubjectSessions", datas, function (data) {
+                    $.getJSON("/AcademicXXI/Record/SearchingSubjectSessions", datas, function (data) {
                         console.log("Getting data from getJSON jQuery Method");
                         console.log(data)
 
@@ -158,7 +158,7 @@
                 var semester = $("#dropListSemester").val();
                 var subject = $("#Selectsubjects").val();
                 var session = $("#SelectSession").val();
-                location.href = "/Record/DisplayStudentRecord?semester=" + semester + "&subject=" + subject + "&session=" + session;
+                location.href = "/AcademicXXI/Record/DisplayStudentRecord?semester=" + semester + "&subject=" + subject + "&session=" + session;
 
             })
 

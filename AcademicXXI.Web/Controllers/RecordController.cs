@@ -233,8 +233,8 @@ namespace AcademicXXI.Web.Controllers
             return Json(result.GenericConvert<vm.RecordViewModel>(), JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
-        public ActionResult GetSemesterSubjects(String semesterCode, String TypePage = null)
+
+        public ActionResult GetSemesterSubjects(String semesterCode, String TypePage)
         {
             var result = _semesterService.GetSemesterSubjects(semesterCode).GenericConvert<vm.SemesterViewModel>();
 

@@ -150,7 +150,7 @@
                                     $("#PrerequisiteCode").append(option);
                                 });
 
-                                var URL = '/Subject/GetAllSubjectRelation?splancode=' + $("#StudyPCodeStr").val()+'';
+                                var URL = '/AcademicXXI/Subject/GetAllSubjectRelation?splancode=' + $("#StudyPCodeStr").val() + '';
                                 $("#DisplayData").load(URL, function (data) {
                                     $("#tblSubjectRelation").dataTable(dataTable_config);
                                 });
