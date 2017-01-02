@@ -6,7 +6,9 @@
         var student = Model.First();
 
         var result = from x in Model
+                     orderby x.SemesterID ascending
                      group x by x.SemesterID into s
+                     
                      select new
                      {
                          Semester = s.Key,
@@ -29,7 +31,7 @@
                         <tr>
                             <th width="20%">Código</th>
                             <th width="60%">Asignatura</th>
-                            <th width="10%">Calificación Numerica</th>
+                            <th width="10%">Calificación Numérica</th>
                             <th width="10%">Calificación Literal</th>
                         </tr>
                     </thead>
