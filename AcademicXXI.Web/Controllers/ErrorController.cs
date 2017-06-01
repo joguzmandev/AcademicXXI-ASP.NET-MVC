@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace AcademicXXI.Web.Controllers
 {
+    [Authorize]
     public class ErrorController : Controller
     {
         

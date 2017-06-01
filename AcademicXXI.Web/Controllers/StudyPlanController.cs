@@ -14,6 +14,7 @@ using System.Net;
 
 namespace AcademicXXI.Web.Controllers
 {
+    [Authorize]
     public class StudyPlanController : Controller
     {
         // GET: StudenPlan

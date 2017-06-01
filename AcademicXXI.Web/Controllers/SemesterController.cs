@@ -13,6 +13,7 @@ using AcademicXXI.Web.Models;
 
 namespace AcademicXXI.Web.Controllers
 {
+    [Authorize]
     public class SemesterController : Controller
     {
         // GET: Semester

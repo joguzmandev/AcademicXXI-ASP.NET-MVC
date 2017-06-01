@@ -15,6 +15,7 @@ using vm = AcademicXXI.ViewModel.ViewModel;
 
 namespace AcademicXXI.Web.Controllers
 {
+    [Authorize]
     public class RecordController : Controller
     {
         // GET: Record

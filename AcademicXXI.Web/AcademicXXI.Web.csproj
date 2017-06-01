@@ -233,6 +233,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ProfessorController.cs" />
     <Compile Include="Controllers\RecordController.cs" />
     <Compile Include="Controllers\SemesterController.cs" />
@@ -277,6 +278,7 @@
     <Content Include="Views\Record\DisplayStudentRecord.cshtml" />
     <Content Include="Views\Student\RecordNotes.cshtml" />
     <Content Include="Views\Shared\_StudentRecordNotes.cshtml" />
+    <Content Include="Views\Login\Login.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

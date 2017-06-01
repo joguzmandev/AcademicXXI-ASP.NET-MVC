@@ -18,6 +18,7 @@ using System.Net.Mime;
 
 namespace AcademicXXI.Web.Controllers
 {
+    [Authorize]
     public class SubjectController : Controller
     {
         // GET: Subject

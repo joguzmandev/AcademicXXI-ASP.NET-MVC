@@ -11,6 +11,7 @@ using domain = AcademicXXI.Domain;
 
 namespace AcademicXXI.Web.Controllers
 {
+    [Authorize]
     public class ProfessorController : Controller
     {
         // GET: Professor

@@ -20,6 +20,7 @@ using vm = AcademicXXI.ViewModel.ViewModel;
 
 namespace Academic.Web.Controllers
 {
+    [Authorize]
     public class StudentController : Controller
     {
         // GET: Student
