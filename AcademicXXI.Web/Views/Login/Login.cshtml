@@ -1,15 +1,46 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Login";
     Layout = null;
 }
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic XXI {Beta} - Iniciar Secci&oacute;n</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
 
-<h2>Login</h2>
+</head>
+<body>
 
-<form action='@Url.Action("Login","Login")' method="post">
-
-    <input type="text" placeholder="Usuario" name="userName" id="userName"/>
-    <input type="password" placeholder="Clave" name="password" id="password"/>
-    <input type="submit" value="Iniciar"/>
-</form>
-
+    <div class="container">
+        <div style="margin:200px">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <span>Academic XXI {Beta} - Iniciar Secci&oacute;n</span>
+                </div>
+                <div class="panel-body">
+                    <form action='@Url.Action("Login","Login")' method="post">
+                        <div class="form-group">
+                            <input class="form-control" type="text" placeholder="Usuario" name="userName" id="userName" />
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="password" placeholder="Clave" name="password" id="password" />
+                        </div>
+                        <input class="btn btn-primary" type="submit" value="Iniciar" />
+                    </form>
+                </div>
+                
+                @if (ViewBag.error != null)
+                {<div class="panel-footer">
+                    <span class="text-danger">@ViewBag.error</span>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+    <!-- Scripts-->
+    <script src="~/Scripts/jquery-2.2.3.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+</body>
+</html>

@@ -23,6 +23,7 @@ namespace AcademicXXI.Web.Controllers
                 FormsAuthentication.SetAuthCookie(userName, true);
                 return RedirectToAction("Index", "Home");
             }
+            ViewBag.error = "Datos incorrecto, vuelva a ingresar sus datos correctamente";
             return View();
         }
 
