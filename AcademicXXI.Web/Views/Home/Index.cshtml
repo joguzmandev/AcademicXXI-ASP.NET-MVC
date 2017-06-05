@@ -2,5 +2,12 @@
     ViewBag.Title = "Inicio";
 }
 
-<h2>Index</h2>
+<h1>Academic XXI</h1>
+<p>Sistema Acad&eacute;mico</p>
+
+@if (Request.IsAuthenticated)
+{
+    <h2 class="text-success">Bienvenido/a @Request.RequestContext.HttpContext.User.Identity.Name</h2>
+}
+<br/><br/><br /><br/><br/>
 
