@@ -45,8 +45,10 @@
 
             $("#btnConsult").click(function () {
                 $("#showLoading").show();
+                var $loadStudentRecordNotes = $("#loadStudentRecordNotes");
                 var data = $("#StudentID").val();
-                $("#loadStudentRecordNotes").load('@Url.Action("RecordNotes", "Student")', { StudentID: data }, function (data) {
+                $loadStudentRecordNotes.html("");
+                $loadStudentRecordNotes.load('@Url.Action("RecordNotes", "Student")', { StudentID: data }, function (data) {
                     $("#showLoading").hide();
                 });
             });
