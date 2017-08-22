@@ -1,6 +1,14 @@
 ﻿@{
     ViewBag.Title = "Record de notas";
 }
+@section css{ 
+    <style>
+        #showLoading{
+            display:none;
+        }
+    </style>
+
+}
 <div class="row">
     <div class="panel panel-primary">
         <div class="panel-heading">
@@ -18,6 +26,14 @@
         </div>
     </div>
 </div>
+<div id="showLoading" class="row">
+    <h3>
+        Por favor Espere....
+        <small>Record de nota Cargando</small> 
+        &nbsp;&nbsp;<img src="~/Content/images/loadingAjax.gif" />
+    </h3>
+    
+</div>
 <div id="loadStudentRecordNotes">
     @Html.Partial("_StudentRecordNotes")
 </div>
@@ -28,9 +44,10 @@
         $(document).ready(function () {
 
             $("#btnConsult").click(function () {
+                $("#showLoading").show();
                 var data = $("#StudentID").val();
-                $("#loadStudentRecordNotes").load('@Url.Action("RecordNotes", "Student")',{StudentID:data},function(data){
-                    console.log(data);
+                $("#loadStudentRecordNotes").load('@Url.Action("RecordNotes", "Student")', { StudentID: data }, function (data) {
+                    $("#showLoading").hide();
                 });
             });
         });

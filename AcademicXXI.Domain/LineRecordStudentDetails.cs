@@ -11,7 +11,7 @@ namespace AcademicXXI.Domain
     [Table("LineRecordStudent")]
     public class LineRecordStudentDetails : BaseDomain
     {
-        [Key, MaxLength(20), Column("LineRecordStudentID")]
+        [Key, MaxLength(25), Column("LineRecordStudentID")]
         public String LineRecordStudentID { get; set; }
 
         [Required, ForeignKey("Student"), MaxLength(10)]

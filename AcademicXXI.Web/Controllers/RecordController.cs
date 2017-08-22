@@ -311,7 +311,7 @@ namespace AcademicXXI.Web.Controllers
             }
 
             //6: Student add a new LineRecordStudentDetails
-            var ID = $"{studentFound.RegisterNumber}{record_details.SubjectFK}{record_details.NumericSession}";
+            var ID = $"{studentFound.RegisterNumber}{record_details.SubjectFK}{record_details.NumericSession}{record_details.SemesterFK}";
             studentFound.LineRecordStudentDetails.Add(new domian.LineRecordStudentDetails()
             {
                 LineRecordStudentID = ID.Replace("-", string.Empty),
