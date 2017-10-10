@@ -3,7 +3,7 @@
 }
 @section css{ 
     <style>
-        #showLoading{
+        #showLoading,#loadStudentRecordNotes{
             display:none;
         }
     </style>
@@ -17,7 +17,7 @@
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-6">
-                    <input type="text" name="StudentID" id="StudentID" placeholder="Matrícula" class="form-control" />
+                    <input type="text" name="StudentID" id="StudentID" placeholder="Matrícula" maxlength="10" class="form-control" />
                 </div>
                 <div class="col-md-6">
                     <button class="btn btn-info" id="btnConsult">Consultar</button>
@@ -49,6 +49,7 @@
                 var data = $("#StudentID").val();
                 $loadStudentRecordNotes.html("");
                 $loadStudentRecordNotes.load('@Url.Action("RecordNotes", "Student")', { StudentID: data }, function (data) {
+                    $loadStudentRecordNotes.show();
                     $("#showLoading").hide();
                 });
             });

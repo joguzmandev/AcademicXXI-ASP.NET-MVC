@@ -177,6 +177,13 @@ namespace Academic.Web.Controllers
         public ActionResult RecordNotes(String StudentID)
         {
             var result = _studentService.GetStudentRecordNotes(StudentID);
+
+            if(result.Count == 0)
+            {
+                ViewBag.NotFounded = true;
+                return PartialView("_StudentRecordNotes",null);
+            }
+
             var vm = result.GenericConvertList<SpStudentRecordNotesViewModel>();
             return PartialView("_StudentRecordNotes", vm);
         }

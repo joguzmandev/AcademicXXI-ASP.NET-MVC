@@ -172,6 +172,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\dataTables.bootstrap.min.css" />
+    <Content Include="css\font-awesome.css" />
+    <Content Include="css\font-awesome.min.css" />
     <Content Include="Content\images\loading.gif" />
     <Content Include="Content\images\loadingAjax.gif" />
     <Content Include="Content\images\ui-bg_glass_45_0078ae_1x400.png" />
@@ -194,6 +196,7 @@
     <Content Include="Content\jquery-ui.theme.min.css" />
     <Content Include="Content\jquery.dataTables.min.css" />
     <Content Include="Content\style.css" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -203,6 +206,11 @@
     <Content Include="Resources\edit.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\FontAwesome.otf" />
     <None Include="Properties\PublishProfiles\Desploy WebApp Local IIS.pubxml" />
     <None Include="Properties\PublishProfiles\jorgeguzman.pubxml" />
     <None Include="Properties\PublishProfiles\Local.pubxml" />
